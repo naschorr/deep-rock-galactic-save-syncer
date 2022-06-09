@@ -1,3 +1,4 @@
+﻿using Microsoft.Toolkit.Uwp.Notifications;
 using System.Runtime.Versioning;
 
 namespace DeepRockGalacticSaveSwapper
@@ -13,25 +14,41 @@ namespace DeepRockGalacticSaveSwapper
             var steamSaveManager = new SteamDRGSaveManager();
             var newestSteamSaveFileSnapshot = steamSaveManager.getNewestSaveFileSnapshot();
 
+            /*
+             * Prepare notifications. Note that these only show up in the Action Center.
+             * See this link for more info: https://stackoverflow.com/a/50977632/1724602
+             */
+            ToastNotificationManagerCompat.History.Clear();
+            var notification = new ToastContentBuilder()
+                .AddText("Deep Rock Galactic Save Syncer");
+
             // Is the latest Xbox (Windows) save newer?
             if (newestXboxSaveFileSnapshot > newestSteamSaveFileSnapshot)
             {
-                Console.WriteLine($"Steam DRG save is older than Xbox (Windows) DRG save ({newestXboxSaveFileSnapshot.LastModifiedTime} > {newestSteamSaveFileSnapshot.LastModifiedTime}).");
                 steamSaveManager.overwriteNewestSaveFileData(newestXboxSaveFileSnapshot);
-                Console.WriteLine("Overwrote (and backed up) Steam DRG save with Xbox (Windows) DRG save.");
+                
+                notification
+                    .AddText("Save file sync complete! Updated Steam save to use most recent Xbox (Windows) data.")
+                    .Show();
             }
             // Is the Steam save newer?
             else if (newestSteamSaveFileSnapshot > newestXboxSaveFileSnapshot)
             {
-                Console.WriteLine($"Xbox (Windows) DRG save is older than Steam DRG save ({newestXboxSaveFileSnapshot.LastModifiedTime} > {newestSteamSaveFileSnapshot.LastModifiedTime}).");
                 xboxSaveManager.overwriteNewestSaveFileData(newestSteamSaveFileSnapshot);
-                Console.WriteLine("Overwrote (and backed up) Xbox DRG save with Steam DRG save.");
+                
+                notification
+                    .AddText("Save file sync complete! Updated Xbox (Windows) save to use most recent Steam data.")
+                    .Show();
             }
             else // Are the saves the same age?
             {
-                Console.WriteLine("Both the Steam and Xbox (Windows) Deep Rock Galactic saves are up to date!");
-                return;
+                notification
+                    .AddText("All saves are already synced up.")
+                    .Show();
             }
+
+            // The toast system needs some extra time to get it to reliably pop up
+            Thread.Sleep(500);
         }
     }
 }
