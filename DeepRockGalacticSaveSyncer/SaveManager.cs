@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DeepRockGalacticSaveSwapper
 {
+    [SupportedOSPlatform("windows10.0.17763.0")]
     internal abstract class SaveManager
     {
         public const string BACKUP_TEXT = ".backup";

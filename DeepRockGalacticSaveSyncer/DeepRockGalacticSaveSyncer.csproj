@@ -2,10 +2,24 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows10.0.17763.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Authors>naschorr</Authors>
+    <PackageProjectUrl>https://github.com/naschorr/deep-rock-galactic-save-syncer</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/naschorr/deep-rock-galactic-save-syncer</RepositoryUrl>
+    <PackageLicenseFile>H:\Google Drive\Code\Csharp\DeepRockGalacticSaveSyncer\LICENSE</PackageLicenseFile>
+    <Description>Syncs the latest save file between your Steam and Xbox Gamepass DRG installations!</Description>
+    <StartupObject>DeepRockGalacticSaveSwapper.DeepRockGalacticSaveSyncer</StartupObject>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Gameloop.Vdf" Version="0.6.2" />

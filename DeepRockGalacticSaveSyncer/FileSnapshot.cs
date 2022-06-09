@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DeepRockGalacticSaveSwapper
 {
+    [SupportedOSPlatform("windows10.0.17763.0")]
     internal class FileSnapshot : IComparable<FileSnapshot>
     {
         // Immutable container for simple File metadata, kind of like a baby FileInfo

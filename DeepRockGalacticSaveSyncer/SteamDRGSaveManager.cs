@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace DeepRockGalacticSaveSwapper
 {
-    [SupportedOSPlatform("windows")]
+    [SupportedOSPlatform("windows10.0.17763.0")]
     internal class SteamDRGSaveManager : SaveManager
     {
         private string _saveDirectoryPath;

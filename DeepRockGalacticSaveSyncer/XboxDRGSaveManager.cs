@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DeepRockGalacticSaveSwapper
 {
-    [SupportedOSPlatform("windows")]
+    [SupportedOSPlatform("windows10.0.17763.0")]
     internal class XboxDRGSaveManager : SaveManager
     {
         private string _saveDirectoryPath;

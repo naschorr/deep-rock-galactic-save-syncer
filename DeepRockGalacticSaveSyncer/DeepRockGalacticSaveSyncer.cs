@@ -1,8 +1,8 @@
-﻿using System.Runtime.Versioning;
+using System.Runtime.Versioning;
 
 namespace DeepRockGalacticSaveSwapper
 {
-    [SupportedOSPlatform("windows")]
+    [SupportedOSPlatform("windows10.0.17763.0")]
     public class DeepRockGalacticSaveSyncer
     {
         public static void Main()
