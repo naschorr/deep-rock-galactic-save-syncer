@@ -1,4 +1,4 @@
-<p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/master/resources/icon.ico" width="150"/></p>
+<p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/master/resources/icon.png" width="150"/></p>
 
 # Deep Rock Galactic Save Syncer
 One-click save syncing between Steam and Xbox (Windows) DRG installations!
