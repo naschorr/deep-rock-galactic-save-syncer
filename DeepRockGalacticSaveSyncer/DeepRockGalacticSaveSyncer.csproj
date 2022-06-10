@@ -12,7 +12,17 @@
     <PackageLicenseFile>H:\Google Drive\Code\Csharp\DeepRockGalacticSaveSyncer\LICENSE</PackageLicenseFile>
     <Description>Syncs the latest save file between your Steam and Xbox Gamepass DRG installations!</Description>
     <StartupObject>DeepRockGalacticSaveSwapper.DeepRockGalacticSaveSyncer</StartupObject>
+    <AssemblyName>Deep Rock Galactic Save Syncer</AssemblyName>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="icon.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Include="..\README.md">
