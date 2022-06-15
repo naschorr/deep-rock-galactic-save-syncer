@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using DeepRockGalacticSaveSyncer.Models;
 using System.Runtime.Versioning;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DeepRockGalacticSaveSwapper
+namespace DeepRockGalacticSaveSyncer.SaveManager
 {
     [SupportedOSPlatform("windows10.0.17763.0")]
     internal abstract class SaveManager

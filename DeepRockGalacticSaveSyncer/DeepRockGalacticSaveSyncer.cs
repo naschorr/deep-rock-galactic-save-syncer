@@ -1,4 +1,6 @@
-﻿using Microsoft.Toolkit.Uwp.Notifications;
+﻿using DeepRockGalacticSaveSyncer.SaveManager;
+using DeepRockGalacticSaveSyncer.Utilities;
+using Microsoft.Toolkit.Uwp.Notifications;
 using System.Runtime.Versioning;
 
 namespace DeepRockGalacticSaveSwapper
@@ -6,12 +8,25 @@ namespace DeepRockGalacticSaveSwapper
     [SupportedOSPlatform("windows10.0.17763.0")]
     public class DeepRockGalacticSaveSyncer
     {
-        public static void Main()
+        public static void Main(string[] arguments)
         {
-            var xboxSaveManager = new XboxDRGSaveManager();
+            // todo: this config and save manager init is kind of ugly
+            var kwargs = ArgumentProcessor.processArguments(arguments);
+
+            Dictionary<string, string> config;
+            if (kwargs.ContainsKey("configPath"))
+            {
+                config = ConfigLoader.Load(kwargs["configPath"]);
+            }
+            else
+            {
+                config = new Dictionary<string, string>();
+            }
+
+            var xboxSaveManager = SaveManagerFactory.Create<XboxDRGSaveManager>(config.GetValueOrDefault("xboxSavesDir"));
             var newestXboxSaveFileSnapshot = xboxSaveManager.getNewestSaveFileSnapshot();
 
-            var steamSaveManager = new SteamDRGSaveManager();
+            var steamSaveManager = SaveManagerFactory.Create<SteamDRGSaveManager>(config.GetValueOrDefault("steamSavesDir"));
             var newestSteamSaveFileSnapshot = steamSaveManager.getNewestSaveFileSnapshot();
 
             /*

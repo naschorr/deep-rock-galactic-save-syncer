@@ -1,11 +1,12 @@
-﻿using Gameloop.Vdf;
+﻿using DeepRockGalacticSaveSyncer.Models;
+using Gameloop.Vdf;
 using Gameloop.Vdf.JsonConverter;
 using GlobExpressions;
 using Microsoft.Win32;
 using System.Runtime.Versioning;
 using System.Text.RegularExpressions;
 
-namespace DeepRockGalacticSaveSwapper
+namespace DeepRockGalacticSaveSyncer.SaveManager
 {
     [SupportedOSPlatform("windows10.0.17763.0")]
     internal class SteamDRGSaveManager : SaveManager
@@ -48,10 +49,10 @@ namespace DeepRockGalacticSaveSwapper
 
         private string findSteamLibraryContainingAppId(string appId)
         {
-            String libraryFoldersVdfPath = Path.Combine(findSteamInstallPath(), "config", LIBRARY_FOLDERS_VDF);
+            string libraryFoldersVdfPath = Path.Combine(findSteamInstallPath(), "config", LIBRARY_FOLDERS_VDF);
             dynamic libraryFolderJson = VdfConvert.Deserialize(File.ReadAllText(libraryFoldersVdfPath)).ToJson().Value;
 
-            foreach(dynamic item in libraryFolderJson)
+            foreach (dynamic item in libraryFolderJson)
             {
                 /*
                  * Ideally this would be an array.Exists, but the JSON produced by VdfConvert isn't very nice. This
