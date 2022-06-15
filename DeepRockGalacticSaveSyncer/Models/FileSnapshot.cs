@@ -5,7 +5,7 @@ using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeepRockGalacticSaveSwapper
+namespace DeepRockGalacticSaveSyncer.Models
 {
     [SupportedOSPlatform("windows10.0.17763.0")]
     internal class FileSnapshot : IComparable<FileSnapshot>
@@ -17,17 +17,17 @@ namespace DeepRockGalacticSaveSwapper
         public string Name { get; }
         public DateTime LastModifiedTime { get; }
 
-        public FileSnapshot(String path)
+        public FileSnapshot(string path)
         {
-            this.Path = path;
+            Path = path;
             if (!File.Exists(path))
             {
                 throw new FileNotFoundException($"File located at {path} doesn't exist.");
             }
 
-            this.Name = System.IO.Path.GetFileName(this.Path);
+            Name = System.IO.Path.GetFileName(Path);
 
-            this.LastModifiedTime = File.GetLastWriteTimeUtc(this.Path);
+            LastModifiedTime = File.GetLastWriteTimeUtc(Path);
         }
 
         public int CompareTo(FileSnapshot? other)
@@ -40,22 +40,22 @@ namespace DeepRockGalacticSaveSwapper
             return LastModifiedTime.CompareTo(other.LastModifiedTime);
         }
 
-        public static bool operator > (FileSnapshot one, FileSnapshot two)
+        public static bool operator >(FileSnapshot one, FileSnapshot two)
         {
             return one.CompareTo(two) > 0;
         }
 
-        public static bool operator < (FileSnapshot one, FileSnapshot two)
+        public static bool operator <(FileSnapshot one, FileSnapshot two)
         {
             return one.CompareTo(two) < 0;
         }
 
-        public static bool operator >= (FileSnapshot one, FileSnapshot two)
+        public static bool operator >=(FileSnapshot one, FileSnapshot two)
         {
             return one.CompareTo(two) >= 0;
         }
 
-        public static bool operator <= (FileSnapshot one, FileSnapshot two)
+        public static bool operator <=(FileSnapshot one, FileSnapshot two)
         {
             return one.CompareTo(two) <= 0;
         }
