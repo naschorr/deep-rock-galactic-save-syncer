@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -10,11 +10,19 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/naschorr/deep-rock-galactic-save-syncer</RepositoryUrl>
     <PackageLicenseFile>H:\Google Drive\Code\Csharp\DeepRockGalacticSaveSyncer\LICENSE</PackageLicenseFile>
-    <Description>Syncs the latest save file between your Steam and Xbox Gamepass DRG installations!</Description>
+    <Description>Syncs the latest save file between your Steam and Xbox DRG installations!</Description>
     <StartupObject>DeepRockGalacticSaveSwapper.DeepRockGalacticSaveSyncer</StartupObject>
-    <AssemblyName>Deep Rock Galactic Save Syncer</AssemblyName>
+    <AssemblyName>Deep_Rock_Galactic_Save_Syncer</AssemblyName>
     <ApplicationIcon>icon.ico</ApplicationIcon>
-    <Version>1.0.0-alpha</Version>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>portable</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
