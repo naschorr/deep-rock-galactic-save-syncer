@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 namespace DeepRockGalacticSaveSyncer.SaveManager
 {
     [SupportedOSPlatform("windows10.0.17763.0")]
-    internal class SteamDRGSaveManager : SaveManager
+    internal class SteamSaveManager : SaveManager
     {
         private string _saveDirectoryPath;
         private Regex _saveFileRegex = new Regex("^[0-9]+_Player.sav$");
@@ -19,13 +19,13 @@ namespace DeepRockGalacticSaveSyncer.SaveManager
         const string DRG_APP_ID = "548430"; // DRG's app id on Steam
         const string STEAM_LIBRARY_DRG_SAVE_DIRECTORY_PATH = @"steamapps\common\Deep Rock Galactic\FSD\Saved\SaveGames";
 
-        public SteamDRGSaveManager()
+        public SteamSaveManager()
         {
             var drgSteamLibraryPath = findSteamLibraryContainingAppId(DRG_APP_ID);
             _saveDirectoryPath = findSaveDirectoryPathOnFileSystem(drgSteamLibraryPath);
         }
 
-        public SteamDRGSaveManager(string saveDirectoryPath)
+        public SteamSaveManager(string saveDirectoryPath)
         {
             _saveDirectoryPath = saveDirectoryPath;
         }
@@ -76,7 +76,7 @@ namespace DeepRockGalacticSaveSyncer.SaveManager
             return Path.Combine(steamLibraryPath, STEAM_LIBRARY_DRG_SAVE_DIRECTORY_PATH);
         }
 
-        public override FileSnapshot getNewestSaveFileSnapshot()
+        public override SaveFile getNewestSaveFile()
         {
             var files = Glob.Files(_saveDirectoryPath, "*_Player.sav").Select(name => Path.Combine(_saveDirectoryPath, name)).ToList();
 
@@ -87,18 +87,18 @@ namespace DeepRockGalacticSaveSyncer.SaveManager
             }
 
             // Find the newest save, and return some meta data about it
-            var newestSaveFileSnapshot = new FileSnapshot(files[0]);
+            var newestSaveFile = new SaveFile(files[0]);
             foreach (string file in files.Skip(1))
             {
-                var fileSnapshot = new FileSnapshot(file);
+                var saveFile = new SaveFile(file);
 
-                if (fileSnapshot > newestSaveFileSnapshot)
+                if (saveFile > newestSaveFile)
                 {
-                    newestSaveFileSnapshot = fileSnapshot;
+                    newestSaveFile = saveFile;
                 }
             }
 
-            return newestSaveFileSnapshot;
+            return newestSaveFile;
         }
     }
 }

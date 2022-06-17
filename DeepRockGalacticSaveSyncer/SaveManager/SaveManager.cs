@@ -9,12 +9,12 @@ namespace DeepRockGalacticSaveSyncer.SaveManager
         public const string BACKUP_TEXT = ".backup";
         private const string TEMP_BACKUP_TEXT = ".backup.temp";
 
-        public abstract FileSnapshot getNewestSaveFileSnapshot();
+        public abstract SaveFile getNewestSaveFile();
 
-        private string? backupFileSnapshot(FileSnapshot fileSnapshot)
+        private string? backupSaveFile(SaveFile saveFile)
         {
-            var backupPath = fileSnapshot.Path + BACKUP_TEXT;
-            var tempBackupPath = fileSnapshot.Path + TEMP_BACKUP_TEXT;
+            var backupPath = saveFile.Path + BACKUP_TEXT;
+            var tempBackupPath = saveFile.Path + TEMP_BACKUP_TEXT;
             bool tempBackupCreated = false;
 
             // Move any preexisting backups, but don't delete them yet
@@ -25,7 +25,7 @@ namespace DeepRockGalacticSaveSyncer.SaveManager
             }
 
             // todo: More clever backup management?
-            File.Copy(fileSnapshot.Path, backupPath);
+            File.Copy(saveFile.Path, backupPath);
 
             if (tempBackupCreated)
             {
@@ -37,16 +37,16 @@ namespace DeepRockGalacticSaveSyncer.SaveManager
             }
         }
 
-        public virtual void overwriteNewestSaveFileData(FileSnapshot incomingFileSnapshot)
+        public virtual void overwriteNewestSaveFileData(SaveFile incomingSaveFile)
         {
-            FileSnapshot existingSaveFile = getNewestSaveFileSnapshot();
+            SaveFile existingSaveFile = getNewestSaveFile();
 
             // Save a backup, just in case something goes wrong
-            var tempBackupPath = backupFileSnapshot(existingSaveFile);
+            var tempBackupPath = backupSaveFile(existingSaveFile);
 
             // Copy the incoming file into the existing save file's location
             File.Delete(existingSaveFile.Path);
-            File.Copy(incomingFileSnapshot.Path, existingSaveFile.Path);
+            File.Copy(incomingSaveFile.Path, existingSaveFile.Path);
 
             // Delete any temporary backups to keep the directory clean
             if (tempBackupPath != null)

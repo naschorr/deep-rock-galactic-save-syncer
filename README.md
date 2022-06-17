@@ -4,7 +4,7 @@
 One-click save syncing between Steam and Xbox (Windows) Deep Rock Galactic installations!
 
 ### What?
-This application automatically discovers the appropriate save directories, determines the age of their latest save, and propagates that save to the other installation's save directory. It also backs up the save being overwritten in case something goes wrong. Pleaes note that it doesn't analyze the save's contents to determine precendence. Output is sent to the Windows [Action Center](https://support.microsoft.com/en-us/windows/how-to-open-notification-center-and-quick-settings-f8dc196e-82db-5d67-f55e-ba5586fbb038).
+This application automatically discovers the appropriate save directories, and determines the newest one to keep, and updates any out of date saves with this latest one. It determines which save is newest by both analyzing the save file itself, as well as looking at the age of last modification. This application also backs up the save being overwritten in case something goes wrong. Output is sent to the Windows [Action Center](https://support.microsoft.com/en-us/windows/how-to-open-notification-center-and-quick-settings-f8dc196e-82db-5d67-f55e-ba5586fbb038).
 
 ### Configuration
 Configuration is usually never needed, but the option is available if necessary.
