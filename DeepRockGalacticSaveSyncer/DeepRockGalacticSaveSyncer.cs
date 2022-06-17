@@ -23,11 +23,11 @@ namespace DeepRockGalacticSaveSwapper
                 config = new Dictionary<string, string>();
             }
 
-            var xboxSaveManager = SaveManagerFactory.Create<XboxDRGSaveManager>(config.GetValueOrDefault("xboxSavesDir"));
-            var newestXboxSaveFileSnapshot = xboxSaveManager.getNewestSaveFileSnapshot();
+            var xboxSaveManager = SaveManagerFactory.Create<XboxSaveManager>(config.GetValueOrDefault("xboxSavesDir"));
+            var newestXboxSaveFileSnapshot = xboxSaveManager.getNewestSaveFile();
 
-            var steamSaveManager = SaveManagerFactory.Create<SteamDRGSaveManager>(config.GetValueOrDefault("steamSavesDir"));
-            var newestSteamSaveFileSnapshot = steamSaveManager.getNewestSaveFileSnapshot();
+            var steamSaveManager = SaveManagerFactory.Create<SteamSaveManager>(config.GetValueOrDefault("steamSavesDir"));
+            var newestSteamSaveFileSnapshot = steamSaveManager.getNewestSaveFile();
 
             /*
              * Prepare notifications. Note that these only show up in the Action Center.
