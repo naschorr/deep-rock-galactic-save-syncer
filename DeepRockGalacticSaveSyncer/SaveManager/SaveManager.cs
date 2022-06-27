@@ -7,14 +7,14 @@ namespace DeepRockGalacticSaveSyncer.SaveManager
     internal abstract class SaveManager
     {
         public const string BACKUP_TEXT = ".backup";
-        private const string TEMP_BACKUP_TEXT = ".backup.temp";
+        private const string _TEMP_BACKUP_TEXT = ".backup.temp";
 
         public abstract SaveFile GetNewestSaveFile();
 
         private string? BackupSaveFile(SaveFile saveFile)
         {
             var backupPath = saveFile.Path + BACKUP_TEXT;
-            var tempBackupPath = saveFile.Path + TEMP_BACKUP_TEXT;
+            var tempBackupPath = saveFile.Path + _TEMP_BACKUP_TEXT;
             bool tempBackupCreated = false;
 
             // Move any preexisting backups, but don't delete them yet

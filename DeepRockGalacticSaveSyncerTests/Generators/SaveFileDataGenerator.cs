@@ -5,9 +5,9 @@ namespace DeepRockGalacticSaveSyncer.Tests.Generators
 {
     public class SaveFileDataGenerator : TheoryData<SaveFileTruthPair>
     {
-        private static readonly string TEST_SAVE_FILES_DIR = @"..\..\..\SaveFiles";
-        private static readonly string SAVE_FILE_SUFFIX = ".player.sav";
-        private static readonly string TRUTH_FILE_SUFFIX = ".truth.json";
+        private static readonly string _TEST_SAVE_FILES_DIR = @"..\..\..\SaveFiles";
+        private static readonly string _SAVE_FILE_SUFFIX = ".player.sav";
+        private static readonly string _TRUTH_FILE_SUFFIX = ".truth.json";
 
         public SaveFileDataGenerator()
         {
@@ -22,7 +22,7 @@ namespace DeepRockGalacticSaveSyncer.Tests.Generators
         {
             var output = new List<SaveFileTruthPair>();
 
-            foreach (var directory in Directory.GetDirectories(TEST_SAVE_FILES_DIR))
+            foreach (var directory in Directory.GetDirectories(_TEST_SAVE_FILES_DIR))
             {
                 // Note that Path.GetDirectoryName just gets the name of the parent, so GetFileName is accurate
                 string directoryName = Path.GetFileName(directory);
@@ -34,11 +34,11 @@ namespace DeepRockGalacticSaveSyncer.Tests.Generators
                 {
                     string fileName = Path.GetFileName(file);
 
-                    if (fileName == $"{directoryName}{SAVE_FILE_SUFFIX}")
+                    if (fileName == $"{directoryName}{_SAVE_FILE_SUFFIX}")
                     {
                         saveFilePath = file;
                     }
-                    else if (fileName == $"{directoryName}{TRUTH_FILE_SUFFIX}")
+                    else if (fileName == $"{directoryName}{_TRUTH_FILE_SUFFIX}")
                     {
                         truthFilePath = file;
                     }

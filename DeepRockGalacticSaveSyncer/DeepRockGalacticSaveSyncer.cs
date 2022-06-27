@@ -11,7 +11,7 @@ namespace DeepRockGalacticSaveSwapper
         public static void Main(string[] arguments)
         {
             // todo: this config and save manager init is kind of ugly
-            var kwargs = ArgumentProcessor.processArguments(arguments);
+            var kwargs = ArgumentProcessor.ProcessArguments(arguments);
 
             Dictionary<string, string> config;
             if (kwargs.ContainsKey("configPath"))
