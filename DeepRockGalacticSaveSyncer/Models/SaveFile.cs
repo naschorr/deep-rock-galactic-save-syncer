@@ -1,37 +1,30 @@
 ﻿using DeepRockGalacticSaveSyncer.DwarfManager;
 using DeepRockGalacticSaveSyncer.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DeepRockGalacticSaveSyncer.Models
 {
-    internal class SaveFile : IComparable<SaveFile>
+    internal class SaveFile : ImmutableFile, IComparable<SaveFile>
     {
         // Immutable container for Save File data and metadata
 
-        public string Path { get; }
-        public string Name { get; }
-        public DateTime LastModifiedTime { get; }
         public Dwarf Engineer { get; }
         public Dwarf Scout { get; }
         public Dwarf Driller { get; }
         public Dwarf Gunner { get; }
 
-        public SaveFile(string path)
+        // Constructors
+
+        public SaveFile(string path) : base(path)
         {
-            Path = path;
-            if (!File.Exists(path))
-            {
-                throw new FileNotFoundException($"File located at {path} doesn't exist.");
-            }
-
-            Name = System.IO.Path.GetFileName(Path);
-            LastModifiedTime = File.GetLastWriteTimeUtc(Path);
-
             var dwarves = DwarfFactory.CreateDwarvesFromSaveFile(this);
+            Engineer = dwarves[DwarfName.Engineer];
+            Scout = dwarves[DwarfName.Scout];
+            Driller = dwarves[DwarfName.Driller];
+            Gunner = dwarves[DwarfName.Gunner];
+        }
+
+        public SaveFile(ImmutableFile file, Dictionary<DwarfName, Dwarf> dwarves) : base(file.Path, file.Name, file.LastModifiedTime)
+        {
             Engineer = dwarves[DwarfName.Engineer];
             Scout = dwarves[DwarfName.Scout];
             Driller = dwarves[DwarfName.Driller];

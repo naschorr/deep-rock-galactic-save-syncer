@@ -5,6 +5,8 @@ VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeepRockGalacticSaveSyncer", "DeepRockGalacticSaveSyncer\DeepRockGalacticSaveSyncer.csproj", "{F55CFAA7-8EEE-4D53-9BE3-7275D4F842C7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepRockGalacticSaveSyncer.Tests", "DeepRockGalacticSaveSyncerTests\DeepRockGalacticSaveSyncer.Tests.csproj", "{A6F3E0E7-FA11-479E-8CF8-B681DD1CEB0B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{F55CFAA7-8EEE-4D53-9BE3-7275D4F842C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F55CFAA7-8EEE-4D53-9BE3-7275D4F842C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F55CFAA7-8EEE-4D53-9BE3-7275D4F842C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6F3E0E7-FA11-479E-8CF8-B681DD1CEB0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6F3E0E7-FA11-479E-8CF8-B681DD1CEB0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6F3E0E7-FA11-479E-8CF8-B681DD1CEB0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6F3E0E7-FA11-479E-8CF8-B681DD1CEB0B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

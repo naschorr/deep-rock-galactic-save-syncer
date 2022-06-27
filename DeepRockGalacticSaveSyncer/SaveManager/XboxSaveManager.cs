@@ -15,7 +15,7 @@ namespace DeepRockGalacticSaveSyncer.SaveManager
 
         public XboxSaveManager()
         {
-            _saveDirectoryPath = findSaveDirectoryPathOnFileSystem();
+            _saveDirectoryPath = FindSaveDirectoryPathOnFileSystem();
         }
 
         public XboxSaveManager(string saveDirectoryPath)
@@ -23,7 +23,7 @@ namespace DeepRockGalacticSaveSyncer.SaveManager
             _saveDirectoryPath = saveDirectoryPath;
         }
 
-        private string findSaveDirectoryPathOnFileSystem()
+        private string FindSaveDirectoryPathOnFileSystem()
         {
             // Perform the traversal, starting from the safe local AppData folder
             var localAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
@@ -33,17 +33,17 @@ namespace DeepRockGalacticSaveSyncer.SaveManager
             return Path.Combine(localAppDataPath, saveDirectory);
         }
 
-        private bool filterCandidateSaveFilePath(string path)
+        private bool FilterCandidateSaveFilePath(string path)
         {
             FileInfo file = new FileInfo(path);
 
             return _saveFileRegex.IsMatch(file.Name);
         }
 
-        public override SaveFile getNewestSaveFile()
+        public override SaveFile GetNewestSaveFile()
         {
             // Get a list of file in the save directory
-            List<string> files = Directory.EnumerateFiles(_saveDirectoryPath).ToList().FindAll(path => filterCandidateSaveFilePath(path));
+            List<string> files = Directory.EnumerateFiles(_saveDirectoryPath).ToList().FindAll(path => FilterCandidateSaveFilePath(path));
 
             // No files? Something went wrong!
             if (files.Count == 0)

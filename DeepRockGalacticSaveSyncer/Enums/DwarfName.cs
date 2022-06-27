@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DeepRockGalacticSaveSyncer.Enums
+﻿namespace DeepRockGalacticSaveSyncer.Enums
 {
-    internal enum DwarfName
+    public enum DwarfName
     {
         Engineer,
         Scout,

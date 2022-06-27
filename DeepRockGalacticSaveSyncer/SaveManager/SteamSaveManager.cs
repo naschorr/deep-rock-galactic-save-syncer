@@ -21,8 +21,8 @@ namespace DeepRockGalacticSaveSyncer.SaveManager
 
         public SteamSaveManager()
         {
-            var drgSteamLibraryPath = findSteamLibraryContainingAppId(DRG_APP_ID);
-            _saveDirectoryPath = findSaveDirectoryPathOnFileSystem(drgSteamLibraryPath);
+            var drgSteamLibraryPath = FindSteamLibraryContainingAppId(DRG_APP_ID);
+            _saveDirectoryPath = FindSaveDirectoryPathOnFileSystem(drgSteamLibraryPath);
         }
 
         public SteamSaveManager(string saveDirectoryPath)
@@ -30,7 +30,7 @@ namespace DeepRockGalacticSaveSyncer.SaveManager
             _saveDirectoryPath = saveDirectoryPath;
         }
 
-        private string findSteamInstallPath()
+        private string FindSteamInstallPath()
         {
             var installPath = Registry.GetValue(STEAM_REGISTRY_PATH, "SteamPath", null);
 
@@ -47,9 +47,9 @@ namespace DeepRockGalacticSaveSyncer.SaveManager
             return (string)installPath;
         }
 
-        private string findSteamLibraryContainingAppId(string appId)
+        private string FindSteamLibraryContainingAppId(string appId)
         {
-            string libraryFoldersVdfPath = Path.Combine(findSteamInstallPath(), "config", LIBRARY_FOLDERS_VDF);
+            string libraryFoldersVdfPath = Path.Combine(FindSteamInstallPath(), "config", LIBRARY_FOLDERS_VDF);
             dynamic libraryFolderJson = VdfConvert.Deserialize(File.ReadAllText(libraryFoldersVdfPath)).ToJson().Value;
 
             foreach (dynamic item in libraryFolderJson)
@@ -71,12 +71,12 @@ namespace DeepRockGalacticSaveSyncer.SaveManager
             throw new IOException($"Unable to find Steam library containing app id: {appId}");
         }
 
-        private string findSaveDirectoryPathOnFileSystem(string steamLibraryPath)
+        private string FindSaveDirectoryPathOnFileSystem(string steamLibraryPath)
         {
             return Path.Combine(steamLibraryPath, STEAM_LIBRARY_DRG_SAVE_DIRECTORY_PATH);
         }
 
-        public override SaveFile getNewestSaveFile()
+        public override SaveFile GetNewestSaveFile()
         {
             var files = Glob.Files(_saveDirectoryPath, "*_Player.sav").Select(name => Path.Combine(_saveDirectoryPath, name)).ToList();
 
