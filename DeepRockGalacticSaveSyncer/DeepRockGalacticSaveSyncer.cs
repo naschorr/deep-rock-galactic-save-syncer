@@ -24,10 +24,10 @@ namespace DeepRockGalacticSaveSwapper
             }
 
             var xboxSaveManager = SaveManagerFactory.Create<XboxSaveManager>(config.GetValueOrDefault("xboxSavesDir"));
-            var newestXboxSaveFileSnapshot = xboxSaveManager.getNewestSaveFile();
+            var newestXboxSaveFileSnapshot = xboxSaveManager.GetNewestSaveFile();
 
             var steamSaveManager = SaveManagerFactory.Create<SteamSaveManager>(config.GetValueOrDefault("steamSavesDir"));
-            var newestSteamSaveFileSnapshot = steamSaveManager.getNewestSaveFile();
+            var newestSteamSaveFileSnapshot = steamSaveManager.GetNewestSaveFile();
 
             /*
              * Prepare notifications. Note that these only show up in the Action Center.
@@ -40,7 +40,7 @@ namespace DeepRockGalacticSaveSwapper
             // Is the latest Xbox (Windows) save newer?
             if (newestXboxSaveFileSnapshot > newestSteamSaveFileSnapshot)
             {
-                steamSaveManager.overwriteNewestSaveFileData(newestXboxSaveFileSnapshot);
+                steamSaveManager.OverwriteNewestSaveFileData(newestXboxSaveFileSnapshot);
                 
                 notification
                     .AddText("Save file sync complete! Updated Steam save to use most recent Xbox (Windows) data.")
@@ -49,7 +49,7 @@ namespace DeepRockGalacticSaveSwapper
             // Is the Steam save newer?
             else if (newestSteamSaveFileSnapshot > newestXboxSaveFileSnapshot)
             {
-                xboxSaveManager.overwriteNewestSaveFileData(newestSteamSaveFileSnapshot);
+                xboxSaveManager.OverwriteNewestSaveFileData(newestSteamSaveFileSnapshot);
                 
                 notification
                     .AddText("Save file sync complete! Updated Xbox (Windows) save to use most recent Steam data.")

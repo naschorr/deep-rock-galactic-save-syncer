@@ -1,10 +1,5 @@
 ﻿using DeepRockGalacticSaveSyncer.Enums;
 using DeepRockGalacticSaveSyncer.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DeepRockGalacticSaveSyncer.DwarfManager
 {
@@ -17,9 +12,9 @@ namespace DeepRockGalacticSaveSyncer.DwarfManager
         private static readonly int EXPERIENCE_BYTES_OFFSET = 48;
         private static readonly int PROMOTIONS_BYTES_OFFSET = 156;
 
-        public static Dictionary<DwarfName, Dwarf> CreateDwarvesFromSaveFile(SaveFile saveFile)
+        public static Dictionary<DwarfName, Dwarf> CreateDwarvesFromSaveFile(ImmutableFile file)
         {
-            var data = File.ReadAllBytes(saveFile.Path);
+            var data = File.ReadAllBytes(file.Path);
 
             // Find the location of the dwarf's data block in the save data bytes
             var engineerPosition = FindSubArrayInArray<byte>(ENGINEER_BYTES_SIGNATURE, data);
@@ -38,16 +33,16 @@ namespace DeepRockGalacticSaveSyncer.DwarfManager
             }
 
             // Total experience in current promotion
-            var engineerExperience = (int)getUint32FromBytesAtOffset(data, engineerPosition + EXPERIENCE_BYTES_OFFSET);
-            var scoutExperience = (int)getUint32FromBytesAtOffset(data, scoutPosition + EXPERIENCE_BYTES_OFFSET);
-            var drillerExperience = (int)getUint32FromBytesAtOffset(data, drillerPosition + EXPERIENCE_BYTES_OFFSET);
-            var gunnerExperience = (int)getUint32FromBytesAtOffset(data, gunnerPosition + EXPERIENCE_BYTES_OFFSET);
+            var engineerExperience = (int)GetUint32FromBytesAtOffset(data, engineerPosition + EXPERIENCE_BYTES_OFFSET);
+            var scoutExperience = (int)GetUint32FromBytesAtOffset(data, scoutPosition + EXPERIENCE_BYTES_OFFSET);
+            var drillerExperience = (int)GetUint32FromBytesAtOffset(data, drillerPosition + EXPERIENCE_BYTES_OFFSET);
+            var gunnerExperience = (int)GetUint32FromBytesAtOffset(data, gunnerPosition + EXPERIENCE_BYTES_OFFSET);
 
             // Number of promotions per dwarf
-            var engineerPromotions = (int)getUint32FromBytesAtOffset(data, engineerPosition + PROMOTIONS_BYTES_OFFSET);
-            var scoutPromotions = (int)getUint32FromBytesAtOffset(data, scoutPosition + PROMOTIONS_BYTES_OFFSET);
-            var drillerPromotions = (int)getUint32FromBytesAtOffset(data, drillerPosition + PROMOTIONS_BYTES_OFFSET);
-            var gunnerPromotions = (int)getUint32FromBytesAtOffset(data, gunnerPosition + PROMOTIONS_BYTES_OFFSET);
+            var engineerPromotions = (int)GetUint32FromBytesAtOffset(data, engineerPosition + PROMOTIONS_BYTES_OFFSET);
+            var scoutPromotions = (int)GetUint32FromBytesAtOffset(data, scoutPosition + PROMOTIONS_BYTES_OFFSET);
+            var drillerPromotions = (int)GetUint32FromBytesAtOffset(data, drillerPosition + PROMOTIONS_BYTES_OFFSET);
+            var gunnerPromotions = (int)GetUint32FromBytesAtOffset(data, gunnerPosition + PROMOTIONS_BYTES_OFFSET);
 
             var dwarves = new Dictionary<DwarfName, Dwarf>();
             dwarves.Add(DwarfName.Engineer, new Dwarf(engineerPromotions, engineerExperience));
@@ -87,7 +82,7 @@ namespace DeepRockGalacticSaveSyncer.DwarfManager
             return -1;
         }
 
-        private static UInt32 getUint32FromBytesAtOffset(byte[] data, int offset)
+        private static UInt32 GetUint32FromBytesAtOffset(byte[] data, int offset)
         {
             // Get array of length 4, because 32 = 4 bytes of 8 bits each
             var slice = data.Skip(offset).Take(4).ToArray();

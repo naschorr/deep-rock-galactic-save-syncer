@@ -9,9 +9,9 @@ namespace DeepRockGalacticSaveSyncer.SaveManager
         public const string BACKUP_TEXT = ".backup";
         private const string TEMP_BACKUP_TEXT = ".backup.temp";
 
-        public abstract SaveFile getNewestSaveFile();
+        public abstract SaveFile GetNewestSaveFile();
 
-        private string? backupSaveFile(SaveFile saveFile)
+        private string? BackupSaveFile(SaveFile saveFile)
         {
             var backupPath = saveFile.Path + BACKUP_TEXT;
             var tempBackupPath = saveFile.Path + TEMP_BACKUP_TEXT;
@@ -37,12 +37,12 @@ namespace DeepRockGalacticSaveSyncer.SaveManager
             }
         }
 
-        public virtual void overwriteNewestSaveFileData(SaveFile incomingSaveFile)
+        public virtual void OverwriteNewestSaveFileData(SaveFile incomingSaveFile)
         {
-            SaveFile existingSaveFile = getNewestSaveFile();
+            SaveFile existingSaveFile = GetNewestSaveFile();
 
             // Save a backup, just in case something goes wrong
-            var tempBackupPath = backupSaveFile(existingSaveFile);
+            var tempBackupPath = BackupSaveFile(existingSaveFile);
 
             // Copy the incoming file into the existing save file's location
             File.Delete(existingSaveFile.Path);

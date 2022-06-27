@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DeepRockGalacticSaveSyncer.Models
 {
-    internal class Dwarf
+    public class Dwarf
     {
         public int Promotions { get; }
         public int Experience { get; }
