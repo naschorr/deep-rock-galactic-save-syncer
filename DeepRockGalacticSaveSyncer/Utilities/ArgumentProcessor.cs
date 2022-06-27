@@ -4,15 +4,15 @@ namespace DeepRockGalacticSaveSyncer.Utilities
 {
     public static class ArgumentProcessor
     {
-        private static readonly Regex LAUNCH_OPTIONS_REGEX = new Regex("^--(.+)=(.+)$");
+        private static readonly Regex _LAUNCH_OPTIONS_REGEX = new Regex("^--(.+)=(.+)$");
 
-        public static Dictionary<string, string> processArguments(string[] arguments)
+        public static Dictionary<string, string> ProcessArguments(string[] arguments)
         {
             var kwargs = new Dictionary<string, string>();
 
             foreach (var arg in arguments)
             {
-                var matches = LAUNCH_OPTIONS_REGEX.Match(arg);
+                var matches = _LAUNCH_OPTIONS_REGEX.Match(arg);
 
                 if (matches.Groups.Count != 3)
                 {

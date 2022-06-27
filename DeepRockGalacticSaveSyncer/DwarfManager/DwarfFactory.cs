@@ -5,22 +5,22 @@ namespace DeepRockGalacticSaveSyncer.DwarfManager
 {
     internal static class DwarfFactory
     {
-        private static readonly byte[] ENGINEER_BYTES_SIGNATURE = new byte[] { 133, 239, 98, 108, 101, 241, 2, 74, 141, 254, 181, 208, 243, 144, 157, 46, 3, 0, 0, 0, 88, 80 };
-        private static readonly byte[] SCOUT_BYTES_SIGNATURE = new byte[] { 48, 216, 234, 23, 216, 251, 186, 76, 149, 48, 109, 233, 101, 92, 47, 140, 3, 0, 0, 0, 88, 80 };
-        private static readonly byte[] DRILLER_BYTES_SIGNATURE = new byte[] { 158, 221, 86, 241, 238, 188, 197, 72, 141, 91, 94, 91, 128, 182, 45, 180, 3, 0, 0, 0, 88, 80 };
-        private static readonly byte[] GUNNER_BYTES_SIGNATURE = new byte[] { 174, 86, 225, 128, 254, 192, 196, 77, 150, 250, 41, 194, 131, 102, 185, 123, 3, 0, 0, 0, 88, 80 };
-        private static readonly int EXPERIENCE_BYTES_OFFSET = 48;
-        private static readonly int PROMOTIONS_BYTES_OFFSET = 156;
+        private static readonly byte[] _ENGINEER_BYTES_SIGNATURE = new byte[] { 133, 239, 98, 108, 101, 241, 2, 74, 141, 254, 181, 208, 243, 144, 157, 46, 3, 0, 0, 0, 88, 80 };
+        private static readonly byte[] _SCOUT_BYTES_SIGNATURE = new byte[] { 48, 216, 234, 23, 216, 251, 186, 76, 149, 48, 109, 233, 101, 92, 47, 140, 3, 0, 0, 0, 88, 80 };
+        private static readonly byte[] _DRILLER_BYTES_SIGNATURE = new byte[] { 158, 221, 86, 241, 238, 188, 197, 72, 141, 91, 94, 91, 128, 182, 45, 180, 3, 0, 0, 0, 88, 80 };
+        private static readonly byte[] _GUNNER_BYTES_SIGNATURE = new byte[] { 174, 86, 225, 128, 254, 192, 196, 77, 150, 250, 41, 194, 131, 102, 185, 123, 3, 0, 0, 0, 88, 80 };
+        private static readonly int _EXPERIENCE_BYTES_OFFSET = 48;
+        private static readonly int _PROMOTIONS_BYTES_OFFSET = 156;
 
         public static Dictionary<DwarfName, Dwarf> CreateDwarvesFromSaveFile(ImmutableFile file)
         {
             var data = File.ReadAllBytes(file.Path);
 
             // Find the location of the dwarf's data block in the save data bytes
-            var engineerPosition = FindSubArrayInArray<byte>(ENGINEER_BYTES_SIGNATURE, data);
-            var scoutPosition = FindSubArrayInArray<byte>(SCOUT_BYTES_SIGNATURE, data);
-            var drillerPosition = FindSubArrayInArray<byte>(DRILLER_BYTES_SIGNATURE, data);
-            var gunnerPosition = FindSubArrayInArray<byte>(GUNNER_BYTES_SIGNATURE, data);
+            var engineerPosition = FindSubArrayInArray<byte>(_ENGINEER_BYTES_SIGNATURE, data);
+            var scoutPosition = FindSubArrayInArray<byte>(_SCOUT_BYTES_SIGNATURE, data);
+            var drillerPosition = FindSubArrayInArray<byte>(_DRILLER_BYTES_SIGNATURE, data);
+            var gunnerPosition = FindSubArrayInArray<byte>(_GUNNER_BYTES_SIGNATURE, data);
 
             if (
                 engineerPosition < 0 ||
@@ -33,16 +33,16 @@ namespace DeepRockGalacticSaveSyncer.DwarfManager
             }
 
             // Total experience in current promotion
-            var engineerExperience = (int)GetUint32FromBytesAtOffset(data, engineerPosition + EXPERIENCE_BYTES_OFFSET);
-            var scoutExperience = (int)GetUint32FromBytesAtOffset(data, scoutPosition + EXPERIENCE_BYTES_OFFSET);
-            var drillerExperience = (int)GetUint32FromBytesAtOffset(data, drillerPosition + EXPERIENCE_BYTES_OFFSET);
-            var gunnerExperience = (int)GetUint32FromBytesAtOffset(data, gunnerPosition + EXPERIENCE_BYTES_OFFSET);
+            var engineerExperience = (int)GetUint32FromBytesAtOffset(data, engineerPosition + _EXPERIENCE_BYTES_OFFSET);
+            var scoutExperience = (int)GetUint32FromBytesAtOffset(data, scoutPosition + _EXPERIENCE_BYTES_OFFSET);
+            var drillerExperience = (int)GetUint32FromBytesAtOffset(data, drillerPosition + _EXPERIENCE_BYTES_OFFSET);
+            var gunnerExperience = (int)GetUint32FromBytesAtOffset(data, gunnerPosition + _EXPERIENCE_BYTES_OFFSET);
 
             // Number of promotions per dwarf
-            var engineerPromotions = (int)GetUint32FromBytesAtOffset(data, engineerPosition + PROMOTIONS_BYTES_OFFSET);
-            var scoutPromotions = (int)GetUint32FromBytesAtOffset(data, scoutPosition + PROMOTIONS_BYTES_OFFSET);
-            var drillerPromotions = (int)GetUint32FromBytesAtOffset(data, drillerPosition + PROMOTIONS_BYTES_OFFSET);
-            var gunnerPromotions = (int)GetUint32FromBytesAtOffset(data, gunnerPosition + PROMOTIONS_BYTES_OFFSET);
+            var engineerPromotions = (int)GetUint32FromBytesAtOffset(data, engineerPosition + _PROMOTIONS_BYTES_OFFSET);
+            var scoutPromotions = (int)GetUint32FromBytesAtOffset(data, scoutPosition + _PROMOTIONS_BYTES_OFFSET);
+            var drillerPromotions = (int)GetUint32FromBytesAtOffset(data, drillerPosition + _PROMOTIONS_BYTES_OFFSET);
+            var gunnerPromotions = (int)GetUint32FromBytesAtOffset(data, gunnerPosition + _PROMOTIONS_BYTES_OFFSET);
 
             var dwarves = new Dictionary<DwarfName, Dwarf>();
             dwarves.Add(DwarfName.Engineer, new Dwarf(engineerPromotions, engineerExperience));

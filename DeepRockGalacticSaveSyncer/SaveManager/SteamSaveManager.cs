@@ -11,28 +11,28 @@ namespace DeepRockGalacticSaveSyncer.SaveManager
     [SupportedOSPlatform("windows10.0.17763.0")]
     internal class SteamSaveManager : SaveManager
     {
-        private string _saveDirectoryPath;
-        private Regex _saveFileRegex = new Regex("^[0-9]+_Player.sav$");
+        private string _SaveDirectoryPath;
+        private Regex _SaveFileRegex = new Regex("^[0-9]+_Player.sav$");
 
-        const string STEAM_REGISTRY_PATH = @"HKEY_CURRENT_USER\SOFTWARE\Valve\Steam";
-        const string LIBRARY_FOLDERS_VDF = "libraryfolders.vdf";
-        const string DRG_APP_ID = "548430"; // DRG's app id on Steam
-        const string STEAM_LIBRARY_DRG_SAVE_DIRECTORY_PATH = @"steamapps\common\Deep Rock Galactic\FSD\Saved\SaveGames";
+        private const string _STEAM_REGISTRY_PATH = @"HKEY_CURRENT_USER\SOFTWARE\Valve\Steam";
+        private const string _LIBRARY_FOLDERS_VDF = "libraryfolders.vdf";
+        private const string _DRG_APP_ID = "548430"; // DRG's app id on Steam
+        private const string _STEAM_LIBRARY_DRG_SAVE_DIRECTORY_PATH = @"steamapps\common\Deep Rock Galactic\FSD\Saved\SaveGames";
 
         public SteamSaveManager()
         {
-            var drgSteamLibraryPath = FindSteamLibraryContainingAppId(DRG_APP_ID);
-            _saveDirectoryPath = FindSaveDirectoryPathOnFileSystem(drgSteamLibraryPath);
+            var drgSteamLibraryPath = FindSteamLibraryContainingAppId(_DRG_APP_ID);
+            _SaveDirectoryPath = FindSaveDirectoryPathOnFileSystem(drgSteamLibraryPath);
         }
 
         public SteamSaveManager(string saveDirectoryPath)
         {
-            _saveDirectoryPath = saveDirectoryPath;
+            _SaveDirectoryPath = saveDirectoryPath;
         }
 
         private string FindSteamInstallPath()
         {
-            var installPath = Registry.GetValue(STEAM_REGISTRY_PATH, "SteamPath", null);
+            var installPath = Registry.GetValue(_STEAM_REGISTRY_PATH, "SteamPath", null);
 
             if (installPath == null)
             {
@@ -49,7 +49,7 @@ namespace DeepRockGalacticSaveSyncer.SaveManager
 
         private string FindSteamLibraryContainingAppId(string appId)
         {
-            string libraryFoldersVdfPath = Path.Combine(FindSteamInstallPath(), "config", LIBRARY_FOLDERS_VDF);
+            string libraryFoldersVdfPath = Path.Combine(FindSteamInstallPath(), "config", _LIBRARY_FOLDERS_VDF);
             dynamic libraryFolderJson = VdfConvert.Deserialize(File.ReadAllText(libraryFoldersVdfPath)).ToJson().Value;
 
             foreach (dynamic item in libraryFolderJson)
@@ -73,17 +73,17 @@ namespace DeepRockGalacticSaveSyncer.SaveManager
 
         private string FindSaveDirectoryPathOnFileSystem(string steamLibraryPath)
         {
-            return Path.Combine(steamLibraryPath, STEAM_LIBRARY_DRG_SAVE_DIRECTORY_PATH);
+            return Path.Combine(steamLibraryPath, _STEAM_LIBRARY_DRG_SAVE_DIRECTORY_PATH);
         }
 
         public override SaveFile GetNewestSaveFile()
         {
-            var files = Glob.Files(_saveDirectoryPath, "*_Player.sav").Select(name => Path.Combine(_saveDirectoryPath, name)).ToList();
+            var files = Glob.Files(_SaveDirectoryPath, "*_Player.sav").Select(name => Path.Combine(_SaveDirectoryPath, name)).ToList();
 
             // No files? Something went wrong!
             if (files.Count == 0)
             {
-                throw new IOException($"Unable to find save file in directory {_saveDirectoryPath}");
+                throw new IOException($"Unable to find save file in directory {_SaveDirectoryPath}");
             }
 
             // Find the newest save, and return some meta data about it
