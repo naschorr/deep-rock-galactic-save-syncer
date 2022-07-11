@@ -8,6 +8,7 @@
     <Version>0.1.0</Version>
     <Company>$(Authors)</Company>
     <Authors>naschorr</Authors>
+    <Description>GUI for the Deep Rock Galactic Save Syncer</Description>
   </PropertyGroup>
 
   <ItemGroup>

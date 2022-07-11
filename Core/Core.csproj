@@ -11,10 +11,11 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/naschorr/deep-rock-galactic-save-syncer</RepositoryUrl>
     <PackageLicenseFile>H:\Google Drive\Code\Csharp\DeepRockGalacticSaveSyncer\LICENSE</PackageLicenseFile>
-    <Description>Syncs the latest save file between your Steam and Xbox DRG installations!</Description>
+    <Description>Core library for the Deep Rock Galactic Save Syncer</Description>
     <AssemblyName>Deep_Rock_Galactic_Save_Syncer</AssemblyName>
     <ApplicationIcon>icon.ico</ApplicationIcon>
     <Version>1.3.0</Version>
+    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -35,6 +36,10 @@
 
   <ItemGroup>
     <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\resources\icon.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
