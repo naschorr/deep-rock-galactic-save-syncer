@@ -1,0 +1,40 @@
+﻿@import "../wwwroot/css/_variables.scss";
+
+.button {
+    padding: 0;
+    background-color: transparent;
+    transition: transform 0.15s;
+    transform: scale(1);
+}
+
+.button.active {
+    transform: scale(1.05);
+}
+
+.edge {
+    align-items: stretch;
+    width: $spacer * .25 * 1.5;
+}
+
+.main {
+    padding-top: $spacer * .25 * 3;
+    padding-bottom: $spacer * .25 * 3;
+    padding-left: $spacer * .25 * 8;
+    padding-right: $spacer * .25 * 8;
+    text-transform: uppercase;
+    font-size: 1.17em;
+    font-weight: bold;
+}
+
+.bg-primary {
+    background-color: $primary;
+    color: black;
+}
+
+.bg-primary.active {
+    background-color: $primary-active;
+}
+
+.disabled {
+    filter: grayscale(1) !important;
+}

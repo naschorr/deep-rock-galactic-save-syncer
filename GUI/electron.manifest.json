@@ -1,0 +1,36 @@
+{
+  "executable": "GUI",
+  "splashscreen": {
+    "imageFile": ""
+  },
+  "name": "Deep Rock Galactic Save Syncer",
+  "author": "naschorr",
+  "singleInstance": true,
+  "environment": "Production",
+  "build": {
+    "appId": "com.drgss.app",
+    "productName": "Deep Rock Galactic Save Syncer",
+    "copyright": "Copyright © 2022",
+    "buildVersion": "1.0.0",
+    "compression": "maximum",
+    "directories": {
+      "output": "../../../bin/Desktop",
+      "buildResources": "Assets"
+    },
+    "extraResources": [
+      {
+        "from": "./bin",
+        "to": "bin",
+        "filter": [ "**/*" ]
+      }
+    ],
+    "files": [
+      {
+        "from": "./ElectronHostHook/node_modules",
+        "to": "ElectronHostHook/node_modules",
+        "filter": [ "**/*" ]
+      },
+      "**/*"
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+﻿@import "../wwwroot/css/_variables.scss";
+
+button {
+    text-transform: uppercase;
+}
+
+.save-file-container {
+    border-top: $spacer * 0.25 solid $primary;
+    border-bottom: $spacer * 0.25 solid $primary;
+    background: linear-gradient(66deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.33) 100%);
+}
+
+.save-file-container.active {
+    border-color: $primary-active;
+}
+
+.slant-up {
+    transform: skew(0deg, -1deg);
+}
+
+.slant-down {
+    transform: skew(0deg, 1deg);
+}

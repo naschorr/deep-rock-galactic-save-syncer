@@ -1,0 +1,9 @@
+# Unnecessary wwwroot files
+wwwroot/images/*
+wwwroot/fonts/*
+wwwroot/icon.ico
+
+# Unnecessary css files
+Components/**/*.css
+wwwroot/css/site.css
+wwwroot/css/_variables.css

@@ -1,0 +1,14 @@
+﻿@import "../wwwroot/css/_variables.scss";
+
+.data-container {
+    margin-left: $spacer * 0.25 * 4;
+}
+
+.open-in-explorer {
+    transition: 0.15s;
+    opacity: 0.66;
+}
+
+.open-in-explorer:hover {
+    opacity: 1;
+}

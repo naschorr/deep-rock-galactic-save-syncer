@@ -1,0 +1,40 @@
+﻿@using Core.Enums
+
+<div class="row">
+    <div class="col">
+        <div class="d-flex align-items-center mt-1 mb-1">
+            <img class="icon-m ml-1 mr-2" src="images/file_icon.png" />
+            <h3 class="d-inline-block">Save File Metadata</h3>
+        </div>
+    </div>
+</div>
+<div class="data-container mb-2">
+    <div class="row">
+        <div class="col">
+            <div class="d-flex align-items-center mb-1">
+                <span>@saveFile.Name</span>
+                <img class="icon-sm ml-2 open-in-explorer"
+                    src="images/arrow_icon.png"
+                    @onclick="@(e => OpenFileInExplorer(@saveFile.Path))"
+                    title="Open the file in the explorer"/>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="d-flex align-items-center mb-1">
+                <span>Last Updated: @saveFile.LastModifiedTime.ToLocalTime()</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Core.SaveFiles.Models.SaveFile saveFile { get; set; } = default!;
+
+    protected void OpenFileInExplorer(string path)
+    {
+        ElectronNET.API.Electron.Shell.ShowItemInFolderAsync(path);
+    }
+}

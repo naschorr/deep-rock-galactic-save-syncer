@@ -1,0 +1,26 @@
+{
+  "version": "1.0",
+  "defaultProvider": "filesystem",
+  "libraries": [
+    {
+      "library": "../resources/assets/drg_icons/",
+      "destination": "wwwroot/images/drg_icons/"
+    },
+    {
+      "library": "../resources/assets/platform_icons/",
+      "destination": "wwwroot/images/platform_icons/"
+    },
+    {
+      "library": "../resources/assets/",
+      "destination": "wwwroot/images/"
+    },
+    {
+      "library": "../resources/fonts/",
+      "destination": "wwwroot/fonts/"
+    },
+    {
+      "library": "../resources/icon.ico",
+      "destination": "wwwroot/"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+﻿@using GUI.Data
+@using Core.Enums
+@using System.Reactive.Linq
+
+<div class="ml-1 mr-1 position-relative"
+    @onmouseover="@(e => highlight = true)"
+    @onmouseout="@(e => highlight = false)">
+    <div class="top-left @(highlight ? "highlight" : "") @(ReferenceEquals(saveFile, Overwriter) ? "active" : "")"></div>
+    <div class="top-right @(highlight ? "highlight" : "") @(ReferenceEquals(saveFile, Overwriter) ? "active" : "")"></div>
+    <div class="bottom-left @(highlight ? "highlight" : "") @(ReferenceEquals(saveFile, Overwriter) ? "active" : "")"></div>
+    <div class="bottom-right @(highlight ? "highlight" : "") @(ReferenceEquals(saveFile, Overwriter) ? "active" : "")"></div>
+    <div class="row pb-2">
+        <div class="col">
+            <Dwarf dwarf="@saveFile.Engineer" type="DwarfType.Engineer"/>
+            <Dwarf dwarf="@saveFile.Scout" type="DwarfType.Scout"/>
+            <Dwarf dwarf="@saveFile.Driller" type="DwarfType.Driller" />
+            <Dwarf dwarf="@saveFile.Gunner" type="DwarfType.Gunner" />
+        </div>
+    </div>
+    <div class="row pb-2">
+        <div class="col">
+            <SaveFileMetadata saveFile="@saveFile" />
+        </div>
+    </div>
+</div>
+
+@code {
+    [Inject]
+    public SyncerManagerService SyncerManager { get; set; } = default!;
+
+    [Parameter]
+    public Core.SaveFiles.Models.SaveFile? saveFile { get; set; }
+
+    protected bool highlight = false;
+    protected Core.SaveFiles.Models.SaveFile? Overwriter;
+
+    protected override void OnInitialized()
+    {
+        Overwriter = SyncerManager.Overwriter;
+        SyncerManager.OverwriterChanged.DistinctUntilChanged()
+            .Select(saveFile => Overwriter = saveFile)
+            .Subscribe();
+    }
+}

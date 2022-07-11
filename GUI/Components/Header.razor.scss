@@ -1,0 +1,16 @@
+﻿@import "../wwwroot/css/_variables.scss";
+
+.title-text {
+    font-family: DangerFlight;
+    font-size: 3rem;
+    color: $text;
+    margin-top: 0;
+    margin-bottom: 0;
+    letter-spacing: 3px;
+}
+
+.sub-text {
+    font-family: CarbonRegular;
+    font-size: 1rem;
+    color: $text;
+}

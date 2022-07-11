@@ -1,0 +1,114 @@
+﻿@using GUI.Data
+@using Core.SaveFiles.Manager
+@using Core.SaveFiles.Models
+@using Microsoft.AspNetCore.Components.Web
+@using System.Reactive.Linq
+
+<div class="container m-3">
+    <Header />
+    <div class="row">
+        <div class="col" @onclick="@(e => UpdateOverwriterOverwritee(SteamSaveFile, XboxSaveFile))">
+            <div class="slant-up p-3">
+                <ImageHeaderBar imagePath="images/platform_icons/steam_icon.png" imageClasses="icon-xl mr-3" containerClasses="mt-1 mb-3 ml-1 mr-1" text="Steam Save File" textClasses="h2" barHeight="32px" />
+                <div class="save-file-container @(ReferenceEquals(SteamSaveFile, Overwriter) ? "active" : "")">
+                    <SaveFile saveFile="@SteamSaveFile" />
+                </div>
+            </div>
+        </div>
+        <div class="col" @onclick="@(e => UpdateOverwriterOverwritee(XboxSaveFile, SteamSaveFile))">
+            <div class="slant-down p-3">
+                <ImageHeaderBar imagePath="images/platform_icons/xbox_icon.png" imageClasses="icon-xl mr-3" containerClasses="mt-1 mb-3 ml-1 mr-1" text="Xbox Save File" textClasses="h2" barHeight="32px" />
+                <div class="save-file-container @(ReferenceEquals(XboxSaveFile, Overwriter) ? "active" : "")">
+                    <SaveFile saveFile="@XboxSaveFile" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 justify-content-center">
+            <div class="d-flex justify-content-center mt-3">
+                <Button text="@(IsOverwriterAndOverwriteeNull() ? "Saves are already synced" : $"Overwrite {GetOverwriteeName()} save with {GetOverwriterName()} save")"
+                    onClickCallback="SyncSaveFiles"
+                    disabled="@IsOverwriterAndOverwriteeNull()">
+                </Button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Inject]
+    public ILogger<Syncer> Logger { get; set; } = default!;
+    [Inject]
+    public SyncerManagerService SyncerManager { get; set; } = default!;
+
+    protected SteamSaveFile SteamSaveFile = default!;
+    protected XboxSaveFile XboxSaveFile = default!;
+    protected Core.SaveFiles.Models.SaveFile? Overwriter;
+    protected Core.SaveFiles.Models.SaveFile? Overwritee;
+
+    protected override void OnInitialized()
+    {
+        SteamSaveFile = SyncerManager.SteamSaveFile;
+        SyncerManager.SteamSaveFileChanged.DistinctUntilChanged()
+            .Select(saveFile => SteamSaveFile = saveFile)
+            .Subscribe();
+
+        XboxSaveFile = SyncerManager.XboxSaveFile;
+        SyncerManager.XboxSaveFileChanged.DistinctUntilChanged()
+            .Select(saveFile => XboxSaveFile = saveFile)
+            .Subscribe();
+
+        Overwriter = SyncerManager.Overwriter;
+        SyncerManager.OverwriterChanged.DistinctUntilChanged()
+            .Select(saveFile => Overwriter = saveFile)
+            .Subscribe();
+
+        Overwritee = SyncerManager.Overwritee;
+        SyncerManager.OverwriteeChanged.DistinctUntilChanged()
+            .Select(saveFile => Overwritee = saveFile)
+            .Subscribe();
+    }
+
+    protected void UpdateOverwriterOverwritee(Core.SaveFiles.Models.SaveFile overwriter, Core.SaveFiles.Models.SaveFile overwritee)
+    {
+        SyncerManager.Overwriter = overwriter;
+        SyncerManager.Overwritee = overwritee;
+    }
+
+    protected string GetOverwriterName()
+    {
+        if (ReferenceEquals(SteamSaveFile, Overwriter))
+        {
+            return "Steam";
+        }
+        else
+        {
+            return "Xbox";
+        }
+    }
+
+    protected string GetOverwriteeName()
+    {
+        if (ReferenceEquals(SteamSaveFile, Overwritee))
+        {
+            return "Steam";
+        }
+        else
+        {
+            return "Xbox";
+        }
+    }
+
+    protected bool IsOverwriterAndOverwriteeNull()
+    {
+        return Overwriter == null && Overwritee == null;
+    }
+
+    protected void SyncSaveFiles()
+    {
+        Logger.LogInformation($"Syncing save files: Overwriting {Overwritee.GetType().Name} with {Overwriter.GetType().Name}.");
+        SyncerManager.OverwriteSaveFile();
+    }
+}

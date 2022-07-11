@@ -1,0 +1,49 @@
+﻿@using Core.Enums
+
+<div class="row">
+    <div class="col">
+        <div class="d-flex align-items-center mt-1 mb-1">
+            <img class="icon-l mr-2" src="@getDwarfIconPath()" />
+            <h3 class="d-inline-block">@type.ToString().ToUpper()</h3>
+        </div>
+    </div>
+    <div class="col-auto d-flex align-items-center">
+        @for (var promotion = 0; promotion < dwarf.Promotions; promotion++)
+        {
+            <img class="icon-sm m-1" src="images/drg_icons/promotion_icon.png" />
+        }
+    </div>
+</div>
+<div class="data-container mb-2">
+    <div class="row">
+        <div class="col">
+            <div class="d-flex align-items-center mb-1">
+                <img class="icon-m mr-2" src="images/drg_icons/class_level_icon.png" />
+                <span>@dwarf.Level</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="d-flex align-items-center mb-1">
+                <img class="icon-m mr-2" src="images/drg_icons/xp_icon.png" />
+                <span>@dwarf.Experience</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Core.Dwarves.Dwarf? dwarf { get; set; }
+
+    [Parameter]
+    public DwarfType? type { get; set; }
+
+    public string getDwarfIconPath()
+    {
+        string lowercase = type.ToString().ToLower();
+
+        return $"images/drg_icons/{lowercase}_icon.png";
+    }
+}

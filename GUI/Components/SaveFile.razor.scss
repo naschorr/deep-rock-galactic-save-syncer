@@ -1,0 +1,42 @@
+﻿@import "../wwwroot/css/_variables.scss";
+
+$border: $spacer * .25 solid $primary;
+$offset: $spacer * .25 * 3 * -1;
+
+.highlight {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+}
+
+.highlight.active {
+    border-color: $primary-active !important;
+}
+
+.highlight.top-left {
+    border-top: $border;
+    border-left: $border;
+    top: $offset;
+    left: $offset;
+}
+
+.highlight.top-right {
+    border-top: $border;
+    border-right: $border;
+    top: $offset;
+    right: $offset;
+}
+
+.highlight.bottom-left {
+    border-bottom: $border;
+    border-left: $border;
+    bottom: $offset;
+    left: $offset;
+}
+
+.highlight.bottom-right {
+    border-bottom: $border;
+    border-right: $border;
+    bottom: $offset;
+    right: $offset;
+}
