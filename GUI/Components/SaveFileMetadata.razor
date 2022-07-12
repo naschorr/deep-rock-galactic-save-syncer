@@ -1,4 +1,5 @@
 ﻿@using Core.Enums
+@using GUI.Data
 
 <div class="row">
     <div class="col">
@@ -15,7 +16,9 @@
                 <span>@saveFile.Name</span>
                 <img class="icon-sm ml-2 open-in-explorer"
                     src="images/arrow_icon.png"
-                    @onclick="@(e => OpenFileInExplorer(@saveFile.Path))"
+                    @onclick="@(e => SyncerManager.OpenSaveFileInExplorer(@saveFile))"
+                    @onclick:preventDefault="true"
+                    @onclick:stopPropagation="true"
                     title="Open the file in the explorer"/>
             </div>
         </div>
@@ -30,11 +33,9 @@
 </div>
 
 @code {
+    [Inject]
+    public SyncerManagerService SyncerManager { get; set; } = default!;
+
     [Parameter]
     public Core.SaveFiles.Models.SaveFile saveFile { get; set; } = default!;
-
-    protected void OpenFileInExplorer(string path)
-    {
-        ElectronNET.API.Electron.Shell.ShowItemInFolderAsync(path);
-    }
 }

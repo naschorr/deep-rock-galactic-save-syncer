@@ -116,5 +116,10 @@ namespace GUI.Data
                 // todo: failure modal
             }
         }
+
+        public void OpenSaveFileInExplorer(SaveFile saveFile)
+        {
+            ElectronNET.API.Electron.Shell.ShowItemInFolderAsync(saveFile.Path);
+        }
     }
 }
