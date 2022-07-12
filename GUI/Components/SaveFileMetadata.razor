@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col">
             <div class="d-flex align-items-center mb-1">
-                <span>@saveFile.Name</span>
+                <span>File: @saveFile.Name</span>
                 <img class="icon-sm ml-2 open-in-explorer"
                     src="images/arrow_icon.png"
                     @onclick="@(e => SyncerManager.OpenSaveFileInExplorer(@saveFile))"
