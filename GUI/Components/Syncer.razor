@@ -28,7 +28,7 @@
     <div class="row">
         <div class="col-12 justify-content-center">
             <div class="d-flex justify-content-center mt-3">
-                <Button text="@(IsOverwriterAndOverwriteeNull() ? "Saves are already synced" : $"Overwrite {GetOverwriteeName()} save with {GetOverwriterName()} save")"
+                <Button text="@(IsOverwriterAndOverwriteeNull() ? "Saves are already synced" : $"Sync {GetOverwriteeName()} save with {GetOverwriterName()} save")"
                     onClickCallback="SyncSaveFiles"
                     disabled="@IsOverwriterAndOverwriteeNull()">
                 </Button>
@@ -110,5 +110,8 @@
     {
         Logger.LogInformation($"Syncing save files: Overwriting {Overwritee.GetType().Name} with {Overwriter.GetType().Name}.");
         SyncerManager.OverwriteSaveFile();
+
+        SyncerManager.Refresh();
+        StateHasChanged();
     }
 }

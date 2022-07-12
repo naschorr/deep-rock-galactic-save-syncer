@@ -1,5 +1,9 @@
 ﻿@import "../wwwroot/css/_variables.scss";
 
+.save-file-container {
+    cursor: pointer;
+}
+
 $border: $spacer * .25 solid $primary;
 $offset: $spacer * .25 * 3 * -1;
 

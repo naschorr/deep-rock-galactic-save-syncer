@@ -2,7 +2,7 @@
 @using Core.Enums
 @using System.Reactive.Linq
 
-<div class="ml-1 mr-1 position-relative"
+<div class="ml-1 mr-1 position-relative save-file-container"
     @onmouseover="@(e => highlight = true)"
     @onmouseout="@(e => highlight = false)">
     <div class="top-left @(highlight ? "highlight" : "") @(ReferenceEquals(saveFile, Overwriter) ? "active" : "")"></div>

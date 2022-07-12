@@ -16,6 +16,8 @@ html {
     height: 100vh;
     background: linear-gradient(66deg, $background 0%, darken($background, 5%) 100%);
     color: $text;
+    user-select: none;
+    cursor: default;
 }
 
 h2, .h2 {
