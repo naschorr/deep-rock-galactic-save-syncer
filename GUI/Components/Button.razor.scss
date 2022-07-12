@@ -12,6 +12,10 @@
     transform: scale(1.05);
 }
 
+.button.disabled {
+    cursor: not-allowed;
+}
+
 .edge {
     align-items: stretch;
     width: $spacer * .25 * 1.5;
