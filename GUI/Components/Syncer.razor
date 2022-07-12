@@ -9,18 +9,12 @@
     <div class="row">
         <div class="col" @onclick="@(e => UpdateOverwriterOverwritee(SteamSaveFile, XboxSaveFile))">
             <div class="slant-up p-3">
-                <ImageHeaderBar imagePath="images/platform_icons/steam_icon.png" imageClasses="icon-xl mr-3" containerClasses="mt-1 mb-3 ml-1 mr-1" text="Steam Save File" textClasses="h2" barHeight="32px" />
-                <div class="save-file-container @(ReferenceEquals(SteamSaveFile, Overwriter) ? "active" : "")">
-                    <SaveFile saveFile="@SteamSaveFile" />
-                </div>
+                <SaveFile saveFile="@SteamSaveFile" />
             </div>
         </div>
         <div class="col" @onclick="@(e => UpdateOverwriterOverwritee(XboxSaveFile, SteamSaveFile))">
             <div class="slant-down p-3">
-                <ImageHeaderBar imagePath="images/platform_icons/xbox_icon.png" imageClasses="icon-xl mr-3" containerClasses="mt-1 mb-3 ml-1 mr-1" text="Xbox Save File" textClasses="h2" barHeight="32px" />
-                <div class="save-file-container @(ReferenceEquals(XboxSaveFile, Overwriter) ? "active" : "")">
-                    <SaveFile saveFile="@XboxSaveFile" />
-                </div>
+                <SaveFile saveFile="@XboxSaveFile" />
             </div>
         </div>
     </div>

@@ -1,11 +1,19 @@
 ﻿@import "../wwwroot/css/_variables.scss";
 
 .save-file-container {
+    border-top: $spacer * 0.25 solid $primary;
+    border-bottom: $spacer * 0.25 solid $primary;
+    background: linear-gradient(66deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.33) 100%);
     cursor: pointer;
 }
 
+.save-file-container.active {
+    border-color: $primary-active;
+}
+
 $border: $spacer * .25 solid $primary;
-$offset: $spacer * .25 * 3 * -1;
+$vertical-offset: $spacer * .25 * 3 * -1;
+$horizontal-offset: $spacer * .25 * 2 * -1;
 
 .highlight {
     position: absolute;
@@ -20,27 +28,27 @@ $offset: $spacer * .25 * 3 * -1;
 .highlight.top-left {
     border-top: $border;
     border-left: $border;
-    top: $offset;
-    left: $offset;
+    top: $vertical-offset;
+    left: $horizontal-offset;
 }
 
 .highlight.top-right {
     border-top: $border;
     border-right: $border;
-    top: $offset;
-    right: $offset;
+    top: $vertical-offset;
+    right: $horizontal-offset;
 }
 
 .highlight.bottom-left {
     border-bottom: $border;
     border-left: $border;
-    bottom: $offset;
-    left: $offset;
+    bottom: $vertical-offset;
+    left: $horizontal-offset;
 }
 
 .highlight.bottom-right {
     border-bottom: $border;
     border-right: $border;
-    bottom: $offset;
-    right: $offset;
+    bottom: $vertical-offset;
+    right: $horizontal-offset;
 }

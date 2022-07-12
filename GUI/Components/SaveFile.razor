@@ -1,8 +1,10 @@
-﻿@using GUI.Data
+﻿@using Core.SaveFiles.Models
+@using GUI.Data
 @using Core.Enums
 @using System.Reactive.Linq
 
-<div class="ml-1 mr-1 position-relative save-file-container"
+<ImageHeaderBar imagePath="@GetImagePath()" imageClasses="icon-xl mr-3" containerClasses="mt-1 mb-3 ml-1 mr-1" text="@($"{GetSaveFileName()} Save File")" textClasses="h2" barHeight="32px" />
+<div class="pl-1 pr-1 position-relative save-file-container @(ReferenceEquals(saveFile, Overwriter) ? "active" : "")"
     @onmouseover="@(e => highlight = true)"
     @onmouseout="@(e => highlight = false)">
     <div class="top-left @(highlight ? "highlight" : "") @(ReferenceEquals(saveFile, Overwriter) ? "active" : "")"></div>
@@ -31,8 +33,8 @@
     [Parameter]
     public Core.SaveFiles.Models.SaveFile? saveFile { get; set; }
 
-    protected bool highlight = false;
-    protected Core.SaveFiles.Models.SaveFile? Overwriter;
+    private bool highlight = false;
+    private Core.SaveFiles.Models.SaveFile? Overwriter;
 
     protected override void OnInitialized()
     {
@@ -40,5 +42,26 @@
         SyncerManager.OverwriterChanged.DistinctUntilChanged()
             .Select(saveFile => Overwriter = saveFile)
             .Subscribe();
+    }
+
+    private string GetSaveFileName()
+    {
+        if (typeof(SteamSaveFile).IsInstanceOfType(saveFile))
+        {
+            return "Steam";
+        }
+        else if (typeof(XboxSaveFile).IsInstanceOfType(saveFile))
+        {
+            return "Xbox";
+        }
+
+        return "Unknown";
+    }
+
+    private string GetImagePath()
+    {
+        var platform = GetSaveFileName();
+
+        return $"images/platform_icons/{platform.ToLower()}_icon.png";
     }
 }
