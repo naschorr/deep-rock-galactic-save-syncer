@@ -67,10 +67,7 @@
 
     protected void UpdateOverwriterOverwritee(Core.SaveFiles.Models.SaveFile overwriter, Core.SaveFiles.Models.SaveFile overwritee)
     {
-        if (overwriter == null && overwritee == null)
-        {
-            return;
-        }
+        Logger.LogDebug($"Updating overwrite status: Overwriter: {overwriter.GetType().Name}, Overwritee: {overwritee.GetType().Name}.");
 
         SyncerManager.Overwriter = overwriter;
         SyncerManager.Overwritee = overwritee;
@@ -98,7 +95,8 @@
 
     protected void SyncSaveFiles()
     {
-        Logger.LogInformation($"Syncing save files: Overwriting {Overwritee.GetType().Name} with {Overwriter.GetType().Name}.");
+        Logger.LogDebug($"Syncing save files: Overwriting {Overwritee.GetType().Name} with {Overwriter.GetType().Name}.");
+
         SyncerManager.OverwriteSaveFile();
         SyncerManager.Refresh();
     }
