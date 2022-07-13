@@ -1,4 +1,5 @@
-﻿using Core.SaveFiles.Models;
+﻿using Core.Enums;
+using Core.SaveFiles.Models;
 using Microsoft.AspNetCore.Components;
 using System.Reactive.Subjects;
 
@@ -95,6 +96,16 @@ namespace GUI.Data
                 Overwriter = null;
                 Overwritee = null;
             }
+        }
+
+        public Platform GetSaveFilePlatform(SaveFile saveFile)
+        {
+            if (ReferenceEquals(saveFile, SteamSaveFile))
+            {
+                return Platform.Steam;
+            }
+
+            return Platform.Xbox;
         }
 
         public void OverwriteSaveFile()

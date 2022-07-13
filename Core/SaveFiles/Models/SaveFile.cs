@@ -36,7 +36,7 @@ namespace Core.SaveFiles.Models
 
         public int CompareTo(SaveFile? other)
         {
-            if (other == null)
+            if (ReferenceEquals(other, null))
             {
                 return 1;
             }
@@ -77,6 +77,26 @@ namespace Core.SaveFiles.Models
 
             // Failing that, just default to whichever file is newer
             return LastModifiedTime.CompareTo(other.LastModifiedTime);
+        }
+
+        public static bool operator ==(SaveFile? one, SaveFile? two)
+        {
+            if(ReferenceEquals(one, null))
+            {
+                return ReferenceEquals(two, null);
+            }
+
+            return one.CompareTo(two) == 0;
+        }
+
+        public static bool operator !=(SaveFile? one, SaveFile? two)
+        {
+            if (ReferenceEquals(one, null))
+            {
+                return !ReferenceEquals(two, null);
+            }
+
+            return one.CompareTo(two) != 0;
         }
 
         public static bool operator >(SaveFile one, SaveFile two)

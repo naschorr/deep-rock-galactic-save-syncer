@@ -3,7 +3,12 @@
 @using Core.Enums
 @using System.Reactive.Linq
 
-<ImageHeaderBar imagePath="@GetImagePath()" imageClasses="icon-xl mr-3" containerClasses="mt-1 mb-3 ml-1 mr-1" text="@($"{GetSaveFileName()} Save File")" textClasses="h2" barHeight="32px" />
+<ImageHeaderBar imagePath="@GetImagePath()"
+    imageClasses="icon-xl mr-3"
+    containerClasses="mt-1 mb-3 ml-1 mr-1"
+    text="@($"{SyncerManager.GetSaveFilePlatform(saveFile).ToString()} Save File")"
+    textClasses="h2"
+    barHeight="32px" />
 <div class="pl-1 pr-1 position-relative save-file-container @(ReferenceEquals(saveFile, Overwriter) ? "active" : "")"
     @onmouseover="@(e => highlight = true)"
     @onmouseout="@(e => highlight = false)">
@@ -44,24 +49,10 @@
             .Subscribe();
     }
 
-    private string GetSaveFileName()
-    {
-        if (typeof(SteamSaveFile).IsInstanceOfType(saveFile))
-        {
-            return "Steam";
-        }
-        else if (typeof(XboxSaveFile).IsInstanceOfType(saveFile))
-        {
-            return "Xbox";
-        }
-
-        return "Unknown";
-    }
-
     private string GetImagePath()
     {
-        var platform = GetSaveFileName();
+        var platformName = SyncerManager.GetSaveFilePlatform(saveFile).ToString().ToLower();
 
-        return $"images/platform_icons/{platform.ToLower()}_icon.png";
+        return $"images/platform_icons/{platformName}_icon.png";
     }
 }

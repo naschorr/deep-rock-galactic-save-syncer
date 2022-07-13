@@ -22,9 +22,9 @@
     <div class="row">
         <div class="col-12 justify-content-center">
             <div class="d-flex justify-content-center mt-3">
-                <Button text="@(IsOverwriterAndOverwriteeNull() ? "Saves are already synced" : $"Sync {GetOverwriteeName()} save with {GetOverwriterName()} save")"
+                <Button text="@BuildSyncButtonText()"
                     onClickCallback="SyncSaveFiles"
-                    disabled="@IsOverwriterAndOverwriteeNull()">
+                    disabled="@IsOverwriterOrOverwriteeNull()">
                 </Button>
             </div>
         </div>
@@ -67,37 +67,33 @@
 
     protected void UpdateOverwriterOverwritee(Core.SaveFiles.Models.SaveFile overwriter, Core.SaveFiles.Models.SaveFile overwritee)
     {
+        if (overwriter == null && overwritee == null)
+        {
+            return;
+        }
+
         SyncerManager.Overwriter = overwriter;
         SyncerManager.Overwritee = overwritee;
     }
 
-    protected string GetOverwriterName()
+    protected bool IsOverwriterOrOverwriteeNull()
     {
-        if (ReferenceEquals(SteamSaveFile, Overwriter))
-        {
-            return "Steam";
-        }
-        else
-        {
-            return "Xbox";
-        }
+        return Overwriter == null || Overwritee == null;
     }
 
-    protected string GetOverwriteeName()
+    protected string BuildSyncButtonText()
     {
-        if (ReferenceEquals(SteamSaveFile, Overwritee))
+        if (IsOverwriterOrOverwriteeNull())
         {
-            return "Steam";
+            if (SteamSaveFile as Core.SaveFiles.Models.SaveFile == XboxSaveFile as Core.SaveFiles.Models.SaveFile)
+            {
+                return "Save files are already synced";
+            }
+            
+            return "Save files are divergent";
         }
-        else
-        {
-            return "Xbox";
-        }
-    }
 
-    protected bool IsOverwriterAndOverwriteeNull()
-    {
-        return Overwriter == null && Overwritee == null;
+        return $"Sync {SyncerManager.GetSaveFilePlatform(Overwritee)} save with {SyncerManager.GetSaveFilePlatform(Overwriter)} save";
     }
 
     protected void SyncSaveFiles()

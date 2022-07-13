@@ -44,6 +44,64 @@ namespace Core.Tests.SaveFilesTests.ModelsTests
         // Comparison Testing
 
         [Fact]
+        public void SameSaveFileCompared()
+        {
+            var dwarves = new Dictionary<DwarfType, Dwarf>();
+            dwarves.Add(DwarfType.Engineer, new Dwarf(1, 2500));
+            dwarves.Add(DwarfType.Scout, new Dwarf(2, 80000));
+            dwarves.Add(DwarfType.Driller, new Dwarf(0, 210000));
+            dwarves.Add(DwarfType.Gunner, new Dwarf(1, 25000));
+
+            var immutableFile = ImmutableFileGenerator();
+
+            var dwarves0SaveFile = new SteamSaveFile(immutableFile, dwarves);
+            var dwarves1SaveFile = new SteamSaveFile(immutableFile, dwarves);
+
+            /*
+             * Note that generating a new immutable file for each, and using the same dwarves would be inequal, as the
+             * immutable files generated would have very slightly different creation times.
+             */
+
+            Assert.True(dwarves0SaveFile == dwarves1SaveFile);
+        }
+
+        [Fact]
+        public void NullCompared()
+        {
+            var dwarves = new Dictionary<DwarfType, Dwarf>();
+            dwarves.Add(DwarfType.Engineer, new Dwarf(1, 2500));
+            dwarves.Add(DwarfType.Scout, new Dwarf(2, 80000));
+            dwarves.Add(DwarfType.Driller, new Dwarf(0, 210000));
+            dwarves.Add(DwarfType.Gunner, new Dwarf(1, 25000));
+
+            var dwarvesSaveFile = new SteamSaveFile(ImmutableFileGenerator(), dwarves);
+
+            Assert.False(dwarvesSaveFile == null);
+            Assert.False(null == dwarvesSaveFile);
+        }
+
+        [Fact]
+        public void InequalDwarvesCompared()
+        {
+            var highlyPromotedDwarves = new Dictionary<DwarfType, Dwarf>();
+            highlyPromotedDwarves.Add(DwarfType.Engineer, new Dwarf(3, 0));
+            highlyPromotedDwarves.Add(DwarfType.Scout, new Dwarf(3, 0));
+            highlyPromotedDwarves.Add(DwarfType.Driller, new Dwarf(3, 0));
+            highlyPromotedDwarves.Add(DwarfType.Gunner, new Dwarf(3, 0));
+
+            var lowlyPromotedDwarves = new Dictionary<DwarfType, Dwarf>();
+            lowlyPromotedDwarves.Add(DwarfType.Engineer, new Dwarf(0, 0));
+            lowlyPromotedDwarves.Add(DwarfType.Scout, new Dwarf(0, 0));
+            lowlyPromotedDwarves.Add(DwarfType.Driller, new Dwarf(0, 0));
+            lowlyPromotedDwarves.Add(DwarfType.Gunner, new Dwarf(0, 0));
+
+            var highlyPromotedDwarfSaveFile = new SteamSaveFile(ImmutableFileGenerator(), highlyPromotedDwarves);
+            var lowlyPromotedDwarfSaveFile = new SteamSaveFile(ImmutableFileGenerator(), lowlyPromotedDwarves);
+
+            Assert.True(highlyPromotedDwarfSaveFile != lowlyPromotedDwarfSaveFile);
+        }
+
+        [Fact]
         public void AllHighlyPromotedDwarvesComparedToAllLowlyPromotedDwarves()
         {
             var highlyPromotedDwarves = new Dictionary<DwarfType, Dwarf>();
