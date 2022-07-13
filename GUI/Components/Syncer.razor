@@ -89,7 +89,7 @@
             {
                 return "Save files are already synced";
             }
-            
+
             return "Save files are divergent";
         }
 
@@ -100,8 +100,6 @@
     {
         Logger.LogInformation($"Syncing save files: Overwriting {Overwritee.GetType().Name} with {Overwriter.GetType().Name}.");
         SyncerManager.OverwriteSaveFile();
-
         SyncerManager.Refresh();
-        StateHasChanged();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Core.Enums;
 using Core.SaveFiles.Models;
 using Microsoft.AspNetCore.Components;
+using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
 namespace GUI.Data
@@ -30,7 +31,7 @@ namespace GUI.Data
             set
             {
                 _XboxSaveFile = value;
-                XboxSaveFileChanged.OnNext(_XboxSaveFile);
+                 XboxSaveFileChanged.OnNext(_XboxSaveFile);
             }
         }
         public SaveFile? Overwriter
@@ -39,7 +40,7 @@ namespace GUI.Data
             set
             {
                 _Overwriter = value;
-                OverwriterChanged.OnNext(_Overwriter);
+                 OverwriterChanged.OnNext(_Overwriter);
             }
         }
         public SaveFile? Overwritee
@@ -48,7 +49,7 @@ namespace GUI.Data
             set
             {
                 _Overwritee = value;
-                OverwriteeChanged.OnNext(_Overwritee);
+                 OverwriteeChanged.OnNext(_Overwritee);
             }
         }
 
@@ -73,8 +74,8 @@ namespace GUI.Data
 
         public void Refresh()
         {
-            _SteamSaveFile = SaveFileManager.SteamSaveFile;
-            _XboxSaveFile = SaveFileManager.XboxSaveFile;
+            SteamSaveFile = SaveFileManager.SteamSaveFile;
+            XboxSaveFile = SaveFileManager.XboxSaveFile;
 
             CalculateOverwriterOverwritee();
         }
