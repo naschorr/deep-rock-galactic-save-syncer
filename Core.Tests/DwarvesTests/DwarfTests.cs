@@ -7,6 +7,41 @@ namespace Core.Tests.DwarvesTests
         // Method Tests
 
         [Fact]
+        public void SameDwarfCompared()
+        {
+            var dwarf = new Dwarf(0, 0);
+
+            Assert.True(dwarf == dwarf);
+        }
+
+        [Fact]
+        public void SameDwarvesCompared()
+        {
+            var dwarf0 = new Dwarf(0, 0);
+            var dwarf1 = new Dwarf(0, 0);
+
+            Assert.True(dwarf0 == dwarf1);
+        }
+
+        [Fact]
+        public void NullCompared()
+        {
+            var dwarf = new Dwarf(0, 0);
+
+            Assert.False(dwarf == null);
+            Assert.False(null == dwarf);
+        }
+
+        [Fact]
+        public void InequalDwarvesCompared()
+        {
+            var dwarf0 = new Dwarf(0, 0);
+            var dwarf1 = new Dwarf(1, 2000);
+
+            Assert.True(dwarf0 != dwarf1);
+        }
+
+        [Fact]
         public void Level0Dwarf()
         {
             var dwarf = new Dwarf(0, 0);

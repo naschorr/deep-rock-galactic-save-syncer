@@ -72,6 +72,26 @@
             return promotionsComparison;
         }
 
+        public static bool operator ==(Dwarf? one, Dwarf? two)
+        {
+            if (ReferenceEquals(one, null))
+            {
+                return ReferenceEquals(two, null);
+            }
+
+            return one.CompareTo(two) == 0;
+        }
+
+        public static bool operator !=(Dwarf? one, Dwarf? two)
+        {
+            if (ReferenceEquals(one, null))
+            {
+                return !ReferenceEquals(two, null);
+            }
+
+            return one.CompareTo(two) != 0;
+        }
+
         public static bool operator >(Dwarf one, Dwarf two)
         {
             return one.CompareTo(two) > 0;
