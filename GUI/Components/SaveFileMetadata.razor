@@ -16,7 +16,7 @@
                 <span>File: @saveFile.Name</span>
                 <img class="icon-sm ml-2 open-in-explorer"
                     src="images/arrow_icon.png"
-                    @onclick="@(e => SyncerManager.OpenSaveFileInExplorer(@saveFile))"
+                    @onclick="@(e => SyncerManager.OpenSaveFileInExplorer(saveFile))"
                     @onclick:preventDefault="true"
                     @onclick:stopPropagation="true"
                     title="Open the file in the explorer"/>
