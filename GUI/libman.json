@@ -21,6 +21,14 @@
     {
       "library": "../resources/icon.ico",
       "destination": "wwwroot/"
+    },
+    {
+      "library": "../resources/icon.png",
+      "destination": "./"
+    },
+    {
+      "library": "../resources/icon.ico",
+      "destination": "./"
     }
   ]
 }

@@ -12,7 +12,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="icon.ico" />
+    <None Update="icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+	<None Update="icon.png">
+	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	</None>
   </ItemGroup>
 
   <ItemGroup>

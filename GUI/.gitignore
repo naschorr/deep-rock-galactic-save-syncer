@@ -7,3 +7,7 @@ wwwroot/icon.ico
 Components/**/*.css
 wwwroot/css/site.css
 wwwroot/css/_variables.css
+
+# Data copied by libman
+icon.ico
+icon.png

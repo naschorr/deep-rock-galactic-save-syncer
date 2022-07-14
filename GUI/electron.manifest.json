@@ -1,17 +1,17 @@
 {
   "executable": "GUI",
   "splashscreen": {
-    "imageFile": ""
+    "imageFile": "../../../icon.png"
   },
-  "name": "Deep Rock Galactic Save Syncer",
-  "author": "naschorr",
+  "name": "DeepRockGalacticSaveSyncer",
+  "author": "Nick Schorr",
   "singleInstance": true,
   "environment": "Production",
   "build": {
-    "appId": "com.drgss.app",
-    "productName": "Deep Rock Galactic Save Syncer",
+    "appId": "com.naschorr.deeprockgalacticsavesyncer",
+    "productName": "DRG Save Syncer",
     "copyright": "Copyright © 2022",
-    "buildVersion": "1.0.0",
+    "buildVersion": "0.1.0",
     "compression": "maximum",
     "directories": {
       "output": "../../../bin/Desktop",
@@ -31,6 +31,9 @@
         "filter": [ "**/*" ]
       },
       "**/*"
-    ]
+    ],
+    "win": {
+      "icon": "../../../icon.ico"
+    }
   }
 }

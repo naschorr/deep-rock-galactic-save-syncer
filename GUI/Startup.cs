@@ -49,11 +49,11 @@ namespace GUI
 
             if (HybridSupport.IsElectronActive)
             {
-                ElectronBootstrap();
+                ElectronBootstrap(env);
             }
         }
 
-        public async void ElectronBootstrap()
+        public async void ElectronBootstrap(IWebHostEnvironment env)
         {
             var window = await Electron.WindowManager.CreateWindowAsync(
                 new BrowserWindowOptions
@@ -61,9 +61,9 @@ namespace GUI
                     Show = false,
                     Width = 1032,
                     Height = 840,
-                    Icon = "icon.ico",
                     Title = "Deep Rock Galactic Save Syncer",
                     AutoHideMenuBar = true,
+                    Resizable = env.IsDevelopment()
                 }
             );
 
