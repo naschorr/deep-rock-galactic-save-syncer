@@ -15,15 +15,15 @@
     <None Update="icon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-	<None Update="icon.png">
-	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	</None>
+    <None Update="icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
-	<PackageReference Include="CssBuilder" Version="0.1.8" />
-	<PackageReference Include="ElectronNET.API" Version="13.5.1" />
-	<PackageReference Include="System.Reactive" Version="5.0.0" />
+    <PackageReference Include="CssBuilder" Version="0.1.8" />
+    <PackageReference Include="ElectronNET.API" Version="13.5.1" />
+    <PackageReference Include="System.Reactive" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
