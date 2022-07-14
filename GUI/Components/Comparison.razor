@@ -1,5 +1,49 @@
-﻿<h3>Comparison</h3>
+﻿@inject IJSRuntime JS
+
+<div id="@(BuildSelfElementId())" class="position-absolute">
+    <h2 class="comparison">
+        @BuildComparison()
+    </h2>
+</div>
 
 @code {
+    [Parameter]
+    public string leftId { get; set; }
+    [Parameter]
+    public string rightId { get; set; }
+    [Parameter]
+    public dynamic leftValue { get; set; }
+    [Parameter]
+    public dynamic rightValue { get; set; }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // Note that this JS function will add a resize event listener, and keep this comparison element centered
+        await JS.InvokeVoidAsync("placeElementBetweenElements", BuildSelfElementId(), leftId, rightId, false);
+    }
+
+    protected string BuildSelfElementId()
+    {
+        return $"comparison--{leftId}--{rightId}";
+    }
+
+    protected string BuildComparison()
+    {
+        if (leftValue < rightValue)
+        {
+            return "<";
+        }
+
+        if (leftValue == rightValue)
+        {
+            return "=";
+        }
+
+        if (leftValue > rightValue)
+        {
+            return ">";
+        }
+
+        return "≠";
+    }
 }

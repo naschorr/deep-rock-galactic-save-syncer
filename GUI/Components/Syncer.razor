@@ -12,6 +12,13 @@
                 <SaveFile saveFile="@SteamSaveFile" />
             </div>
         </div>
+        <div class="col-auto p-0 comparison-container">
+            <Comparison leftId="steam-dwarf-engineer" rightId="xbox-dwarf-engineer" leftValue="@(SteamSaveFile.Engineer)" rightValue="@(XboxSaveFile.Engineer)" />
+            <Comparison leftId="steam-dwarf-scout" rightId="xbox-dwarf-scout" leftValue="@(SteamSaveFile.Scout)" rightValue="@(XboxSaveFile.Scout)" />
+            <Comparison leftId="steam-dwarf-driller" rightId="xbox-dwarf-driller" leftValue="@(SteamSaveFile.Driller)" rightValue="@(XboxSaveFile.Driller)" />
+            <Comparison leftId="steam-dwarf-gunner" rightId="xbox-dwarf-gunner" leftValue="@(SteamSaveFile.Gunner)" rightValue="@(XboxSaveFile.Gunner)" />
+            <Comparison leftId="steam-meta" rightId="xbox-meta" leftValue="@(SteamSaveFile.LastModifiedTime)" rightValue="@(XboxSaveFile.LastModifiedTime)" />
+        </div>
         <div class="col" @onclick="@(e => UpdateOverwriterOverwritee(XboxSaveFile, SteamSaveFile))">
             <div class="slant-down p-3">
                 <SaveFile saveFile="@XboxSaveFile" />

@@ -18,15 +18,15 @@
     <div class="bottom-right @(highlight ? "highlight" : "") @(ReferenceEquals(saveFile, Overwriter) ? "active" : "")"></div>
     <div class="row pb-2">
         <div class="col">
-            <Dwarf dwarf="@saveFile.Engineer" type="DwarfType.Engineer"/>
-            <Dwarf dwarf="@saveFile.Scout" type="DwarfType.Scout"/>
-            <Dwarf dwarf="@saveFile.Driller" type="DwarfType.Driller" />
-            <Dwarf dwarf="@saveFile.Gunner" type="DwarfType.Gunner" />
+            <Dwarf id="@($"{SyncerManager.GetSaveFilePlatform(saveFile).ToString().ToLower()}-dwarf-engineer")" dwarf="@saveFile.Engineer" type="DwarfType.Engineer"/>
+            <Dwarf id="@($"{SyncerManager.GetSaveFilePlatform(saveFile).ToString().ToLower()}-dwarf-scout")" dwarf="@saveFile.Scout" type="DwarfType.Scout"/>
+            <Dwarf id="@($"{SyncerManager.GetSaveFilePlatform(saveFile).ToString().ToLower()}-dwarf-driller")" dwarf="@saveFile.Driller" type="DwarfType.Driller" />
+            <Dwarf id="@($"{SyncerManager.GetSaveFilePlatform(saveFile).ToString().ToLower()}-dwarf-gunner")" dwarf="@saveFile.Gunner" type="DwarfType.Gunner" />
         </div>
     </div>
     <div class="row pb-2">
         <div class="col">
-            <SaveFileMetadata saveFile="@saveFile" />
+            <SaveFileMetadata id="@($"{SyncerManager.GetSaveFilePlatform(saveFile).ToString().ToLower()}-meta")" saveFile="@saveFile" />
         </div>
     </div>
 </div>

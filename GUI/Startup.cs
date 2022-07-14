@@ -59,7 +59,7 @@ namespace GUI
                 new BrowserWindowOptions
                 {
                     Show = false,
-                    Width = 1030,
+                    Width = 1032,
                     Height = 840,
                     Icon = "icon.ico",
                     Title = "Deep Rock Galactic Save Syncer",
