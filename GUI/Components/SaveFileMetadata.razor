@@ -1,4 +1,4 @@
-@using Core.Enums
+﻿@using Core.Enums
 @using GUI.Data
 
 <div id="@id">
@@ -14,7 +14,7 @@
         <div class="row">
             <div class="col">
                 <div class="d-flex align-items-center mb-1">
-                <span>File: @saveFile.Name</span>
+                    <span class="field-name mr-1">File:</span> @saveFile.Name
                     <img class="icon-sm ml-2 open-in-explorer"
                         src="images/arrow_icon.png"
                         @onclick="@(e => SyncerManager.OpenSaveFileInExplorer(saveFile))"
@@ -27,7 +27,7 @@
         <div class="row">
             <div class="col">
                 <div class="d-flex align-items-center mb-1">
-                <span>Last Updated: @saveFile.LastModifiedTime.ToLocalTime()</span>
+                    <span class="field-name mr-1">Last Updated:</span> @saveFile.LastModifiedTime.ToLocalTime()
                 </div>
             </div>
         </div>

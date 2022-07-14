@@ -4,9 +4,15 @@
     margin-left: $spacer * 0.25 * 4;
 }
 
+$faded: 0.66;
+
+.field-name {
+    opacity: $faded;
+}
+
 .open-in-explorer {
     transition: 0.15s;
-    opacity: 0.66;
+    opacity: $faded;
 }
 
 .open-in-explorer:hover {
