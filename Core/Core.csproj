@@ -3,7 +3,6 @@
   <PropertyGroup>
     <OutputType>library</OutputType>
     <TargetFramework>net6.0</TargetFramework>
-	<!--<RuntimeIdentifier>win-x64</RuntimeIdentifier>-->
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Authors>naschorr</Authors>
