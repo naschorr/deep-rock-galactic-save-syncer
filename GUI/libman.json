@@ -29,6 +29,10 @@
     {
       "library": "../resources/icon.ico",
       "destination": "./"
+    },
+    {
+      "library": "config.json",
+      "destination": "wwwroot/"
     }
   ]
 }
