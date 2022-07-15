@@ -12,3 +12,12 @@
     width: 1rem;
     font-family: monospace;
 }
+
+.version-container {
+    opacity: 0.5;
+    font-size: 0.75rem;
+
+    position: absolute;
+    bottom: 0px;
+    right: $spacer * .25 * 6;
+}

@@ -37,10 +37,15 @@
         </div>
     </div>
 </div>
+<div class="version-container m-3" title="UI Version: @(ElectronManifest.Version)">
+    @(ElectronManifest.Version.ToString())
+</div>
 
 @code {
     [Inject]
     public ILogger<Syncer> Logger { get; set; } = default!;
+    [Inject]
+    public ElectronManifestService ElectronManifest { get; set; } = default!;
     [Inject]
     public SyncerManagerService SyncerManager { get; set; } = default!;
 

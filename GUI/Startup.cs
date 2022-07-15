@@ -19,6 +19,7 @@ namespace GUI
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
+            services.AddSingleton<ElectronManifestService, ElectronManifestService>();
             services.AddSingleton<SaveFileManagerService, SaveFileManagerService>();
             services.AddSingleton<SyncerManagerService, SyncerManagerService>();
         }

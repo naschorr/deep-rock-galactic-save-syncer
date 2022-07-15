@@ -1,7 +1,6 @@
 ﻿using Core.Enums;
 using Core.SaveFiles.Models;
 using Microsoft.AspNetCore.Components;
-using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
 namespace GUI.Data
