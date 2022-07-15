@@ -1,14 +1,14 @@
 {
   "executable": "GUI",
   "splashscreen": {
-    "imageFile": "../../../icon.png"
+    "imageFile": "/wwwroot/images/icon.png"
   },
   "name": "DeepRockGalacticSaveSyncer",
   "author": "Nick Schorr",
   "singleInstance": true,
   "environment": "Production",
   "build": {
-    "appId": "com.naschorr.deeprockgalacticsavesyncer",
+    "appId": "com.nickschorr.deeprockgalacticsavesyncer",
     "productName": "DRG Save Syncer",
     "copyright": "Copyright © 2022",
     "buildVersion": "1.0.0",

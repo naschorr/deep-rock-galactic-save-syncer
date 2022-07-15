@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col">
             <div class="d-flex align-items-center mt-1 mb-1">
-                <img class="icon-m ml-1 mr-2" src="images/file_icon.png" />
+                <img class="icon-m ml-1 mr-2" src="images/misc_icons/file_icon.png" />
                 <h3 class="d-inline-block">Save File Metadata</h3>
             </div>
         </div>
@@ -16,7 +16,7 @@
                 <div class="d-flex align-items-center mb-1">
                     <span class="field-name mr-1">File:</span> @saveFile.Name
                     <img class="icon-sm ml-2 open-in-explorer"
-                        src="images/arrow_icon.png"
+                        src="images/misc_icons/arrow_icon.png"
                         @onclick="@(e => SyncerManager.OpenSaveFileInExplorer(saveFile))"
                         @onclick:preventDefault="true"
                         @onclick:stopPropagation="true"
