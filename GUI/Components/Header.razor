@@ -1,14 +1,37 @@
-﻿<div class="row">
-    <div class="col-12 d-flex justify-content-center">
-        <h1 class="title-text">DRGSS</h1>
+﻿@using GUI.Data
+
+<div class="position-relative">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-center">
+            <h1 class="title-text">DRGSS</h1>
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-12 d-flex justify-content-center">
-        <h2 class="sub-text">Deep Rock Galactic Save Syncer</h2>
+    <div class="row">
+        <div class="col-12 d-flex justify-content-center">
+            <h2 class="sub-text">Deep Rock Galactic Save Syncer</h2>
+        </div>
     </div>
+    @if (_RepoUrl != null)
+    {
+        <div class="github-link-container p-1" title="View on GitHub" @onclick="@(e => OpenRepoInBrowser())">
+            <img class="icon-m" src="/images/github_logomark.png" />
+        </div>
+    }
 </div>
 
 @code {
+    [Inject]
+    public ConfigLoaderService ConfigLoader { get; set; } = default!;
 
+    private string? _RepoUrl;
+
+    protected override void OnInitialized()
+    {
+        _RepoUrl = ConfigLoader.Config?.repoUrl;
+    }
+
+    protected void OpenRepoInBrowser()
+    {
+        ElectronNET.API.Electron.Shell.OpenExternalAsync(_RepoUrl);
+    }
 }

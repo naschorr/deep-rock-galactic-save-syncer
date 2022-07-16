@@ -14,3 +14,16 @@
     font-size: 1rem;
     color: $text;
 }
+
+.github-link-container {
+    position: absolute;
+    top: 0;
+    right: $spacer * .25 * 4;
+    cursor: pointer;
+    opacity: $faded;
+    transition: $animation-duration;
+}
+
+.github-link-container:hover {
+    opacity: 1;
+}
