@@ -3,7 +3,7 @@
 .button {
     padding: 0;
     background-color: transparent;
-    transition: transform 0.15s;
+    transition: transform $animation-duration;
     transform: scale(1);
     cursor: pointer;
 }
