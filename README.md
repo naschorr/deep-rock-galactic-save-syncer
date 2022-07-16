@@ -15,3 +15,19 @@ In the situation where DRG was played on one save file then the other without sy
 
 ### Notes
 You must have an existing save in both the Steam and Xbox versions of DRG. This will not work for transferring saves before starting the game up for the first time on a new platform.
+
+
+### Thanks
+This project depends on these neat projects:
+- [Electron.NET](https://github.com/ElectronNET/Electron.NET)
+- [Blazored.Modal](https://github.com/Blazored/Modal)
+- [CssBuilder](https://github.com/justforfun-click/CssBuilder)
+- [Gameloop.Vdf](https://github.com/Shravan2x/Gameloop.Vdf)
+
+Assets:
+- The DRG icons were pulled from the [wiki](https://deeprockgalactic.fandom.com/wiki/Deep_Rock_Galactic_Wiki)
+- The Deep Rock Galactic font is called Danger Flight, and can be found [here](http://www.iconian.com/fonts2/dangerflight.zip)
+- [Steam icons created by Hight Quality Icons - Flaticon](https://www.flaticon.com/free-icons/steam)
+- [Xbox icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/xbox)
+- [Document icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/document)
+- [Navigation icons created by Smashicons - Flaticon](https://www.flaticon.com/free-icons/navigation)
