@@ -1,0 +1,58 @@
+﻿@using Core.SaveFiles.Models
+@using GUI.Data
+@using Core.Enums
+@using System.Reactive.Linq
+
+<ImageHeaderBar imagePath="@GetImagePath()"
+    imageClasses="icon-xl mr-3"
+    containerClasses="mt-1 mb-3 ml-1 mr-1"
+    text="@($"{SyncerManager.GetSaveFilePlatform(saveFile).ToString()} Save File")"
+    textClasses="h2"
+    barHeight="32px" />
+<div class="pl-1 pr-1 position-relative save-file-container @(ReferenceEquals(saveFile, Overwriter) ? "active" : "")"
+    @onmouseover="@(e => highlight = true)"
+    @onmouseout="@(e => highlight = false)">
+    <div class="top-left @(highlight ? "highlight" : "") @(ReferenceEquals(saveFile, Overwriter) ? "active" : "")"></div>
+    <div class="top-right @(highlight ? "highlight" : "") @(ReferenceEquals(saveFile, Overwriter) ? "active" : "")"></div>
+    <div class="bottom-left @(highlight ? "highlight" : "") @(ReferenceEquals(saveFile, Overwriter) ? "active" : "")"></div>
+    <div class="bottom-right @(highlight ? "highlight" : "") @(ReferenceEquals(saveFile, Overwriter) ? "active" : "")"></div>
+    <div class="row pb-2">
+        <div class="col">
+            <Dwarf id="@($"{SyncerManager.GetSaveFilePlatform(saveFile).ToString().ToLower()}-dwarf-engineer")" dwarf="@saveFile.Engineer" type="DwarfType.Engineer"/>
+            <Dwarf id="@($"{SyncerManager.GetSaveFilePlatform(saveFile).ToString().ToLower()}-dwarf-scout")" dwarf="@saveFile.Scout" type="DwarfType.Scout"/>
+            <Dwarf id="@($"{SyncerManager.GetSaveFilePlatform(saveFile).ToString().ToLower()}-dwarf-driller")" dwarf="@saveFile.Driller" type="DwarfType.Driller" />
+            <Dwarf id="@($"{SyncerManager.GetSaveFilePlatform(saveFile).ToString().ToLower()}-dwarf-gunner")" dwarf="@saveFile.Gunner" type="DwarfType.Gunner" />
+        </div>
+    </div>
+    <div class="row pb-2">
+        <div class="col">
+            <SaveFileMetadata id="@($"{SyncerManager.GetSaveFilePlatform(saveFile).ToString().ToLower()}-meta")" saveFile="@saveFile" />
+        </div>
+    </div>
+</div>
+
+@code {
+    [Inject]
+    public SyncerManagerService SyncerManager { get; set; } = default!;
+
+    [Parameter]
+    public Core.SaveFiles.Models.SaveFile? saveFile { get; set; }
+
+    private bool highlight = false;
+    private Core.SaveFiles.Models.SaveFile? Overwriter;
+
+    protected override void OnInitialized()
+    {
+        Overwriter = SyncerManager.Overwriter;
+        SyncerManager.OverwriterChanged.DistinctUntilChanged()
+            .Select(saveFile => Overwriter = saveFile)
+            .Subscribe();
+    }
+
+    private string GetImagePath()
+    {
+        var platformName = SyncerManager.GetSaveFilePlatform(saveFile).ToString().ToLower();
+
+        return $"images/platform_icons/{platformName}_icon.png";
+    }
+}

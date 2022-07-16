@@ -1,0 +1,21 @@
+﻿@import "../wwwroot/css/_variables.scss";
+
+.portrait {
+    position: absolute;
+    width: 128px;
+    height: 128px;
+}
+
+.portrait-border {
+    position: relative;
+    width: 128px;
+    height: 128px;
+    aspect-ratio: 1;
+    clip-path: polygon(93.30% 75.00%,50.00% 100.00%,6.70% 75.00%,6.70% 25.00%,50.00% 0.00%,93.30% 25.00%,93.30% 75.00%,calc(93.30% - 0.22rem) calc(25.00% - -0.12rem),calc(50.00% - -0.00rem) calc(0.00% - -0.25rem),calc(6.70% - -0.22rem) calc(25.00% - -0.12rem),calc(6.70% - -0.22rem) calc(75.00% - 0.13rem),calc(50.00% - 0.00rem) calc(100.00% - 0.25rem),calc(93.30% - 0.22rem) calc(75.00% - 0.12rem),calc(93.30% - 0.22rem) calc(25.00% - -0.12rem));
+    background-color: $primary;
+}
+
+.mission-control-header {
+    color: $primary;
+    text-transform: uppercase;
+}
