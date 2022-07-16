@@ -68,10 +68,20 @@ namespace GUI.Data
             }
 
             // todo: Verify that Github returns these in chronologic order
-            var releaseVersion = json[0].tag_name.ToString();
-            var releaseUrl = json[0].html_url.ToString();
+            foreach (var item in json)
+            {
+                var isDraft = Boolean.Parse(item.draft.ToString());
+                var isPrerelease = Boolean.Parse(item.prerelease.ToString());
+                if (!isDraft && !isPrerelease)
+                {
+                    var releaseVersion = item.tag_name.ToString();
+                    var releaseUrl = item.html_url.ToString();
 
-            return new Update(releaseVersion, releaseUrl);
+                    return new Update(releaseVersion, releaseUrl);
+                }
+            }
+
+            return null;
         }
 
         public bool IsNewReleaseAvailable()
