@@ -8,10 +8,10 @@ namespace GUI.Data
         private ConfigLoaderService ConfigLoader { get; set; } = default!;
 
         private ElectronManifestService ElectronManifest;
-
         private readonly string? _Url;
         private readonly SemanticVersion _CurrentVersion;
-        private readonly SemanticVersion? _LatestVersion;
+
+        public readonly Update? LatestVersion;
 
         // Constructor
 
@@ -25,13 +25,13 @@ namespace GUI.Data
 
             if (_Url != null)
             {
-                _LatestVersion = GetLatestReleaseVersion(_Url);
+                LatestVersion = GetLatestReleaseVersion(_Url);
             }
         }
 
         // Methods
 
-        public dynamic? GetReleases(string url)
+        private dynamic? GetReleases(string url)
         {
             HttpResponseMessage response;
 
@@ -58,7 +58,7 @@ namespace GUI.Data
             return null;
         }
 
-        private SemanticVersion? GetLatestReleaseVersion(string url)
+        private Update? GetLatestReleaseVersion(string url)
         {
             dynamic? json = GetReleases(url);
 
@@ -66,16 +66,19 @@ namespace GUI.Data
             {
                 return null;
             }
-            
+
             // todo: Verify that Github returns these in chronologic order
-            return new SemanticVersion(json[0].tag_name.ToString());
+            var releaseVersion = json[0].tag_name.ToString();
+            var releaseUrl = json[0].html_url.ToString();
+
+            return new Update(releaseVersion, releaseUrl);
         }
 
         public bool IsNewReleaseAvailable()
         {
-            if (_LatestVersion != null)
+            if (LatestVersion != null)
             {
-                return _LatestVersion > _CurrentVersion;
+                return LatestVersion > _CurrentVersion;
             }
 
             return false;

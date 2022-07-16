@@ -1,6 +1,7 @@
 ﻿using GUI.Data;
 using ElectronNET.API;
 using ElectronNET.API.Entities;
+using Blazored.Modal;
 
 namespace GUI
 {
@@ -18,6 +19,7 @@ namespace GUI
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddBlazoredModal();
 
             services.AddSingleton<ElectronManifestService, ElectronManifestService>();
             services.AddSingleton<ConfigLoaderService, ConfigLoaderService>();

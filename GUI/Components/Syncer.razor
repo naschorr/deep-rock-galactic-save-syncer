@@ -50,6 +50,8 @@
     public ElectronManifestService ElectronManifest { get; set; } = default!;
     [Inject]
     public SyncerManagerService SyncerManager { get; set; } = default!;
+    [Inject]
+    public IModalService Modal { get; set; } = default!;
 
     protected SteamSaveFile SteamSaveFile = default!;
     protected XboxSaveFile XboxSaveFile = default!;
@@ -77,6 +79,24 @@
         SyncerManager.OverwriteeChanged.DistinctUntilChanged()
             .Select(saveFile => Overwritee = saveFile)
             .Subscribe();
+
+        if (UpdateChecker.IsNewReleaseAvailable())
+        {
+            ShowUpdateModal();
+        }
+    }
+
+    protected void ShowUpdateModal()
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(AppUpdate.Update), UpdateChecker.LatestVersion);
+        var options = new ModalOptions()
+            {
+                HideHeader = true,
+                Class = "modal"
+            };
+
+        Modal.Show<AppUpdate>("App Update", parameters, options);
     }
 
     protected void UpdateOverwriterOverwritee(Core.SaveFiles.Models.SaveFile overwriter, Core.SaveFiles.Models.SaveFile overwritee)

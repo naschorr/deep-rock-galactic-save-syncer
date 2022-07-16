@@ -34,8 +34,46 @@ h3, .h3 {
     margin-bottom: 0px;
 }
 
-/* Bootstrap-like Stuff */
+.modal {
+    display: flex;
+    z-index: 102;
+    flex-direction: column;
+    padding: 1.5rem;
+    position: relative;
+    box-shadow: 0 0 128px black;
+    background-color: $background;
+    border-top: $spacer * 0.25 solid $primary;
+    border-bottom: $spacer * 0.25 solid $primary;
+}
 
+.modal::before {
+    position: absolute;
+    background: linear-gradient( 66deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.33) 100%);
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    content: '';
+}
+
+.blazored-modal-content {
+    z-index: 105;
+}
+
+.modal-close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    opacity: $faded;
+    transition: $animation-duration;
+}
+
+.modal-close-button:hover {
+    opacity: 1;
+}
+
+/* Bootstrap-like Stuff */
 .icon-xl {
     width: 48px;
     height: 48px;
@@ -97,7 +135,6 @@ h3, .h3 {
 .position-relative {
     position: relative;
 }
-
 /* Blazor Stuff */
 
 html, body {

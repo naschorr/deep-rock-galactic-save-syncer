@@ -1,0 +1,51 @@
+﻿@using Core.Models
+
+<div class="container">
+    <div class="modal-close-button m-2 p-1" @onclick="@(e => CloseModal())">✖</div>
+    <div class="row">
+        <div class="col-auto pr-0 pl-0">
+            <img class="portrait" src="images/drg_icons/mission_control.png" />
+            <div class="portrait-border"></div>
+        </div>
+        <div class="col pl-0 d-flex flex-column align-self-center">
+            <div class="row">
+                <div class="col mission-control-header">
+                    <h1 class="mt-0 mb-0">Mission Control</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p class="mt-1 mb-1">Good news miner! A new version of this app is available at the terminal.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col d-flex justify-content-center">
+            <Button text="Download Now"
+                onClickCallback="OpenUpdateLinkInBrowser"
+                disabled="false">
+            </Button>
+        </div>
+    </div>
+</div>
+
+@code {
+    // todo: genericize this modal?
+
+    [CascadingParameter]
+    BlazoredModalInstance ModalInstance { get; set; } = default!;
+
+    [Parameter]
+    public Update Update { get; set; } = default!;
+
+    protected void CloseModal()
+    {
+        ModalInstance.CloseAsync();
+    }
+
+    protected void OpenUpdateLinkInBrowser()
+    {
+        ElectronNET.API.Electron.Shell.OpenExternalAsync(Update.UpdateLink.ToString());
+    }
+}
