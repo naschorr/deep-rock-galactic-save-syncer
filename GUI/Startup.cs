@@ -23,9 +23,7 @@ namespace GUI
 
             services.AddSingleton<ElectronManifestService, ElectronManifestService>();
             services.AddSingleton<ConfigLoaderService, ConfigLoaderService>();
-            services.AddSingleton<UpdateCheckerService>(
-                provider => new UpdateCheckerService(provider.GetService<ElectronManifestService>(), provider.GetService<ConfigLoaderService>())
-            );
+            services.AddSingleton<UpdateCheckerService, UpdateCheckerService>();
             services.AddSingleton<SaveFileManagerService, SaveFileManagerService>();
             services.AddSingleton<SyncerManagerService, SyncerManagerService>();
         }

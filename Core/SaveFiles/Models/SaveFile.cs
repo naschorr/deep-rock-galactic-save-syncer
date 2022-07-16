@@ -1,5 +1,6 @@
 ﻿using Core.Dwarves;
 using Core.Enums;
+using Core.Exceptions;
 using Core.Models;
 
 namespace Core.SaveFiles.Models
@@ -75,8 +76,7 @@ namespace Core.SaveFiles.Models
                 return -1;
             }
 
-            // Failing that, just default to whichever file is newer
-            return LastModifiedTime.CompareTo(other.LastModifiedTime);
+            throw new DivergentSaveFileException();
         }
 
         public static bool operator ==(SaveFile? one, SaveFile? two)

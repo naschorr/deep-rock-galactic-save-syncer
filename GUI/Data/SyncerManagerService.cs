@@ -1,4 +1,5 @@
 ﻿using Core.Enums;
+using Core.Exceptions;
 using Core.SaveFiles.Models;
 using Microsoft.AspNetCore.Components;
 using System.Reactive.Subjects;
@@ -8,7 +9,9 @@ namespace GUI.Data
     public class SyncerManagerService
     {
         [Inject]
-        private SaveFileManagerService SaveFileManager { get; set; }
+        private ILogger<SyncerManagerService> _Logger { get; set; }
+        [Inject]
+        private SaveFileManagerService _SaveFileManager { get; set; }
 
         private SteamSaveFile _SteamSaveFile;
         private XboxSaveFile _XboxSaveFile;
@@ -59,12 +62,13 @@ namespace GUI.Data
 
         // Constructor
 
-        public SyncerManagerService(SaveFileManagerService saveFileManager)
+        public SyncerManagerService(ILogger<SyncerManagerService> logger, SaveFileManagerService saveFileManager)
         {
-            SaveFileManager = saveFileManager;
+            _Logger = logger;
+            _SaveFileManager = saveFileManager;
 
-            _SteamSaveFile = SaveFileManager.SteamSaveFile;
-            _XboxSaveFile = SaveFileManager.XboxSaveFile;
+            _SteamSaveFile = _SaveFileManager.SteamSaveFile;
+            _XboxSaveFile = _SaveFileManager.XboxSaveFile;
 
             CalculateOverwriterOverwritee();
         }
@@ -73,29 +77,38 @@ namespace GUI.Data
 
         public void Refresh()
         {
-            SteamSaveFile = SaveFileManager.SteamSaveFile;
-            XboxSaveFile = SaveFileManager.XboxSaveFile;
+            SteamSaveFile = _SaveFileManager.SteamSaveFile;
+            XboxSaveFile = _SaveFileManager.XboxSaveFile;
 
             CalculateOverwriterOverwritee();
         }
 
         private void CalculateOverwriterOverwritee()
         {
-            if (SteamSaveFile > XboxSaveFile)
+            try
             {
-                Overwriter = SteamSaveFile;
-                Overwritee = XboxSaveFile;
+                if (SteamSaveFile > XboxSaveFile)
+                {
+                    Overwriter = SteamSaveFile;
+                    Overwritee = XboxSaveFile;
+
+                    return;
+                }
+                else if (XboxSaveFile > SteamSaveFile)
+                {
+                    Overwriter = XboxSaveFile;
+                    Overwritee = SteamSaveFile;
+
+                    return;
+                }
             }
-            else if (XboxSaveFile > SteamSaveFile)
+            catch (DivergentSaveFileException)
             {
-                Overwriter = XboxSaveFile;
-                Overwritee = SteamSaveFile;
+                _Logger.LogInformation("Divergent Steam and Xbox saves detected.");
             }
-            else
-            {
-                Overwriter = null;
-                Overwritee = null;
-            }
+
+            Overwriter = null;
+            Overwritee = null;
         }
 
         public Platform GetSaveFilePlatform(SaveFile saveFile)
@@ -114,7 +127,7 @@ namespace GUI.Data
             {
                 try
                 {
-                    SaveFileManager.OverwriteSaveFile(Overwriter, Overwritee);
+                    _SaveFileManager.OverwriteSaveFile(Overwriter, Overwritee);
                     // todo: success modal - on modal close, refresh the app
                 }
                 catch (Exception e)

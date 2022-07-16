@@ -1,5 +1,6 @@
 using Core.Dwarves;
 using Core.Enums;
+using Core.Exceptions;
 using Core.Models;
 using Core.SaveFiles.Models;
 using DeepRockGalacticSaveSyncer.Tests.Generators;
@@ -238,9 +239,8 @@ namespace Core.Tests.SaveFilesTests.ModelsTests
             var dwarves0SaveFile = new SteamSaveFile(immutableFile0, dwarves0);
             var dwarves1SaveFile = new SteamSaveFile(immutableFile1, dwarves1);
 
-            // Mixed promotions, the slightly newer file will take precendence
-            Assert.True(dwarves0SaveFile > dwarves1SaveFile);
-            Assert.True(dwarves0SaveFile >= dwarves1SaveFile);
+            Assert.Throws<DivergentSaveFileException>(() => dwarves0SaveFile.CompareTo(dwarves1SaveFile));
+            Assert.Throws<DivergentSaveFileException>(() => dwarves1SaveFile.CompareTo(dwarves0SaveFile));
         }
 
         [Fact]
@@ -349,9 +349,8 @@ namespace Core.Tests.SaveFilesTests.ModelsTests
             var dwarves0SaveFile = new SteamSaveFile(immutableFile0, dwarves0);
             var dwarves1SaveFile = new SteamSaveFile(immutableFile1, dwarves1);
 
-            // Mixed promotions, the slightly newer file will take precendence
-            Assert.True(dwarves0SaveFile > dwarves1SaveFile);
-            Assert.True(dwarves0SaveFile >= dwarves1SaveFile);
+            Assert.Throws<DivergentSaveFileException>(() => dwarves0SaveFile.CompareTo(dwarves1SaveFile));
+            Assert.Throws<DivergentSaveFileException>(() => dwarves1SaveFile.CompareTo(dwarves0SaveFile));
         }
     }
 }
