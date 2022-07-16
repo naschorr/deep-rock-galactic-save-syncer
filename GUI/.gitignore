@@ -1,0 +1,14 @@
+# Unnecessary wwwroot files
+wwwroot/images/*
+wwwroot/fonts/*
+wwwroot/icon.ico
+wwwroot/config.json
+
+# Unnecessary css files
+Components/**/*.css
+wwwroot/css/site.css
+wwwroot/css/_variables.css
+
+# Data copied by libman
+icon.ico
+icon.png

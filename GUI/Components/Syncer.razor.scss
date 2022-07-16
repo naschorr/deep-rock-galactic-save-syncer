@@ -1,0 +1,23 @@
+﻿@import "../wwwroot/css/_variables.scss";
+
+.slant-up {
+    transform: skew(0deg, -1deg);
+}
+
+.slant-down {
+    transform: skew(0deg, 1deg);
+}
+
+.comparison-container {
+    width: 1rem;
+    font-family: monospace;
+}
+
+.version-container {
+    opacity: 0.5;
+    font-size: 0.75rem;
+
+    position: absolute;
+    bottom: 0px;
+    right: $spacer * .25 * 4;
+}

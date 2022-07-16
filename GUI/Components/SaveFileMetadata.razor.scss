@@ -1,0 +1,20 @@
+﻿@import "../wwwroot/css/_variables.scss";
+
+.data-container {
+    margin-left: $spacer * 0.25 * 4;
+}
+
+$faded: 0.66;
+
+.field-name {
+    opacity: $faded;
+}
+
+.open-in-explorer {
+    transition: $animation-duration;
+    opacity: $faded;
+}
+
+.open-in-explorer:hover {
+    opacity: 1;
+}

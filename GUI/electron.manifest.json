@@ -1,0 +1,39 @@
+{
+  "executable": "GUI",
+  "splashscreen": {
+    "imageFile": "/wwwroot/images/icon.png"
+  },
+  "name": "DeepRockGalacticSaveSyncer",
+  "author": "Nick Schorr",
+  "singleInstance": true,
+  "environment": "Production",
+  "build": {
+    "appId": "com.nickschorr.deeprockgalacticsavesyncer",
+    "productName": "DRG Save Syncer",
+    "copyright": "Copyright © 2022",
+    "buildVersion": "2.0.0",
+    "compression": "maximum",
+    "directories": {
+      "output": "../../../bin/Desktop",
+      "buildResources": "Assets"
+    },
+    "extraResources": [
+      {
+        "from": "./bin",
+        "to": "bin",
+        "filter": [ "**/*" ]
+      }
+    ],
+    "files": [
+      {
+        "from": "./ElectronHostHook/node_modules",
+        "to": "ElectronHostHook/node_modules",
+        "filter": [ "**/*" ]
+      },
+      "**/*"
+    ],
+    "win": {
+      "icon": "../../../icon.ico"
+    }
+  }
+}
