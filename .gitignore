@@ -585,3 +585,7 @@ FodyWeavers.xsd
 
 # Misc icon extras
 resources/*.xcf
+
+# Misc notes
+VersionHistory.txt
+**/attribution.md

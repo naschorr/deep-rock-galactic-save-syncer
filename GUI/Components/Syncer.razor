@@ -1,0 +1,145 @@
+﻿@using Core.Exceptions
+@using GUI.Data
+@using Core.SaveFiles.Manager
+@using Core.SaveFiles.Models
+@using Microsoft.AspNetCore.Components.Web
+@using System.Reactive.Linq
+
+<div class="container m-3">
+    <Header />
+    <div class="row">
+        <div class="col" @onclick="@(e => UpdateOverwriterOverwritee(SteamSaveFile, XboxSaveFile))">
+            <div class="slant-up p-3">
+                <SaveFile saveFile="@SteamSaveFile" />
+            </div>
+        </div>
+        <div class="col-auto p-0 comparison-container">
+            <Comparison leftId="steam-dwarf-engineer" rightId="xbox-dwarf-engineer" leftValue="@(SteamSaveFile.Engineer)" rightValue="@(XboxSaveFile.Engineer)" />
+            <Comparison leftId="steam-dwarf-scout" rightId="xbox-dwarf-scout" leftValue="@(SteamSaveFile.Scout)" rightValue="@(XboxSaveFile.Scout)" />
+            <Comparison leftId="steam-dwarf-driller" rightId="xbox-dwarf-driller" leftValue="@(SteamSaveFile.Driller)" rightValue="@(XboxSaveFile.Driller)" />
+            <Comparison leftId="steam-dwarf-gunner" rightId="xbox-dwarf-gunner" leftValue="@(SteamSaveFile.Gunner)" rightValue="@(XboxSaveFile.Gunner)" />
+            <Comparison leftId="steam-meta" rightId="xbox-meta" leftValue="@(SteamSaveFile.LastModifiedTime)" rightValue="@(XboxSaveFile.LastModifiedTime)" />
+        </div>
+        <div class="col" @onclick="@(e => UpdateOverwriterOverwritee(XboxSaveFile, SteamSaveFile))">
+            <div class="slant-down p-3">
+                <SaveFile saveFile="@XboxSaveFile" />
+            </div>
+        </div>
+    </div>
+
+    <div class="position-relative">
+        <div class="row">
+            <div class="col-12 justify-content-center">
+                <div class="d-flex justify-content-center mt-3">
+                    <Button text="@BuildSyncButtonText()"
+                        onClickCallback="SyncSaveFiles"
+                        disabled="@IsOverwriterOrOverwriteeNull()">
+                    </Button>
+                </div>
+            </div>
+        </div>
+        <div class="version-container" title="Version: @(ElectronManifest.Version)">
+            @(ElectronManifest.Version)
+        </div>
+    </div>
+</div>
+
+@code {
+    [Inject]
+    public ILogger<Syncer> Logger { get; set; } = default!;
+    [Inject]
+    public UpdateCheckerService UpdateChecker { get; set; } = default!;
+    [Inject]
+    public ElectronManifestService ElectronManifest { get; set; } = default!;
+    [Inject]
+    public SyncerManagerService SyncerManager { get; set; } = default!;
+    [Inject]
+    public IModalService Modal { get; set; } = default!;
+
+    protected SteamSaveFile SteamSaveFile = default!;
+    protected XboxSaveFile XboxSaveFile = default!;
+    protected Core.SaveFiles.Models.SaveFile? Overwriter;
+    protected Core.SaveFiles.Models.SaveFile? Overwritee;
+
+    protected override void OnInitialized()
+    {
+        SteamSaveFile = SyncerManager.SteamSaveFile;
+        SyncerManager.SteamSaveFileChanged.DistinctUntilChanged()
+            .Select(saveFile => SteamSaveFile = saveFile)
+            .Subscribe();
+
+        XboxSaveFile = SyncerManager.XboxSaveFile;
+        SyncerManager.XboxSaveFileChanged.DistinctUntilChanged()
+            .Select(saveFile => XboxSaveFile = saveFile)
+            .Subscribe();
+
+        Overwriter = SyncerManager.Overwriter;
+        SyncerManager.OverwriterChanged.DistinctUntilChanged()
+            .Select(saveFile => Overwriter = saveFile)
+            .Subscribe();
+
+        Overwritee = SyncerManager.Overwritee;
+        SyncerManager.OverwriteeChanged.DistinctUntilChanged()
+            .Select(saveFile => Overwritee = saveFile)
+            .Subscribe();
+
+        if (UpdateChecker.IsNewReleaseAvailable())
+        {
+            ShowUpdateModal();
+        }
+    }
+
+    protected void ShowUpdateModal()
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(AppUpdate.Update), UpdateChecker.LatestVersion);
+        var options = new ModalOptions()
+            {
+                HideHeader = true,
+                Class = "modal"
+            };
+
+        Modal.Show<AppUpdate>("App Update", parameters, options);
+    }
+
+    protected void UpdateOverwriterOverwritee(Core.SaveFiles.Models.SaveFile overwriter, Core.SaveFiles.Models.SaveFile overwritee)
+    {
+        Logger.LogDebug($"Updating overwrite status: Overwriter: {overwriter.GetType().Name}, Overwritee: {overwritee.GetType().Name}.");
+
+        SyncerManager.Overwriter = overwriter;
+        SyncerManager.Overwritee = overwritee;
+    }
+
+    protected bool IsOverwriterOrOverwriteeNull()
+    {
+        return Overwriter == null || Overwritee == null;
+    }
+
+    protected string BuildSyncButtonText()
+    {
+        if (IsOverwriterOrOverwriteeNull())
+        {
+            try
+            {
+                if (SteamSaveFile as Core.SaveFiles.Models.SaveFile == XboxSaveFile as Core.SaveFiles.Models.SaveFile)
+                {
+                    return "Save files are already synced";
+                }
+            }
+            catch (DivergentSaveFileException)
+            {
+                return "Save files are divergent";
+            }
+        }
+
+        return $"Sync {SyncerManager.GetSaveFilePlatform(Overwritee)} save with {SyncerManager.GetSaveFilePlatform(Overwriter)} save";
+    }
+
+    protected void SyncSaveFiles()
+    {
+        Logger.LogDebug($"Syncing save files: Overwriting {Overwritee.GetType().Name} with {Overwriter.GetType().Name}.");
+
+        SyncerManager.OverwriteSaveFile();
+        SyncerManager.Refresh();
+    }
+}

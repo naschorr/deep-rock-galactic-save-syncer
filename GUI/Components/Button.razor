@@ -1,0 +1,47 @@
+﻿<!-- use a div instead of a button to ignore default styling -->
+<div
+    class="button @buildClassString()"
+    @onclick="OnClick"
+    @onmouseover="@(e => active = true)"
+    @onmouseout="@(e => active = false)">
+    <div class="d-flex">
+        <div class="edge mr-1 bg-primary @buildClassString()"></div>
+        <div class="main bg-primary @buildClassString()">
+            @text
+        </div>
+        <div class="edge ml-1 bg-primary @buildClassString()"></div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string text { get; set; } = default!;
+    [Parameter]
+    public bool disabled { get; set; } = false;
+    [Parameter]
+    public EventCallback onClickCallback { get; set; } = default!;
+
+    private bool active = false;
+
+    protected string buildClassString()
+    {
+        if (disabled)
+        {
+            return "disabled";
+        }
+        else if (active)
+        {
+            return "active";
+        }
+
+        return "";
+    }
+
+    protected async Task OnClick(MouseEventArgs e)
+    {
+        if (!disabled)
+        {
+            await onClickCallback.InvokeAsync();
+        }
+    }
+}

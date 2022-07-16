@@ -1,0 +1,45 @@
+﻿@using Core.Enums
+@using GUI.Data
+
+<div id="@id">
+    <div class="row">
+        <div class="col">
+            <div class="d-flex align-items-center mt-1 mb-1">
+                <img class="icon-m ml-1 mr-2" src="images/misc_icons/file_icon.png" />
+                <h3 class="d-inline-block">Save File Metadata</h3>
+            </div>
+        </div>
+    </div>
+    <div class="data-container mb-2">
+        <div class="row">
+            <div class="col">
+                <div class="d-flex align-items-center mb-1">
+                    <span class="field-name mr-1">File:</span> @saveFile.Name
+                    <img class="icon-sm ml-2 open-in-explorer"
+                        src="images/misc_icons/arrow_icon.png"
+                        @onclick="@(e => SyncerManager.OpenSaveFileInExplorer(saveFile))"
+                        @onclick:preventDefault="true"
+                        @onclick:stopPropagation="true"
+                        title="Open the file in the explorer"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="d-flex align-items-center mb-1">
+                    <span class="field-name mr-1">Last Updated:</span> @saveFile.LastModifiedTime.ToLocalTime()
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Inject]
+    public SyncerManagerService SyncerManager { get; set; } = default!;
+
+    [Parameter]
+    public string id { get; set; }
+    [Parameter]
+    public Core.SaveFiles.Models.SaveFile saveFile { get; set; } = default!;
+}
