@@ -113,7 +113,13 @@ namespace GUI.Data
 
         public Platform GetSaveFilePlatform(SaveFile saveFile)
         {
-            if (ReferenceEquals(saveFile, SteamSaveFile))
+            /*
+             * Note: I've been running into a weird issue where the saveFile param can be of type SteamSaveFile and yet
+             * ReferenceEquals(saveFile, SteamSaveFile) won't correctly determine the type. Similarly a ReferenceEquals
+             * check for XboxSavFile will also fail. Thus this slightly more convoluted method
+             */
+
+            if (typeof(SteamSaveFile).IsAssignableFrom(saveFile.GetType()))
             {
                 return Platform.Steam;
             }

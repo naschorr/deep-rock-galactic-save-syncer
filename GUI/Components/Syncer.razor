@@ -6,7 +6,7 @@
 @using System.Reactive.Linq
 
 <div class="container m-3">
-    <Header />
+    <Header onRefresh="Refresh" />
     <div class="row">
         <div class="col" @onclick="@(e => UpdateOverwriterOverwritee(SteamSaveFile, XboxSaveFile))">
             <div class="slant-up p-3">
@@ -89,6 +89,13 @@
         }
     }
 
+    // Methods
+
+    protected void Refresh()
+    {
+        SyncerManager.Refresh();
+    }
+
     protected void ShowUpdateModal()
     {
         var parameters = new ModalParameters();
@@ -140,6 +147,6 @@
         Logger.LogDebug($"Syncing save files: Overwriting {Overwritee.GetType().Name} with {Overwriter.GetType().Name}.");
 
         SyncerManager.OverwriteSaveFile();
-        SyncerManager.Refresh();
+        Refresh();
     }
 }

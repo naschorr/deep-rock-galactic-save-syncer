@@ -11,9 +11,12 @@
             <h2 class="sub-text">Deep Rock Galactic Save Syncer</h2>
         </div>
     </div>
+    <div class="stealth-button refresh-container p-1" title="Refresh the save files" @onclick="@(e => RefreshSaveFiles())">
+        <img class="icon-m" src="/images/drg_icons/resupplier_icon.png" />
+    </div>
     @if (_RepoUrl != null)
     {
-        <div class="github-link-container p-1" title="View on GitHub" @onclick="@(e => OpenRepoInBrowser())">
+        <div class="stealth-button github-link-container p-1" title="View on GitHub" @onclick="@(e => OpenRepoInBrowser())">
             <img class="icon-m" src="/images/github_logomark.png" />
         </div>
     }
@@ -23,11 +26,23 @@
     [Inject]
     public ConfigLoaderService ConfigLoader { get; set; } = default!;
 
+    [Parameter]
+    public EventCallback onRefresh { get; set; } = default!;
+
     private string? _RepoUrl;
 
     protected override void OnInitialized()
     {
         _RepoUrl = ConfigLoader.Config?.repoUrl;
+    }
+
+    protected void RefreshSaveFiles()
+    {
+        /*
+         * Really this should just call SyncerManager.Refresh(), but for some reason that doesn't end up propagating
+         * the change detection, even when the refreshed files are emitted.
+         */
+        onRefresh.InvokeAsync();
     }
 
     protected void OpenRepoInBrowser()
