@@ -153,16 +153,16 @@ namespace GUI.Data
         {
             if (File.Exists(saveFile.Path))
             {
-                // Technically this should fall back to the directory if the file doesn't exist, but that's not happening. Potential bug in Electron.NET?
+                // Technically this should fall back to the directory if the file doesn't exist, but that's not happening. Potential bug in Electron/Electron.NET?
                 ElectronNET.API.Electron.Shell.ShowItemInFolderAsync(saveFile.Path);
             }
             else
             {
                 var parent = Directory.GetParent(saveFile.Path);
-
                 if (parent != null)
                 {
-                    ElectronNET.API.Electron.Shell.ShowItemInFolderAsync(parent.FullName);
+                    // Use Window's URL handling to force it to open a directory
+                    ElectronNET.API.Electron.Shell.OpenExternalAsync($"file:///{parent.FullName}");
                 }
                 else
                 {
