@@ -151,7 +151,24 @@ namespace GUI.Data
 
         public void OpenSaveFileInExplorer(SaveFile saveFile)
         {
-            ElectronNET.API.Electron.Shell.ShowItemInFolderAsync(saveFile.Path);
+            if (File.Exists(saveFile.Path))
+            {
+                // Technically this should fall back to the directory if the file doesn't exist, but that's not happening. Potential bug in Electron.NET?
+                ElectronNET.API.Electron.Shell.ShowItemInFolderAsync(saveFile.Path);
+            }
+            else
+            {
+                var parent = Directory.GetParent(saveFile.Path);
+
+                if (parent != null)
+                {
+                    ElectronNET.API.Electron.Shell.ShowItemInFolderAsync(parent.FullName);
+                }
+                else
+                {
+                    _Logger.LogError($"Unable to get parent of {saveFile.Path} to open in file explorer.");
+                }
+            }
         }
     }
 }
