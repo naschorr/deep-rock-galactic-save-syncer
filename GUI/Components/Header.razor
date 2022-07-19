@@ -11,9 +11,14 @@
             <h2 class="sub-text">Deep Rock Galactic Save Syncer</h2>
         </div>
     </div>
+    <div class="stealth-button refresh-container p-1 @((_IsRefreshAvailable ? "" : "no-refresh-available"))"
+        title="Refresh the save files"
+        @onclick="@(e => RefreshSaveFiles())">
+        <img class="icon-m" src="/images/drg_icons/resupplier_icon.png" />
+    </div>
     @if (_RepoUrl != null)
     {
-        <div class="github-link-container p-1" title="View on GitHub" @onclick="@(e => OpenRepoInBrowser())">
+        <div class="stealth-button github-link-container p-1" title="View on GitHub" @onclick="@(e => OpenRepoInBrowser())">
             <img class="icon-m" src="/images/github_logomark.png" />
         </div>
     }
@@ -22,12 +27,41 @@
 @code {
     [Inject]
     public ConfigLoaderService ConfigLoader { get; set; } = default!;
+    [Inject]
+    public SyncerManagerService SyncerManager { get; set; } = default!;
+    [Inject]
+    public SaveFileManagerService SaveFileManager { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback onRefresh { get; set; } = default!;
 
     private string? _RepoUrl;
+    private bool _IsRefreshAvailable;
 
     protected override void OnInitialized()
     {
         _RepoUrl = ConfigLoader.Config?.repoUrl;
+
+        _IsRefreshAvailable = false;    // default to false when starting to avoid superfluous refreshing
+        SaveFileManager.SaveFileLockedChanged.Subscribe(locked => {
+            _IsRefreshAvailable = !locked;
+            InvokeAsync(() => StateHasChanged());
+        });
+    }
+
+    protected void RefreshSaveFiles()
+    {
+        if (!_IsRefreshAvailable)
+        {
+            return;
+        }
+
+        InvokeAsync(() =>
+        {
+            SyncerManager.Refresh();
+            _IsRefreshAvailable = false;
+            StateHasChanged();
+        });
     }
 
     protected void OpenRepoInBrowser()

@@ -1,7 +1,5 @@
 ﻿using Core.SaveFiles.Models;
 using Gameloop.Vdf;
-using Gameloop.Vdf.JsonConverter;
-using GlobExpressions;
 using Microsoft.Win32;
 using System.Runtime.Versioning;
 using System.Text.RegularExpressions;
@@ -14,8 +12,9 @@ namespace Core.SaveFiles.Manipulator
         // todo: singleton?
 
         private string _SaveDirectoryPath;
-        private Regex _SaveFileRegex = new Regex("^[0-9]+_Player.sav$");
+        private Regex _SaveFileNameRegex;
 
+        private const string _SAVE_FILE_NAME_GLOB = "*_Player.sav";
         private const string _STEAM_REGISTRY_PATH = @"HKEY_CURRENT_USER\SOFTWARE\Valve\Steam";
         private const string _LIBRARY_FOLDERS_VDF = "libraryfolders.vdf";
         private const string _DRG_APP_ID = "548430"; // DRG's app id on Steam
@@ -27,6 +26,8 @@ namespace Core.SaveFiles.Manipulator
 
         public SteamSaveFileManipulator(string? saveDirectoryPath)
         {
+            _SaveFileNameRegex = new Regex("^[0-9]+_Player.sav$");
+
             if (saveDirectoryPath != null)
             {
                 _SaveDirectoryPath = saveDirectoryPath;
@@ -39,6 +40,11 @@ namespace Core.SaveFiles.Manipulator
         }
 
         // Methods
+
+        protected override Regex GetSaveFileNameRegex()
+        {
+            return _SaveFileNameRegex;
+        }
 
         private string FindSteamInstallPath()
         {
@@ -88,7 +94,7 @@ namespace Core.SaveFiles.Manipulator
 
         public override SteamSaveFile GetNewestSaveFile()
         {
-            var files = Glob.Files(_SaveDirectoryPath, "*_Player.sav").Select(name => Path.Combine(_SaveDirectoryPath, name)).ToList();
+            var files = Directory.EnumerateFiles(_SaveDirectoryPath).ToList().FindAll(path => IsValidSaveFilePath(path));
 
             // No files? Something went wrong!
             if (files.Count == 0)
@@ -109,6 +115,11 @@ namespace Core.SaveFiles.Manipulator
             }
 
             return newestSaveFile;
+        }
+
+        public override string GetSaveFileDirectoryPath()
+        {
+            return _SaveDirectoryPath;
         }
     }
 }

@@ -30,17 +30,5 @@ namespace DeepRockGalacticSaveSyncer.Tests.ModelsTests
 
             Assert.Equal(immutableFileName, immutableFile.Name);
         }
-
-        [Theory]
-        [ClassData(typeof(SaveFileDataGenerator))]
-        public void ConstructorValidHasLastModifiedTime(SaveFileTruthPair pair)
-        {
-            var immutableFile = new ImmutableFile(pair.Path);
-
-            Assert.Equal(
-                pair.Truth.Metadata?.LastModifiedTime.ToUniversalTime(),
-                immutableFile.LastModifiedTime.ToUniversalTime()
-            );
-        }
     }
 }
