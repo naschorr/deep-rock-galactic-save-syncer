@@ -136,7 +136,7 @@ namespace GUI.Data
                     _SaveFileManager.OverwriteSaveFile(Overwriter, Overwritee);
                     // todo: success modal - on modal close, refresh the app
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     // todo: failure modal
                 }
@@ -145,6 +145,8 @@ namespace GUI.Data
             {
                 // todo: failure modal
             }
+
+            Refresh();
         }
 
         public void OpenSaveFileInExplorer(SaveFile saveFile)

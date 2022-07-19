@@ -1,4 +1,5 @@
 ﻿using Core.SaveFiles.Models;
+using System.Text.RegularExpressions;
 
 namespace Core.SaveFiles.Manipulator
 {
@@ -8,6 +9,10 @@ namespace Core.SaveFiles.Manipulator
         private const string _TEMP_BACKUP_TEXT = ".backup.temp";
 
         public abstract SaveFile GetNewestSaveFile();
+
+        public abstract string GetSaveFileDirectoryPath();
+
+        protected abstract Regex GetSaveFileNameRegex();
 
         private string? BackupSaveFile(SaveFile saveFile)
         {
@@ -51,6 +56,13 @@ namespace Core.SaveFiles.Manipulator
             {
                 File.Delete(tempBackupPath);
             }
+        }
+
+        public virtual bool IsValidSaveFilePath(string saveFilePath)
+        {
+            FileInfo file = new FileInfo(saveFilePath);
+
+            return GetSaveFileNameRegex().IsMatch(file.Name);
         }
     }
 }

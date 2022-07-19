@@ -6,7 +6,7 @@
 @using System.Reactive.Linq
 
 <div class="container m-3">
-    <Header onRefresh="Refresh" />
+    <Header />
     <div class="row">
         <div class="col" @onclick="@(e => UpdateOverwriterOverwritee(SteamSaveFile, XboxSaveFile))">
             <div class="slant-up p-3">
@@ -45,16 +45,16 @@
 </div>
 
 @code {
-    [Inject]
-    public ILogger<Syncer> Logger { get; set; } = default!;
-    [Inject]
-    public UpdateCheckerService UpdateChecker { get; set; } = default!;
-    [Inject]
-    public ElectronManifestService ElectronManifest { get; set; } = default!;
-    [Inject]
-    public SyncerManagerService SyncerManager { get; set; } = default!;
-    [Inject]
-    public IModalService Modal { get; set; } = default!;
+        [Inject]
+        public ILogger<Syncer> Logger { get; set; } = default!;
+        [Inject]
+        public UpdateCheckerService UpdateChecker { get; set; } = default!;
+        [Inject]
+        public ElectronManifestService ElectronManifest { get; set; } = default!;
+        [Inject]
+        public SyncerManagerService SyncerManager { get; set; } = default!;
+        [Inject]
+        public IModalService Modal { get; set; } = default!;
 
     protected SteamSaveFile SteamSaveFile = default!;
     protected XboxSaveFile XboxSaveFile = default!;
@@ -64,24 +64,32 @@
     protected override void OnInitialized()
     {
         SteamSaveFile = SyncerManager.SteamSaveFile;
-        SyncerManager.SteamSaveFileChanged.DistinctUntilChanged()
-            .Select(saveFile => SteamSaveFile = saveFile)
-            .Subscribe();
+        SyncerManager.SteamSaveFileChanged.Subscribe(saveFile =>
+        {
+            SteamSaveFile = saveFile;
+            InvokeAsync(() => StateHasChanged());
+        });
 
         XboxSaveFile = SyncerManager.XboxSaveFile;
-        SyncerManager.XboxSaveFileChanged.DistinctUntilChanged()
-            .Select(saveFile => XboxSaveFile = saveFile)
-            .Subscribe();
+        SyncerManager.XboxSaveFileChanged.Subscribe(saveFile =>
+        {
+            XboxSaveFile = saveFile;
+            InvokeAsync(() => StateHasChanged());
+        });
 
         Overwriter = SyncerManager.Overwriter;
-        SyncerManager.OverwriterChanged.DistinctUntilChanged()
-            .Select(saveFile => Overwriter = saveFile)
-            .Subscribe();
+        SyncerManager.OverwriterChanged.Subscribe(saveFile =>
+        {
+            Overwriter = saveFile;
+            InvokeAsync(() => StateHasChanged());
+        });
 
         Overwritee = SyncerManager.Overwritee;
-        SyncerManager.OverwriteeChanged.DistinctUntilChanged()
-            .Select(saveFile => Overwritee = saveFile)
-            .Subscribe();
+        SyncerManager.OverwriteeChanged.Subscribe(saveFile =>
+        {
+            Overwritee = saveFile;
+            InvokeAsync(() => StateHasChanged());
+        });
 
         if (UpdateChecker.IsNewReleaseAvailable())
         {
@@ -90,11 +98,6 @@
     }
 
     // Methods
-
-    protected void Refresh()
-    {
-        SyncerManager.Refresh();
-    }
 
     protected void ShowUpdateModal()
     {
@@ -147,6 +150,5 @@
         Logger.LogDebug($"Syncing save files: Overwriting {Overwritee.GetType().Name} with {Overwriter.GetType().Name}.");
 
         SyncerManager.OverwriteSaveFile();
-        Refresh();
     }
 }

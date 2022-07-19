@@ -44,3 +44,8 @@
 .github-link-container:hover {
     opacity: 1;
 }
+
+.refresh-container.no-refresh-available {
+    pointer-events: none;
+    opacity: 0 !important;
+}
