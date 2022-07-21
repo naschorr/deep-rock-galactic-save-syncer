@@ -1,0 +1,22 @@
+﻿@using Core.Models
+@using GUI.Data
+
+<div class="container">
+    <div class="stealth-button close-button m-2 p-1" @onclick="@(e => CloseModal())">✖</div>
+    <DynamicComponent Type="@ModalComponent" Parameters="@ModalParameters" />
+</div>
+
+@code {
+    [CascadingParameter]
+    public BlazoredModalInstance ModalInstance { get; set; } = default!;
+
+    [Parameter]
+    public Type ModalComponent { get; set; } = default!;
+    [Parameter]
+    public Dictionary<string, object> ModalParameters { get; set; } = default!;
+
+    protected void CloseModal()
+    {
+        ModalInstance.CloseAsync();
+    }
+}

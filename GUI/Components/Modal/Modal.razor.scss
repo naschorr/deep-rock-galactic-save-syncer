@@ -1,0 +1,11 @@
+﻿@import "../../wwwroot/css/_variables.scss";
+
+.close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.close-button:hover {
+    opacity: 1;
+}
