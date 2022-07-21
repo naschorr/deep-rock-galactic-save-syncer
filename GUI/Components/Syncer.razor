@@ -1,4 +1,5 @@
 ﻿@using Core.Exceptions
+@using GUI.Components.Modal
 @using GUI.Data
 @using Core.SaveFiles.Manager
 @using Core.SaveFiles.Models
@@ -54,7 +55,7 @@
     [Inject]
     public SyncerManagerService SyncerManager { get; set; } = default!;
     [Inject]
-    public IModalService Modal { get; set; } = default!;
+    public ModalManagerService ModalManager { get; set; } = default!;
 
     protected SteamSaveFile SteamSaveFile = default!;
     protected XboxSaveFile XboxSaveFile = default!;
@@ -64,24 +65,32 @@
     protected override void OnInitialized()
     {
         SteamSaveFile = SyncerManager.SteamSaveFile;
-        SyncerManager.SteamSaveFileChanged.DistinctUntilChanged()
-            .Select(saveFile => SteamSaveFile = saveFile)
-            .Subscribe();
+        SyncerManager.SteamSaveFileChanged.Subscribe(saveFile =>
+        {
+            SteamSaveFile = saveFile;
+            InvokeAsync(() => StateHasChanged());
+        });
 
         XboxSaveFile = SyncerManager.XboxSaveFile;
-        SyncerManager.XboxSaveFileChanged.DistinctUntilChanged()
-            .Select(saveFile => XboxSaveFile = saveFile)
-            .Subscribe();
+        SyncerManager.XboxSaveFileChanged.Subscribe(saveFile =>
+        {
+            XboxSaveFile = saveFile;
+            InvokeAsync(() => StateHasChanged());
+        });
 
         Overwriter = SyncerManager.Overwriter;
-        SyncerManager.OverwriterChanged.DistinctUntilChanged()
-            .Select(saveFile => Overwriter = saveFile)
-            .Subscribe();
+        SyncerManager.OverwriterChanged.Subscribe(saveFile =>
+        {
+            Overwriter = saveFile;
+            InvokeAsync(() => StateHasChanged());
+        });
 
         Overwritee = SyncerManager.Overwritee;
-        SyncerManager.OverwriteeChanged.DistinctUntilChanged()
-            .Select(saveFile => Overwritee = saveFile)
-            .Subscribe();
+        SyncerManager.OverwriteeChanged.Subscribe(saveFile =>
+        {
+            Overwritee = saveFile;
+            InvokeAsync(() => StateHasChanged());
+        });
 
         if (UpdateChecker.IsNewReleaseAvailable())
         {
@@ -89,17 +98,14 @@
         }
     }
 
+    // Methods
+
     protected void ShowUpdateModal()
     {
         var parameters = new ModalParameters();
         parameters.Add(nameof(AppUpdate.Update), UpdateChecker.LatestVersion);
-        var options = new ModalOptions()
-            {
-                HideHeader = true,
-                Class = "modal"
-            };
 
-        Modal.Show<AppUpdate>("App Update", parameters, options);
+        ModalManager.ShowModal<AppUpdate>(parameters);
     }
 
     protected void UpdateOverwriterOverwritee(Core.SaveFiles.Models.SaveFile overwriter, Core.SaveFiles.Models.SaveFile overwritee)
@@ -108,6 +114,8 @@
 
         SyncerManager.Overwriter = overwriter;
         SyncerManager.Overwritee = overwritee;
+
+        ShowUpdateModal();
     }
 
     protected bool IsOverwriterOrOverwriteeNull()
@@ -140,6 +148,5 @@
         Logger.LogDebug($"Syncing save files: Overwriting {Overwritee.GetType().Name} with {Overwriter.GetType().Name}.");
 
         SyncerManager.OverwriteSaveFile();
-        SyncerManager.Refresh();
     }
 }

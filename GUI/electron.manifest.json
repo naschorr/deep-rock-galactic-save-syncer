@@ -11,7 +11,7 @@
     "appId": "com.nickschorr.deeprockgalacticsavesyncer",
     "productName": "DRG Save Syncer",
     "copyright": "Copyright © 2022",
-    "buildVersion": "2.0.0",
+    "buildVersion": "2.1.0",
     "compression": "maximum",
     "directories": {
       "output": "../../../bin/Desktop",

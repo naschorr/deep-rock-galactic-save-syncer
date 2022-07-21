@@ -13,7 +13,7 @@
     <Description>Core library for the Deep Rock Galactic Save Syncer</Description>
     <AssemblyName>Deep_Rock_Galactic_Save_Syncer</AssemblyName>
     <ApplicationIcon>icon.ico</ApplicationIcon>
-    <Version>2.0.0</Version>
+    <Version>2.1.0</Version>
     <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 

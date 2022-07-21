@@ -113,7 +113,13 @@ namespace GUI.Data
 
         public Platform GetSaveFilePlatform(SaveFile saveFile)
         {
-            if (ReferenceEquals(saveFile, SteamSaveFile))
+            /*
+             * Note: I've been running into a weird issue where the saveFile param can be of type SteamSaveFile and yet
+             * ReferenceEquals(saveFile, SteamSaveFile) won't correctly determine the type. Similarly a ReferenceEquals
+             * check for XboxSavFile will also fail. Thus this slightly more convoluted method
+             */
+
+            if (typeof(SteamSaveFile).IsAssignableFrom(saveFile.GetType()))
             {
                 return Platform.Steam;
             }
@@ -130,7 +136,7 @@ namespace GUI.Data
                     _SaveFileManager.OverwriteSaveFile(Overwriter, Overwritee);
                     // todo: success modal - on modal close, refresh the app
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     // todo: failure modal
                 }
@@ -139,11 +145,30 @@ namespace GUI.Data
             {
                 // todo: failure modal
             }
+
+            Refresh();
         }
 
         public void OpenSaveFileInExplorer(SaveFile saveFile)
         {
-            ElectronNET.API.Electron.Shell.ShowItemInFolderAsync(saveFile.Path);
+            if (File.Exists(saveFile.Path))
+            {
+                // Technically this should fall back to the directory if the file doesn't exist, but that's not happening. Potential bug in Electron/Electron.NET?
+                ElectronNET.API.Electron.Shell.ShowItemInFolderAsync(saveFile.Path);
+            }
+            else
+            {
+                var parent = Directory.GetParent(saveFile.Path);
+                if (parent != null)
+                {
+                    // Use Window's URL handling to force it to open a directory
+                    ElectronNET.API.Electron.Shell.OpenExternalAsync($"file:///{parent.FullName}");
+                }
+                else
+                {
+                    _Logger.LogError($"Unable to get parent of {saveFile.Path} to open in file explorer.");
+                }
+            }
         }
     }
 }

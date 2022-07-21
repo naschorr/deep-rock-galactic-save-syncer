@@ -9,7 +9,7 @@ namespace Core.SaveFiles.Manipulator
         // todo: singleton?
 
         private string _SaveDirectoryPath;
-        private Regex _SaveFileRegex = new Regex("^[A-F0-9]+$");
+        private Regex _SaveFileNameRegex;
 
         // Note: this is relative to the user's appdata\local directory
         private const string _XBOX_DRG_GLOBBED_SAVE_DIRECTORY_PATH = @"Packages\*DeepRockGalactic*\SystemAppData\wgs\*_*\*[!.]*";
@@ -20,6 +20,8 @@ namespace Core.SaveFiles.Manipulator
 
         public XboxSaveFileManipulator(string? saveDirectoryPath)
         {
+            _SaveFileNameRegex = new Regex("^[A-F0-9]+$");
+
             if (saveDirectoryPath == null)
             {
                 _SaveDirectoryPath = FindSaveDirectoryPathOnFileSystem();
@@ -32,6 +34,11 @@ namespace Core.SaveFiles.Manipulator
 
         // Methods
 
+        protected override Regex GetSaveFileNameRegex()
+        {
+            return _SaveFileNameRegex;
+        }
+
         private string FindSaveDirectoryPathOnFileSystem()
         {
             // Perform the traversal, starting from the safe local AppData folder
@@ -42,17 +49,10 @@ namespace Core.SaveFiles.Manipulator
             return Path.Combine(localAppDataPath, saveDirectory);
         }
 
-        private bool FilterCandidateSaveFilePath(string path)
-        {
-            FileInfo file = new FileInfo(path);
-
-            return _SaveFileRegex.IsMatch(file.Name);
-        }
-
         public override XboxSaveFile GetNewestSaveFile()
         {
             // Get a list of file in the save directory
-            List<string> files = Directory.EnumerateFiles(_SaveDirectoryPath).ToList().FindAll(path => FilterCandidateSaveFilePath(path));
+            List<string> files = Directory.EnumerateFiles(_SaveDirectoryPath).ToList().FindAll(path => IsValidSaveFilePath(path));
 
             // No files? Something went wrong!
             if (files.Count == 0)
@@ -73,6 +73,11 @@ namespace Core.SaveFiles.Manipulator
             }
 
             return newestSaveFile;
+        }
+
+        public override string GetSaveFileDirectoryPath()
+        {
+            return _SaveDirectoryPath;
         }
     }
 }
