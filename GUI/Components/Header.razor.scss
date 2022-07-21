@@ -15,16 +15,6 @@
     color: $text;
 }
 
-.stealth-button {
-    cursor: pointer;
-    opacity: $faded;
-    transition: opacity $animation-duration;
-}
-
-.stealth-button:active {
-    top: 1px;
-}
-
 .refresh-container {
     position: absolute;
     top: 0;

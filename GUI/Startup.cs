@@ -21,6 +21,8 @@ namespace GUI
             services.AddServerSideBlazor();
             services.AddBlazoredModal();
 
+            services.AddScoped<ModalManagerService, ModalManagerService>(); // Unable to construct when `AddSingleton` is used instead of `AddScoped`
+
             services.AddSingleton<ElectronManifestService, ElectronManifestService>();
             services.AddSingleton<ConfigLoaderService, ConfigLoaderService>();
             services.AddSingleton<UpdateCheckerService, UpdateCheckerService>();
