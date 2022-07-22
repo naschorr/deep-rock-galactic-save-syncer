@@ -1,9 +1,9 @@
-<p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/master/resources/icon.png" width="150"/></p>
+<p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/master/resources/images/logo.png" width="150"/></p>
 
 # Deep Rock Galactic Save Syncer
 Easily keep your Steam and Xbox save files for Deep Rock Galactic synced up! That means no more lost progress when swapping between platforms to play with your friends.
 
-<p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/master/resources/example.png" width="800"/></p>
+<p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/master/resources/images/example.png" width="800"/></p>
 
 > Here's an example of the DRGSS interface
 
@@ -21,18 +21,18 @@ The save file that's progressed the most is automatically chosen to overwrite th
 
 Granular save file comparison lets you see what's changed at a glance:
 
-<p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/example_comparison.png" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/images/example_comparison.png" /></p>
 
 > Notice that the Driller on the left has one more promotion than the one on the right, and thus the comparison in the middle `>` confirms it.
 
 ##### One-click operation by default
 The big button at the bottom lets you know what's going to happen:
 
-<p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/example_button_steam_xbox.png" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/images/example_button_steam_xbox.png" /></p>
 
 > Clicking this will overwrite your Steam save file with your Xbox save file
 
-<p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/example_button_xbox_steam.png" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/images/example_button_xbox_steam.png" /></p>
 
 > Clicking this will overwrite your Xbox save file with your Steam save file
 
@@ -40,18 +40,18 @@ The big button at the bottom lets you know what's going to happen:
 Don't agree with DRGSS' choice? Click the save you'd like to keep to override it!
 
 ##### Quickly open your save file's directory in the explorer
-Access the save files yourself with a single click! Each save file has a <span style="display: inline-block; background-color: #504B4B; border-radius: 5px; padding: 3px; width: 24px; height: 24px;"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/assets/arrow_icon.png" /></span> button that'll open it for you.
+Access the save files yourself with a single click! Each save file has a <span style="display: inline-block; background-color: #504B4B; border-radius: 5px; padding: 3px; width: 24px; height: 24px;"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/icons/arrow_icon.png" /></span> button that'll open it for you.
 
 ##### Save files are backed up during the sync operation
 Chose the wrong file accidentally? Just delete the invalid one, and rename the `*.backup` file back to the original name.
 
 ##### Refresh the save files
-Has something changed? Hit the <span style="display: inline-block; background-color: #504B4B; border-radius: 5px; padding: 3px; width: 24px; height: 24px;"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/assets/drg_icons/resupplier_icon.png" /></span> button in the top-left corner of the interface and see the latest save file changes.
+Has something changed? Hit the <span style="display: inline-block; background-color: #504B4B; border-radius: 5px; padding: 3px; width: 24px; height: 24px;"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/icons/drg_icons/resupplier_icon.png" /></span> button in the top-left corner of the interface and see the latest save file changes.
 
 ##### Divergent save file detection
 If you've made progress with both save files separately, DRGSS will alert you of this via the button at the bottom:
 
-<p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/example_button_divergent.png" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/images/example_button_divergent.png" /></p>
 
 > The button is disabled, because DRGSS isn't sure of which save file should be overwritten!
 
