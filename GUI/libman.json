@@ -3,15 +3,15 @@
   "defaultProvider": "filesystem",
   "libraries": [
     {
-      "library": "../resources/assets/drg_icons/",
-      "destination": "wwwroot/images/drg_icons/"
+      "library": "../resources/icons/",
+      "destination": "wwwroot/icons/"
     },
     {
-      "library": "../resources/assets/platform_icons/",
-      "destination": "wwwroot/images/platform_icons/"
+      "library": "../resources/icons/drg_icons/",
+      "destination": "wwwroot/icons/drg_icons/"
     },
     {
-      "library": "../resources/assets/",
+      "library": "../resources/images/",
       "destination": "wwwroot/images/"
     },
     {
@@ -19,15 +19,11 @@
       "destination": "wwwroot/fonts/"
     },
     {
-      "library": "../resources/icon.ico",
+      "library": "../resources/icons/icon.ico",
       "destination": "wwwroot/"
     },
     {
-      "library": "../resources/icon.png",
-      "destination": "wwwroot/images/"
-    },
-    {
-      "library": "../resources/icon.ico",
+      "library": "../resources/icons/icon.ico",
       "destination": "./"
     },
     {
