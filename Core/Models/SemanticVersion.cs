@@ -4,7 +4,7 @@ namespace Core.Models
 {
     public class SemanticVersion : IComparable<SemanticVersion>
     {
-        private Regex _SemanticVersionRegex = new Regex(@"\D*(\d+)\.(\d+)\.(\d+)-?(.*)");
+        private Regex _SemanticVersionRegex = new Regex(@"\D*(\d+)\.(\d+)\.(\d+)-?(\S*)");
 
         public readonly int Major;
         public readonly int Minor;
@@ -18,7 +18,7 @@ namespace Core.Models
             Major = major;
             Minor = minor;
             Patch = patch;
-            Extension = extension;
+            Extension = extension == "" ? null : extension;
         }
 
         public SemanticVersion(string version)
@@ -31,7 +31,9 @@ namespace Core.Models
                 Major = int.Parse(matches.Groups[1].Value);
                 Minor = int.Parse(matches.Groups[2].Value);
                 Patch = int.Parse(matches.Groups[3].Value);
-                Extension = matches.Groups[4].Value;
+
+                var extension = matches.Groups[4].Value;
+                Extension = extension == "" ? null : extension;
             }
             else
             {
