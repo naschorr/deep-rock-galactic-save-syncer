@@ -52,3 +52,37 @@ $horizontal-offset: $spacer * .25 * 2 * -1;
     bottom: $vertical-offset;
     right: $horizontal-offset;
 }
+
+.missing-save-file-container {
+    height: 100%;
+}
+
+.missing-save-file-content-container {
+    height: 256px;
+    width: 256px;
+}
+
+img.missing-save-file {
+    filter: saturate(0) brightness(10);
+    height: inherit;
+    width: inherit;
+    opacity: $faded;
+    z-index: 5;
+}
+
+.missing-save-file-background {
+    top: 50%;
+    left: 50%;
+    box-shadow: 0 0 256px 128px black;
+}
+
+.missing-save-file-header,
+.missing-save-file-text {
+    text-align: center;
+    z-index: 5;
+}
+
+.missing-save-file-text {
+    max-width: 512px;
+    opacity: $faded;
+}

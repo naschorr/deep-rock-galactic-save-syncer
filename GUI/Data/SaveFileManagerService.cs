@@ -8,22 +8,20 @@ namespace GUI.Data
     public class SaveFileManagerService
     {
         private SaveFileManager _SaveFileManager;
-        private SteamSaveFileManipulator _SteamSaveFileManipulator;
-        private XboxSaveFileManipulator _XboxSaveFileManipulator;
         private bool _SaveFileLocked;
 
-        public SteamSaveFile SteamSaveFile
+        public SteamSaveFile? SteamSaveFile
         {
             get
             {
-                return _SteamSaveFileManipulator.GetNewestSaveFile();
+                return _SaveFileManager.SteamSaveFile;
             }
         }
-        public XboxSaveFile XboxSaveFile
+        public XboxSaveFile? XboxSaveFile
         {
             get
             {
-                return _XboxSaveFileManipulator.GetNewestSaveFile();
+                return _SaveFileManager.XboxSaveFile;
             }
         }
         public bool SaveFileLocked
@@ -43,8 +41,6 @@ namespace GUI.Data
         public SaveFileManagerService()
         {
             _SaveFileManager = new SaveFileManager();
-            _SteamSaveFileManipulator = SaveFileManipulatorFactory.Create<SteamSaveFileManipulator>();
-            _XboxSaveFileManipulator = SaveFileManipulatorFactory.Create<XboxSaveFileManipulator>();
 
             _SaveFileLocked = _SaveFileManager.SaveFileLocked;
             _SaveFileManager.SaveFileLockedChanged.Subscribe(

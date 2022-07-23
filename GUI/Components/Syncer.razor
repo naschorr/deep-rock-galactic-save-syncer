@@ -9,20 +9,23 @@
 <div class="container m-3">
     <Header />
     <div class="row">
-        <div class="col" @onclick="@(e => UpdateOverwriterOverwritee(SteamSaveFile, XboxSaveFile))">
-            <div class="slant-up p-3">
+        <div class="col" @onclick="@(e => OnSaveFileSelected(SteamSaveFile, XboxSaveFile))">
+            <div class="save-file-container slant-up p-3">
                 <SaveFile saveFile="@SteamSaveFile" />
             </div>
         </div>
-        <div class="col-auto p-0 comparison-container">
-            <Comparison leftId="steam-dwarf-engineer" rightId="xbox-dwarf-engineer" leftValue="@(SteamSaveFile.Engineer)" rightValue="@(XboxSaveFile.Engineer)" />
-            <Comparison leftId="steam-dwarf-scout" rightId="xbox-dwarf-scout" leftValue="@(SteamSaveFile.Scout)" rightValue="@(XboxSaveFile.Scout)" />
-            <Comparison leftId="steam-dwarf-driller" rightId="xbox-dwarf-driller" leftValue="@(SteamSaveFile.Driller)" rightValue="@(XboxSaveFile.Driller)" />
-            <Comparison leftId="steam-dwarf-gunner" rightId="xbox-dwarf-gunner" leftValue="@(SteamSaveFile.Gunner)" rightValue="@(XboxSaveFile.Gunner)" />
-            <Comparison leftId="steam-meta" rightId="xbox-meta" leftValue="@(SteamSaveFile.LastModifiedTime)" rightValue="@(XboxSaveFile.LastModifiedTime)" />
-        </div>
-        <div class="col" @onclick="@(e => UpdateOverwriterOverwritee(XboxSaveFile, SteamSaveFile))">
-            <div class="slant-down p-3">
+        @if(SteamSaveFile != null && XboxSaveFile != null)
+        {
+            <div class="col-auto p-0 comparison-container">
+                <Comparison leftId="steam-dwarf-engineer" rightId="xbox-dwarf-engineer" leftValue="@(SteamSaveFile.Engineer)" rightValue="@(XboxSaveFile.Engineer)" />
+                <Comparison leftId="steam-dwarf-scout" rightId="xbox-dwarf-scout" leftValue="@(SteamSaveFile.Scout)" rightValue="@(XboxSaveFile.Scout)" />
+                <Comparison leftId="steam-dwarf-driller" rightId="xbox-dwarf-driller" leftValue="@(SteamSaveFile.Driller)" rightValue="@(XboxSaveFile.Driller)" />
+                <Comparison leftId="steam-dwarf-gunner" rightId="xbox-dwarf-gunner" leftValue="@(SteamSaveFile.Gunner)" rightValue="@(XboxSaveFile.Gunner)" />
+                <Comparison leftId="steam-meta" rightId="xbox-meta" leftValue="@(SteamSaveFile.LastModifiedTime)" rightValue="@(XboxSaveFile.LastModifiedTime)" />
+            </div>
+        }
+        <div class="col" @onclick="@(e => OnSaveFileSelected(XboxSaveFile, SteamSaveFile))">
+            <div class="save-file-container slant-down p-3">
                 <SaveFile saveFile="@XboxSaveFile" />
             </div>
         </div>
@@ -57,8 +60,8 @@
     [Inject]
     public ModalManagerService ModalManager { get; set; } = default!;
 
-    protected SteamSaveFile SteamSaveFile = default!;
-    protected XboxSaveFile XboxSaveFile = default!;
+    protected SteamSaveFile? SteamSaveFile = default!;
+    protected XboxSaveFile? XboxSaveFile = default!;
     protected Core.SaveFiles.Models.SaveFile? Overwriter;
     protected Core.SaveFiles.Models.SaveFile? Overwritee;
 
@@ -108,6 +111,16 @@
         ModalManager.ShowModal<AppUpdate>(parameters);
     }
 
+    protected void OnSaveFileSelected(Core.SaveFiles.Models.SaveFile overwriter, Core.SaveFiles.Models.SaveFile overwritee)
+    {
+        if (SteamSaveFile == null || XboxSaveFile == null)
+        {
+            return;
+        }
+
+        UpdateOverwriterOverwritee(overwriter, overwritee);
+    }
+
     protected void UpdateOverwriterOverwritee(Core.SaveFiles.Models.SaveFile overwriter, Core.SaveFiles.Models.SaveFile overwritee)
     {
         Logger.LogDebug($"Updating overwrite status: Overwriter: {overwriter.GetType().Name}, Overwritee: {overwritee.GetType().Name}.");
@@ -125,6 +138,11 @@
     {
         if (IsOverwriterOrOverwriteeNull())
         {
+            if (SteamSaveFile == null || XboxSaveFile == null)
+            {
+                return "Missing save file";
+            }
+
             try
             {
                 if (SteamSaveFile as Core.SaveFiles.Models.SaveFile == XboxSaveFile as Core.SaveFiles.Models.SaveFile)

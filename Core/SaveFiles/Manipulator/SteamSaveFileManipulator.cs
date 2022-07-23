@@ -89,7 +89,14 @@ namespace Core.SaveFiles.Manipulator
 
         private string FindSaveDirectoryPathOnFileSystem(string steamLibraryPath)
         {
-            return Path.Combine(steamLibraryPath, _STEAM_LIBRARY_DRG_SAVE_DIRECTORY_PATH);
+            var saveDirectoryPath = Path.Combine(steamLibraryPath, _STEAM_LIBRARY_DRG_SAVE_DIRECTORY_PATH);
+
+            if (!Directory.Exists(saveDirectoryPath))
+            {
+                throw new DirectoryNotFoundException("Unable to find Steam save file directory.");
+            }
+
+            return saveDirectoryPath;
         }
 
         public override SteamSaveFile GetNewestSaveFile()
