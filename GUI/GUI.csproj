@@ -5,20 +5,11 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>icon.ico</ApplicationIcon>
-    <Version>2.1.0</Version>
+    <Version>2.2.0</Version>
     <Company>$(Authors)</Company>
     <Authors>naschorr</Authors>
     <Description>GUI for the Deep Rock Galactic Save Syncer</Description>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Update="icon.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="icon.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Blazored.Modal" Version="6.0.1" />
@@ -39,7 +30,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\css\bootstrap\" />
-    <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\fonts\" />
   </ItemGroup>
 

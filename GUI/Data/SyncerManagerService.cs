@@ -13,12 +13,12 @@ namespace GUI.Data
         [Inject]
         private SaveFileManagerService _SaveFileManager { get; set; }
 
-        private SteamSaveFile _SteamSaveFile;
-        private XboxSaveFile _XboxSaveFile;
+        private SteamSaveFile? _SteamSaveFile;
+        private XboxSaveFile? _XboxSaveFile;
         private SaveFile? _Overwriter;
         private SaveFile? _Overwritee;
 
-        public SteamSaveFile SteamSaveFile
+        public SteamSaveFile? SteamSaveFile
         {
             get { return _SteamSaveFile; }
             set
@@ -27,7 +27,7 @@ namespace GUI.Data
                 SteamSaveFileChanged.OnNext(_SteamSaveFile);
             }
         }
-        public XboxSaveFile XboxSaveFile
+        public XboxSaveFile? XboxSaveFile
         {
             get { return _XboxSaveFile; }
             set
@@ -55,8 +55,8 @@ namespace GUI.Data
             }
         }
 
-        public Subject<SteamSaveFile> SteamSaveFileChanged { get; private set; } = new();
-        public Subject<XboxSaveFile> XboxSaveFileChanged { get; private set; } = new();
+        public Subject<SteamSaveFile?> SteamSaveFileChanged { get; private set; } = new();
+        public Subject<XboxSaveFile?> XboxSaveFileChanged { get; private set; } = new();
         public Subject<SaveFile?> OverwriterChanged { get; private set; } = new();
         public Subject<SaveFile?> OverwriteeChanged { get; private set; } = new();
 
@@ -85,26 +85,29 @@ namespace GUI.Data
 
         private void CalculateOverwriterOverwritee()
         {
-            try
+            if (SteamSaveFile != null && XboxSaveFile != null)
             {
-                if (SteamSaveFile > XboxSaveFile)
+                try
                 {
-                    Overwriter = SteamSaveFile;
-                    Overwritee = XboxSaveFile;
+                    if (SteamSaveFile > XboxSaveFile)
+                    {
+                        Overwriter = SteamSaveFile;
+                        Overwritee = XboxSaveFile;
 
-                    return;
+                        return;
+                    }
+                    else if (XboxSaveFile > SteamSaveFile)
+                    {
+                        Overwriter = XboxSaveFile;
+                        Overwritee = SteamSaveFile;
+
+                        return;
+                    }
                 }
-                else if (XboxSaveFile > SteamSaveFile)
+                catch (DivergentSaveFileException)
                 {
-                    Overwriter = XboxSaveFile;
-                    Overwritee = SteamSaveFile;
-
-                    return;
+                    _Logger.LogInformation("Divergent Steam and Xbox saves detected.");
                 }
-            }
-            catch (DivergentSaveFileException)
-            {
-                _Logger.LogInformation("Divergent Steam and Xbox saves detected.");
             }
 
             Overwriter = null;

@@ -14,12 +14,12 @@
     <div class="stealth-button refresh-container p-1 @((_IsRefreshAvailable ? "" : "no-refresh-available"))"
         title="Refresh the save files"
         @onclick="@(e => RefreshSaveFiles())">
-        <img class="icon-m" src="/images/drg_icons/resupplier_icon.png" />
+        <img class="icon-m" src="/icons/drg_icons/resupplier_icon.png" />
     </div>
     @if (_RepoUrl != null)
     {
         <div class="stealth-button github-link-container p-1" title="View on GitHub" @onclick="@(e => OpenRepoInBrowser())">
-            <img class="icon-m" src="/images/github_logomark.png" />
+            <img class="icon-m" src="/icons/github_logomark.png" />
         </div>
     }
 </div>

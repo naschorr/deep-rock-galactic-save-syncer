@@ -11,7 +11,7 @@
         <div class="col-auto d-flex align-items-center">
             @for (var promotion = 0; promotion < dwarf.Promotions; promotion++)
             {
-                <img class="icon-sm m-1" src="images/drg_icons/promotion_icon.png" />
+                <img class="icon-sm m-1" src="icons/drg_icons/promotion_icon.png" />
             }
         </div>
     </div>
@@ -19,7 +19,7 @@
         <div class="row">
             <div class="col">
                 <div class="d-flex align-items-center mb-1">
-                    <img class="icon-m mr-2" src="images/drg_icons/class_level_icon.png" />
+                    <img class="icon-m mr-2" src="icons/drg_icons/class_level_icon.png" />
                     <span>@dwarf.Level</span>
                 </div>
             </div>
@@ -27,7 +27,7 @@
         <div class="row">
             <div class="col">
                 <div class="d-flex align-items-center mb-1">
-                    <img class="icon-m mr-2" src="images/drg_icons/xp_icon.png" />
+                    <img class="icon-m mr-2" src="icons/drg_icons/xp_icon.png" />
                     <span>@dwarf.Experience</span>
                 </div>
             </div>
@@ -47,6 +47,6 @@
     {
         string lowercase = type.ToString().ToLower();
 
-        return $"images/drg_icons/{lowercase}_icon.png";
+        return $"icons/drg_icons/{lowercase}_icon.png";
     }
 }

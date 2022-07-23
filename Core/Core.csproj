@@ -12,9 +12,7 @@
     <PackageLicenseFile>H:\Google Drive\Code\Csharp\DeepRockGalacticSaveSyncer\LICENSE</PackageLicenseFile>
     <Description>Core library for the Deep Rock Galactic Save Syncer</Description>
     <AssemblyName>Deep_Rock_Galactic_Save_Syncer</AssemblyName>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
-    <Version>2.1.0</Version>
-    <PackageIcon>icon.png</PackageIcon>
+    <Version>2.2.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -26,28 +24,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="icon.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="icon.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\resources\icon.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Gameloop.Vdf" Version="0.6.2" />
     <PackageReference Include="Gameloop.Vdf.JsonConverter" Version="0.2.1" />
     <PackageReference Include="Glob" Version="1.1.9" />
+    <PackageReference Include="System.Reactive" Version="5.0.0" />
   </ItemGroup>
 
 </Project>
