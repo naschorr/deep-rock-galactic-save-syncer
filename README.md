@@ -13,19 +13,19 @@ In a perfect world, DRG would be fully cross platform, and people could play tog
 Instead of dealing with the hassle of manually transferring save files and keeping track of names, DRGSS handles all of that automagically with a single click!
 
 ### Features
-##### Automatic DRG save file discovery for Steam and Xbox installations
+#### Automatic DRG save file discovery for Steam and Xbox installations
 There's no need to configure anything, just install and go!
 
-##### Smart save file comparison
+#### Smart save file comparison
 The save file that's progressed the most is automatically chosen to overwrite the other. In the screenshot above, the Steam save file's Driller has one more promotion than the Xbox save file, and so the Steam save file will be kept.
 
 Granular save file comparison lets you see what's changed at a glance:
 
 <p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/images/example_comparison.png" /></p>
 
-> Notice that the Driller on the left has one more promotion than the one on the right, and thus the comparison in the middle `>` confirms it.
+> Notice that the Driller on the left has one more promotion than the one on the right, which the comparison in the middle `>` confirms.
 
-##### One-click operation by default
+#### One-click operation by default
 The big button at the bottom lets you know what's going to happen:
 
 <p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/images/example_button_steam_xbox.png" /></p>
@@ -36,24 +36,24 @@ The big button at the bottom lets you know what's going to happen:
 
 > Clicking this will overwrite your Xbox save file with your Steam save file
 
-##### Override the defaults and choose the save you want to keep
+#### Override the defaults and choose the save you want to keep
 Don't agree with DRGSS' choice? Click the save you'd like to keep to override it!
 
-##### Quickly open your save file's directory in the explorer
-Access the save files yourself with a single click! Each save file has a <span style="display: inline-block; background-color: #504B4B; border-radius: 5px; padding: 3px; width: 24px; height: 24px;"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/icons/arrow_icon.png" /></span> button that'll open it for you.
+#### Quickly open your save file's directory in the explorer
+Access the save files yourself with a single click! Each save file has a <img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/icons_high_contrast/arrow_icon.png" width="24" /> button that'll open it for you.
 
-##### Save files are backed up during the sync operation
+#### Save files are backed up during the sync operation
 Chose the wrong file accidentally? Just delete the invalid one, and rename the `*.backup` file back to the original name.
 
-##### Refresh the save files
-Has something changed? Hit the <span style="display: inline-block; background-color: #504B4B; border-radius: 5px; padding: 3px; width: 24px; height: 24px;"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/icons/drg_icons/resupplier_icon.png" /></span> button in the top-left corner of the interface and see the latest save file changes.
+#### Refresh the save files
+Has something changed? Hit the <img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/icons_high_contrast/resupplier_icon.png" width="24" /> button in the top-left corner of the interface and see the latest save file changes.
 
-##### Divergent save file detection
+#### Divergent save file detection
 If you've made progress with both save files separately, DRGSS will alert you of this via the button at the bottom:
 
 <p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/images/example_button_divergent.png" /></p>
 
-> The button is disabled, because DRGSS isn't sure of which save file should be overwritten!
+> The button is disabled, because DRGSS isn't sure of which save file should be overwritten
 
 To fix this, simply pick a save file to keep, and the button will become enabled again.
 
