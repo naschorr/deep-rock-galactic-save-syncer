@@ -43,10 +43,15 @@ namespace Core.SaveFiles.Manipulator
         {
             // Perform the traversal, starting from the safe local AppData folder
             var localAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            var saveDirectory = Glob.Directories(localAppDataPath, _XBOX_DRG_GLOBBED_SAVE_DIRECTORY_PATH).ToArray()[0];
+            var saveDirectories = Glob.Directories(localAppDataPath, _XBOX_DRG_GLOBBED_SAVE_DIRECTORY_PATH).ToArray();
+
+            if (saveDirectories.Length == 0)
+            {
+                throw new DirectoryNotFoundException("Unable to find Xbox save file directory.");
+            }
 
             // The Glob.Directories doesn't prepend the root directory to its results, so do that before returning the result directory
-            return Path.Combine(localAppDataPath, saveDirectory);
+            return Path.Combine(localAppDataPath, saveDirectories[0]);
         }
 
         public override XboxSaveFile GetNewestSaveFile()

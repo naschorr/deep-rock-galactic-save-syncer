@@ -8,24 +8,24 @@ namespace Core.SaveFiles.Manager
     [SupportedOSPlatform("windows")]
     public class SaveFileManager
     {
-        private SteamSaveFileManipulator _SteamSaveFileManipulator;
-        private XboxSaveFileManipulator _XboxSaveFileManipulator;
+        private SteamSaveFileManipulator? _SteamSaveFileManipulator;
+        private XboxSaveFileManipulator? _XboxSaveFileManipulator;
         private bool _SaveFileLocked;
-        private FileSystemWatcher _SteamSaveFileWatcher;
-        private FileSystemWatcher _XboxSaveFileWatcher;
+        private FileSystemWatcher? _SteamSaveFileWatcher;
+        private FileSystemWatcher? _XboxSaveFileWatcher;
 
-        public SteamSaveFile SteamSaveFile
+        public SteamSaveFile? SteamSaveFile
         {
             get
             {
-                return _SteamSaveFileManipulator.GetNewestSaveFile();
+                return _SteamSaveFileManipulator?.GetNewestSaveFile();
             }
         }
-        public XboxSaveFile XboxSaveFile
+        public XboxSaveFile? XboxSaveFile
         {
             get
             {
-                return _XboxSaveFileManipulator.GetNewestSaveFile();
+                return _XboxSaveFileManipulator?.GetNewestSaveFile();
             }
         }
         public bool SaveFileLocked
@@ -44,24 +44,53 @@ namespace Core.SaveFiles.Manager
 
         public SaveFileManager()
         {
-            _SteamSaveFileManipulator = SaveFileManipulatorFactory.Create<SteamSaveFileManipulator>();
-            _XboxSaveFileManipulator = SaveFileManipulatorFactory.Create<XboxSaveFileManipulator>();
+            _SaveFileLocked = false;
 
-            _SaveFileLocked = IsFileLocked(SteamSaveFile.Path) || IsFileLocked(XboxSaveFile.Path);
+            try
+            {
+                _SteamSaveFileManipulator = SaveFileManipulatorFactory.Create<SteamSaveFileManipulator>();
 
-            _SteamSaveFileWatcher = new FileSystemWatcher(_SteamSaveFileManipulator.GetSaveFileDirectoryPath());
-            // The Steam save system just modifies the same file, and has separate backup files
-            _SteamSaveFileWatcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.LastAccess;
-            _SteamSaveFileWatcher.Changed += OnSaveFileChanged;
-            _SteamSaveFileWatcher.EnableRaisingEvents = true;
+                _SteamSaveFileWatcher = new FileSystemWatcher(_SteamSaveFileManipulator.GetSaveFileDirectoryPath());
+                // The Steam save system just modifies the same file, and has separate backup files
+                _SteamSaveFileWatcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.LastAccess;
+                _SteamSaveFileWatcher.Changed += OnSaveFileChanged;
+                _SteamSaveFileWatcher.EnableRaisingEvents = true;
 
-            _XboxSaveFileWatcher = new FileSystemWatcher(_XboxSaveFileManipulator.GetSaveFileDirectoryPath());
-            // The Xbox save system seems to write a new file on every change, and delete the old one at the same moment
-            _XboxSaveFileWatcher.NotifyFilter = NotifyFilters.FileName;
-            _XboxSaveFileWatcher.Changed += OnSaveFileChanged;
-            _XboxSaveFileWatcher.Created += OnSaveFileChanged;
-            _XboxSaveFileWatcher.Deleted += OnSaveFileChanged;
-            _XboxSaveFileWatcher.EnableRaisingEvents = true;
+                var steamSaveFile = SteamSaveFile;
+                if (steamSaveFile != null)
+                {
+                    _SaveFileLocked |= IsFileLocked(steamSaveFile.Path);
+                }
+            }
+            catch (Exception e)
+            {
+                _SteamSaveFileManipulator = null;
+                _SteamSaveFileWatcher = null;
+            }
+
+            try
+            {
+                _XboxSaveFileManipulator = SaveFileManipulatorFactory.Create<XboxSaveFileManipulator>();
+
+                _XboxSaveFileWatcher = new FileSystemWatcher(_XboxSaveFileManipulator.GetSaveFileDirectoryPath());
+                // The Xbox save system seems to write a new file on every change, and delete the old one at the same moment
+                _XboxSaveFileWatcher.NotifyFilter = NotifyFilters.FileName;
+                _XboxSaveFileWatcher.Changed += OnSaveFileChanged;
+                _XboxSaveFileWatcher.Created += OnSaveFileChanged;
+                _XboxSaveFileWatcher.Deleted += OnSaveFileChanged;
+                _XboxSaveFileWatcher.EnableRaisingEvents = true;
+
+                var xboxSaveFile = XboxSaveFile;
+                if (xboxSaveFile != null)
+                {
+                    _SaveFileLocked |= IsFileLocked(xboxSaveFile.Path);
+                }
+            }
+            catch
+            {
+                _XboxSaveFileManipulator = null;
+                _XboxSaveFileWatcher = null;
+            }
         }
 
         // Methods
@@ -93,9 +122,9 @@ namespace Core.SaveFiles.Manager
         private void OnSaveFileChanged(object sender, FileSystemEventArgs eventArgs)
         {
             // Ignore irrelevant file changes
-            if (!_SteamSaveFileManipulator.IsValidSaveFilePath(eventArgs.FullPath) &&
-                    !_XboxSaveFileManipulator.IsValidSaveFilePath(eventArgs.FullPath)
-            )
+            var isValidSteamSaveFilePath = _SteamSaveFileManipulator == null ? false : _SteamSaveFileManipulator.IsValidSaveFilePath(eventArgs.FullPath);
+            var isValidXboxSaveFilePath = _XboxSaveFileManipulator == null ? false : _XboxSaveFileManipulator.IsValidSaveFilePath(eventArgs.FullPath);
+            if (!isValidSteamSaveFilePath && !isValidXboxSaveFilePath)
             {
                 return;
             }
