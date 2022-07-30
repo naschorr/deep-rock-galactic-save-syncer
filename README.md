@@ -1,6 +1,8 @@
 <p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/master/resources/images/logo.png" width="150"/></p>
 
 # Deep Rock Galactic Save Syncer
+![tests workflow](https://github.com/naschorr/deep-rock-galactic-save-syncer/actions/workflows/tests.yml/badge.svg)
+
 Easily keep your Steam and Xbox save files for Deep Rock Galactic synced up! That means no more lost progress when swapping between platforms to play with your friends.
 
 <p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/master/resources/images/example.png" width="800"/></p>
