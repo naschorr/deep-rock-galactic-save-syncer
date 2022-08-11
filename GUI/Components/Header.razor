@@ -45,7 +45,12 @@
         _IsRefreshAvailable = false;    // default to false when starting to avoid superfluous refreshing
         SaveFileManager.SaveFileLockedChanged.Subscribe(locked => {
             _IsRefreshAvailable = !locked;
-            InvokeAsync(() => StateHasChanged());
+            InvokeAsync(StateHasChanged);
+        });
+
+        SaveFileManager.SyncedSaveFilesChanged.Subscribe(saveFiles => {
+            _IsRefreshAvailable = false;
+            InvokeAsync(StateHasChanged);
         });
     }
 
