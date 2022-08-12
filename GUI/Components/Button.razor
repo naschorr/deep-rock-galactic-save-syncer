@@ -3,7 +3,8 @@
     class="button @buildClassString()"
     @onclick="OnClick"
     @onmouseover="@(e => active = true)"
-    @onmouseout="@(e => active = false)">
+    @onmouseout="@(e => active = false)"
+    title="@tooltip">
     <div class="d-flex">
         <div class="edge mr-1 bg-primary @buildClassString()"></div>
         <div class="main bg-primary @buildClassString()">
@@ -18,6 +19,8 @@
     public string text { get; set; } = default!;
     [Parameter]
     public bool disabled { get; set; } = false;
+    [Parameter]
+    public string? tooltip { get; set; } = null;
     [Parameter]
     public EventCallback onClickCallback { get; set; } = default!;
 
