@@ -7,11 +7,17 @@
 @using System.Reactive.Linq
 
 <div class="d-flex justify-content-center mt-3">
-    <Button text="@OmniButtonText"
-        onClickCallback="OmniButtonClick"
-        disabled="@IsOmniButtonDisabled()"
-        tooltip="@(IsAnySaveFileLocked ? "A save file is being used, give it a moment to finish." : null)">
-    </Button>
+    <!--
+        The Button will expand to fill it's container, so this width needs to be large enough to hold the button with
+        the widest possible contents. Otherwise the Button's size will change with the contents which just looks weird.
+    -->
+    <div style="min-width: 450px;">
+        <Button text="@OmniButtonText"
+            onClickCallback="OmniButtonClick"
+            disabled="@IsOmniButtonDisabled()"
+            tooltip="@(IsAnySaveFileLocked ? "A save file is being used, give it a moment to finish." : null)">
+        </Button>
+    </div>
 </div>
 
 @code {
