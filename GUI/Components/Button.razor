@@ -1,16 +1,15 @@
 ﻿<!-- use a div instead of a button to ignore default styling -->
-<div
-    class="button @buildClassString()"
+<div class="button @classes"
     @onclick="OnClick"
-    @onmouseover="@(e => active = true)"
-    @onmouseout="@(e => active = false)"
+    @onmouseover="@(e => { active = true; UpdateClassStrings(); })"
+    @onmouseout="@(e => { active = false; UpdateClassStrings(); })"
     title="@tooltip">
     <div class="d-flex">
-        <div class="edge mr-1 bg-primary @buildClassString()"></div>
-        <div class="main bg-primary @buildClassString()">
+        <div class="edge mr-1 bg-primary @classes"></div>
+        <div class="main bg-primary @classes">
             @text
         </div>
-        <div class="edge ml-1 bg-primary @buildClassString()"></div>
+        <div class="edge ml-1 bg-primary @classes"></div>
     </div>
 </div>
 
@@ -25,19 +24,28 @@
     public EventCallback onClickCallback { get; set; } = default!;
 
     private bool active = false;
+    private string classes = "";
 
-    protected string buildClassString()
+    protected override void OnParametersSet()
+    {
+        UpdateClassStrings();
+    }
+
+    protected void UpdateClassStrings()
     {
         if (disabled)
         {
-            return "disabled";
+            classes = "disabled";
+            return;
         }
         else if (active)
         {
-            return "active";
+            classes = "active";
+            return;
         }
 
-        return "";
+        classes = "";
+        return;
     }
 
     protected async Task OnClick(MouseEventArgs e)

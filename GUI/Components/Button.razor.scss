@@ -41,5 +41,5 @@
 }
 
 .disabled {
-    filter: grayscale(1) !important;
+    background-color: $primary-inactive;
 }

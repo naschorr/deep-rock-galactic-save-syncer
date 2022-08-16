@@ -53,6 +53,7 @@
             InvokeAsync(StateHasChanged);
         });
 
+        IsAnySaveFileLocked = SaveFileManager.SaveFileLocked;
         IsRefreshAvailable = false;    // default to false when starting to avoid superfluous refreshing
         SaveFileManager.SaveFileLockedChanged.Subscribe(locked => {
             IsAnySaveFileLocked = locked;
@@ -66,9 +67,11 @@
             UpdateOmniButtonText();
             InvokeAsync(StateHasChanged);
         });
+
+        UpdateOmniButtonText();
     }
 
-    protected override async void OnParametersSet()
+    protected override void OnParametersSet()
     {
         UpdateOmniButtonText();
         InvokeAsync(StateHasChanged);

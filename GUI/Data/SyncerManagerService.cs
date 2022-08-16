@@ -33,7 +33,7 @@ namespace GUI.Data
             set
             {
                 _XboxSaveFile = value;
-                 XboxSaveFileChanged.OnNext(_XboxSaveFile);
+                XboxSaveFileChanged.OnNext(_XboxSaveFile);
             }
         }
         public SaveFile? Overwriter
