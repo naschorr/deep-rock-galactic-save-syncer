@@ -23,10 +23,17 @@
 </div>
 
 @code {
-    [Parameter]
-    public string text { get; set; } = default!;
+    /// <summary>
+    /// A render remplate for displaying complex elements inside the button. Will override the `text` parameter if
+    /// also specified.
+    /// </summary>
     [Parameter]
     public RenderFragment content { get; set; } = default!;
+    /// <summary>
+    /// Plaintext to display inside the button when no content template is provided.
+    /// </summary>
+    [Parameter]
+    public string text { get; set; } = default!;
     [Parameter]
     public bool disabled { get; set; } = false;
     [Parameter]
