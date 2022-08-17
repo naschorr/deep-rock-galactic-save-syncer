@@ -1,0 +1,27 @@
+﻿.ellipsis {
+    display: inline-block;
+}
+
+.ellipsis-dot {
+    transition: opacity (1.25s / 4);
+
+    animation-name: ellipsis-dot-fade;
+    animation-duration: (1.25s / 2);
+    animation-iteration-count: infinite;
+    animation-direction: alternate-reverse;
+}
+
+@for $i from 1 through 3 {
+    .ellipsis-dot:nth-child(#{$i}) {
+        animation-delay: ($i * 1.25s / 3);
+    }
+}
+
+@keyframes ellipsis-dot-fade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

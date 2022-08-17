@@ -12,10 +12,17 @@
         the widest possible contents. Otherwise the Button's size will change with the contents which just looks weird.
     -->
     <div style="min-width: 450px;">
-        <Button text="@OmniButtonText"
-            onClickCallback="OmniButtonClick"
+        <Button onClickCallback="OmniButtonClick"
             disabled="@IsOmniButtonDisabled()"
             tooltip="@(IsAnySaveFileLocked ? "A save file is being used, give it a moment to finish." : null)">
+            <content>
+                @OmniButtonText
+                <!-- Give some progress indication when the save file is locked -->
+                @if (IsAnySaveFileLocked)
+                {
+                    <EllipsisProgress />
+                }
+            </content>
         </Button>
     </div>
 </div>
@@ -94,7 +101,7 @@
     {
         if (IsAnySaveFileLocked)
         {
-            OmniButtonText = "Save file locked";
+            OmniButtonText = "Save file busy";
             return;
         }
         else if (IsRefreshAvailable)

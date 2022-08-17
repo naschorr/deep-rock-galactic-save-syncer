@@ -9,7 +9,14 @@
     <div class="d-flex content-container">
         <div class="edge mr-1 bg-primary @classes"></div>
         <div class="main bg-primary @classes">
-            @text
+            @if (content != null)
+            {
+                @content;
+            }
+            else
+            {
+                @text;
+            }
         </div>
         <div class="edge ml-1 bg-primary @classes"></div>
     </div>
@@ -18,6 +25,8 @@
 @code {
     [Parameter]
     public string text { get; set; } = default!;
+    [Parameter]
+    public RenderFragment content { get; set; } = default!;
     [Parameter]
     public bool disabled { get; set; } = false;
     [Parameter]
