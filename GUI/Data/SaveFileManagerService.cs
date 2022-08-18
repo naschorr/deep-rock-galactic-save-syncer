@@ -9,6 +9,8 @@ namespace GUI.Data
     {
         private SaveFileManager _SaveFileManager;
         private bool _SaveFileLocked;
+        private int _OverwriteFileRefreshIgnoreLockChangesMilliseconds;
+        private DateTime _LastOverwriteDateTime;
 
         public SteamSaveFile? SteamSaveFile
         {
@@ -35,16 +37,50 @@ namespace GUI.Data
         }
 
         public Subject<bool> SaveFileLockedChanged { get; set; } = new();
+        public Subject<List<SaveFile>> SyncedSaveFilesChanged { get; set; } = new();
 
         // Constructors
 
-        public SaveFileManagerService()
+        public SaveFileManagerService(ConfigLoaderService configLoader)
         {
-            _SaveFileManager = new SaveFileManager();
+            var ConfigLoader = configLoader;
 
+            _LastOverwriteDateTime = DateTime.UnixEpoch;
+            _OverwriteFileRefreshIgnoreLockChangesMilliseconds = ConfigLoader.Config?.overwriteFileRefreshIgnoreLockChangesMilliseconds ?? 6000;
+
+            _SaveFileManager = new SaveFileManager();
             _SaveFileLocked = _SaveFileManager.SaveFileLocked;
             _SaveFileManager.SaveFileLockedChanged.Subscribe(
-                locked => { SaveFileLocked = locked; }
+                locked => {
+                    TimeSpan TimeSinceLastOverwrite = DateTime.Now - _LastOverwriteDateTime;
+
+                    /*
+                     * When a user syncs their save files, one of those files will trigger a change in the file
+                     * watcher. However, we don't need to update the UI as a result of this sync, so we can ignore
+                     * any changes that happen within the configured dead zone.
+                     */
+                    if (TimeSinceLastOverwrite.TotalMilliseconds < _OverwriteFileRefreshIgnoreLockChangesMilliseconds)
+                    {
+                        /*
+                         * In the unlikely event of a (genuine) file change during this period, make sure that doesn't
+                         * get ignored.
+                         * 
+                         * This can be determined by comparing update times for the files, and if they're different
+                         * then a real file change must've happened.
+                         */
+                        SteamSaveFile steamSaveFile = _SaveFileManager.SteamSaveFile;
+                        XboxSaveFile xboxSaveFile = _SaveFileManager.XboxSaveFile;
+
+                        if (steamSaveFile?.LastModifiedTime != xboxSaveFile?.LastModifiedTime)
+                        {
+                            SaveFileLocked = locked;
+                        }
+                    }
+                    else
+                    {
+                        SaveFileLocked = locked;
+                    }
+                }
             );
         }
 
@@ -52,7 +88,14 @@ namespace GUI.Data
 
         public void OverwriteSaveFile(SaveFile overwriter, SaveFile overwritee)
         {
+            _LastOverwriteDateTime = DateTime.Now;
+
             _SaveFileManager.OverwriteSaveFile(overwriter, overwritee);
+            
+            // Alert subscribers of the newly overwritten files
+            SteamSaveFile SteamSaveFile = _SaveFileManager.SteamSaveFile;
+            XboxSaveFile XboxSaveFile = _SaveFileManager.XboxSaveFile;
+            SyncedSaveFilesChanged.OnNext(new List<SaveFile> { SteamSaveFile, XboxSaveFile });
         }
     }
 }

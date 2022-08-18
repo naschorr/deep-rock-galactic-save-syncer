@@ -33,7 +33,7 @@ namespace GUI.Data
             set
             {
                 _XboxSaveFile = value;
-                 XboxSaveFileChanged.OnNext(_XboxSaveFile);
+                XboxSaveFileChanged.OnNext(_XboxSaveFile);
             }
         }
         public SaveFile? Overwriter
@@ -77,6 +77,8 @@ namespace GUI.Data
 
         public void Refresh()
         {
+            _Logger.LogDebug("Refreshing save files");
+
             SteamSaveFile = _SaveFileManager.SteamSaveFile;
             XboxSaveFile = _SaveFileManager.XboxSaveFile;
 
@@ -134,6 +136,8 @@ namespace GUI.Data
         {
             if (Overwriter != null && Overwritee != null)
             {
+                _Logger.LogDebug($"Syncing save files: Overwriting {Overwritee.GetType().Name} with {Overwriter.GetType().Name}.");
+
                 try
                 {
                     _SaveFileManager.OverwriteSaveFile(Overwriter, Overwritee);
@@ -146,6 +150,8 @@ namespace GUI.Data
             }
             else
             {
+                _Logger.LogDebug($"Unable to sync save files. Either the Overwriter or Overwritee is null");
+
                 // todo: failure modal
             }
 

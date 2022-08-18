@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>icon.ico</ApplicationIcon>
-    <Version>2.2.0</Version>
+    <Version>2.3.0</Version>
     <Company>$(Authors)</Company>
     <Authors>naschorr</Authors>
     <Description>GUI for the Deep Rock Galactic Save Syncer</Description>
