@@ -6,6 +6,7 @@
     transition: transform $animation-duration;
     transform: scale(1);
     cursor: pointer;
+    width: 100%;
 }
 
 .button.active {
@@ -14,6 +15,10 @@
 
 .button.disabled {
     cursor: not-allowed;
+}
+
+.content-container {
+    width: 100%;
 }
 
 .edge {
@@ -29,6 +34,8 @@
     text-transform: uppercase;
     font-size: 1.17em;
     font-weight: bold;
+    text-align: center;
+    width: 100%;
 }
 
 .bg-primary {
@@ -40,6 +47,6 @@
     background-color: $primary-active;
 }
 
-.disabled {
-    filter: grayscale(1) !important;
+.bg-primary.disabled {
+    background-color: $primary-inactive;
 }

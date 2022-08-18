@@ -25,7 +25,7 @@ Granular save file comparison lets you see what's changed at a glance:
 
 <p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/images/example_comparison.png" /></p>
 
-> Notice that the Driller on the left has one more promotion than the one on the right, which the comparison in the middle `>` confirms.
+> Notice that the Driller on the left has one more promotion than the one on the right, which the `>` comparison operator in the middle confirms.
 
 #### One-click operation by default
 The big button at the bottom lets you know what's going to happen:
@@ -48,7 +48,14 @@ Access the save files yourself with a single click! Each save file has a <img sr
 Chose the wrong file accidentally? Just delete the invalid one, and rename the `*.backup` file back to the original name.
 
 #### Refresh the save files
-Has something changed? Hit the <img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/icons_high_contrast/resupplier_icon.png" width="24" /> button in the top-left corner of the interface and see the latest save file changes.
+Has something changed? Hit the refresh button to update your save files before syncing.
+
+<p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/images/example_button_refresh.png" /></p>
+
+#### Safe save file manipulation
+DRGSS won't try to interfere with a save file while it's being written to by the game, so just hold tight until the all clear is given.
+
+<p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/images/example_button_busy.png" /></p>
 
 #### Divergent save file detection
 If you've made progress with both save files separately, DRGSS will alert you of this via the button at the bottom:

@@ -34,12 +34,7 @@
     <div class="position-relative">
         <div class="row">
             <div class="col-12 justify-content-center">
-                <div class="d-flex justify-content-center mt-3">
-                    <Button text="@BuildSyncButtonText()"
-                        onClickCallback="SyncSaveFiles"
-                        disabled="@IsOverwriterOrOverwriteeNull()">
-                    </Button>
-                </div>
+                <OmniButton steamSaveFile="@SteamSaveFile" xboxSaveFile="@XboxSaveFile" />
             </div>
         </div>
         <div class="version-container" title="Version: @(ElectronManifest.Version)">
@@ -71,28 +66,28 @@
         SyncerManager.SteamSaveFileChanged.Subscribe(saveFile =>
         {
             SteamSaveFile = saveFile;
-            InvokeAsync(() => StateHasChanged());
+            InvokeAsync(StateHasChanged);
         });
 
         XboxSaveFile = SyncerManager.XboxSaveFile;
         SyncerManager.XboxSaveFileChanged.Subscribe(saveFile =>
         {
             XboxSaveFile = saveFile;
-            InvokeAsync(() => StateHasChanged());
+            InvokeAsync(StateHasChanged);
         });
 
         Overwriter = SyncerManager.Overwriter;
         SyncerManager.OverwriterChanged.Subscribe(saveFile =>
         {
             Overwriter = saveFile;
-            InvokeAsync(() => StateHasChanged());
+            InvokeAsync(StateHasChanged);
         });
 
         Overwritee = SyncerManager.Overwritee;
         SyncerManager.OverwriteeChanged.Subscribe(saveFile =>
         {
             Overwritee = saveFile;
-            InvokeAsync(() => StateHasChanged());
+            InvokeAsync(StateHasChanged);
         });
 
         if (UpdateChecker.IsNewReleaseAvailable())
@@ -127,42 +122,5 @@
 
         SyncerManager.Overwriter = overwriter;
         SyncerManager.Overwritee = overwritee;
-    }
-
-    protected bool IsOverwriterOrOverwriteeNull()
-    {
-        return Overwriter == null || Overwritee == null;
-    }
-
-    protected string BuildSyncButtonText()
-    {
-        if (IsOverwriterOrOverwriteeNull())
-        {
-            if (SteamSaveFile == null || XboxSaveFile == null)
-            {
-                return "Missing save file";
-            }
-
-            try
-            {
-                if (SteamSaveFile as Core.SaveFiles.Models.SaveFile == XboxSaveFile as Core.SaveFiles.Models.SaveFile)
-                {
-                    return "Save files are already synced";
-                }
-            }
-            catch (DivergentSaveFileException)
-            {
-                return "Save files are divergent";
-            }
-        }
-
-        return $"Sync {SyncerManager.GetSaveFilePlatform(Overwritee)} save with {SyncerManager.GetSaveFilePlatform(Overwriter)} save";
-    }
-
-    protected void SyncSaveFiles()
-    {
-        Logger.LogDebug($"Syncing save files: Overwriting {Overwritee.GetType().Name} with {Overwriter.GetType().Name}.");
-
-        SyncerManager.OverwriteSaveFile();
     }
 }
