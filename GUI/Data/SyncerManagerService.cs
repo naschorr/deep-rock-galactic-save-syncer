@@ -24,6 +24,7 @@ namespace GUI.Data
             set
             {
                 _SteamSaveFile = value;
+                _Logger.LogDebug($"SteamSaveFile set to {_SteamSaveFile}.");
                 SteamSaveFileChanged.OnNext(_SteamSaveFile);
             }
         }
@@ -33,6 +34,7 @@ namespace GUI.Data
             set
             {
                 _XboxSaveFile = value;
+                _Logger.LogDebug($"XboxSaveFile set to {_XboxSaveFile}.");
                 XboxSaveFileChanged.OnNext(_XboxSaveFile);
             }
         }
@@ -42,7 +44,8 @@ namespace GUI.Data
             set
             {
                 _Overwriter = value;
-                 OverwriterChanged.OnNext(_Overwriter);
+                _Logger.LogDebug($"Overwriter set to {(_Overwriter == null ? "null" : _Overwriter)}.");
+                OverwriterChanged.OnNext(_Overwriter);
             }
         }
         public SaveFile? Overwritee
@@ -51,7 +54,8 @@ namespace GUI.Data
             set
             {
                 _Overwritee = value;
-                 OverwriteeChanged.OnNext(_Overwritee);
+                _Logger.LogDebug($"Overwritee set to {(_Overwritee == null ? "null" : _Overwritee)}.");
+                OverwriteeChanged.OnNext(_Overwritee);
             }
         }
 
@@ -93,6 +97,8 @@ namespace GUI.Data
                 {
                     if (SteamSaveFile > XboxSaveFile)
                     {
+                        _Logger.LogInformation("SteamSaveFile > XboxSaveFile");
+
                         Overwriter = SteamSaveFile;
                         Overwritee = XboxSaveFile;
 
@@ -100,6 +106,8 @@ namespace GUI.Data
                     }
                     else if (XboxSaveFile > SteamSaveFile)
                     {
+                        _Logger.LogInformation("XboxSaveFile > SteamSaveFile");
+
                         Overwriter = XboxSaveFile;
                         Overwritee = SteamSaveFile;
 
@@ -108,7 +116,7 @@ namespace GUI.Data
                 }
                 catch (DivergentSaveFileException)
                 {
-                    _Logger.LogInformation("Divergent Steam and Xbox saves detected.");
+                    _Logger.LogWarning("Divergent save files detected. No automatic way to determine precedence, user must intervene.");
                 }
             }
 
@@ -136,22 +144,20 @@ namespace GUI.Data
         {
             if (Overwriter != null && Overwritee != null)
             {
-                _Logger.LogDebug($"Syncing save files: Overwriting {Overwritee.GetType().Name} with {Overwriter.GetType().Name}.");
-
                 try
                 {
+                    _Logger.LogInformation($"Syncing save files: Overwriting {Overwritee} with {Overwriter}.");
                     _SaveFileManager.OverwriteSaveFile(Overwriter, Overwritee);
-                    // todo: success modal - on modal close, refresh the app
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    _Logger.LogError($"Unable to overwrite save files!", e);
                     // todo: failure modal
                 }
             }
             else
             {
-                _Logger.LogDebug($"Unable to sync save files. Either the Overwriter or Overwritee is null");
-
+                _Logger.LogCritical($"Unable to overwrite save files, one or both overwriter and overwritee are null. Overwriter: {Overwriter}, overwritee: {Overwritee}.");
                 // todo: failure modal
             }
 
@@ -162,7 +168,7 @@ namespace GUI.Data
         {
             if (File.Exists(saveFile.Path))
             {
-                // Technically this should fall back to the directory if the file doesn't exist, but that's not happening. Potential bug in Electron/Electron.NET?
+                _Logger.LogInformation($"Opening save file {saveFile.Path} in file explorer.");
                 ElectronNET.API.Electron.Shell.ShowItemInFolderAsync(saveFile.Path);
             }
             else
@@ -170,6 +176,8 @@ namespace GUI.Data
                 var parent = Directory.GetParent(saveFile.Path);
                 if (parent != null)
                 {
+                    _Logger.LogInformation($"Unable to open save file in explorer, opening save directory {parent.FullName} instead.");
+
                     // Use Window's URL handling to force it to open a directory
                     ElectronNET.API.Electron.Shell.OpenExternalAsync($"file:///{parent.FullName}");
                 }

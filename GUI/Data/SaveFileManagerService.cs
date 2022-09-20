@@ -1,13 +1,17 @@
 ﻿using Core.SaveFiles.Manager;
 using Core.SaveFiles.Manipulator;
 using Core.SaveFiles.Models;
+using Microsoft.AspNetCore.Components;
 using System.Reactive.Subjects;
 
 namespace GUI.Data
 {
     public class SaveFileManagerService
     {
-        private SaveFileManager _SaveFileManager;
+        [Inject]
+        private ILogger<SaveFileManagerService> _Logger { get; set; }
+
+        private SaveFileManager _SaveFileManager { get; set; }
         private bool _SaveFileLocked;
         private int _OverwriteFileRefreshIgnoreLockChangesMilliseconds;
         private DateTime _LastOverwriteDateTime;
@@ -41,12 +45,12 @@ namespace GUI.Data
 
         // Constructors
 
-        public SaveFileManagerService(ConfigLoaderService configLoader)
+        public SaveFileManagerService(ILogger<SaveFileManagerService> logger, ConfigLoaderService configLoader)
         {
-            var ConfigLoader = configLoader;
+            _Logger = logger;
 
             _LastOverwriteDateTime = DateTime.UnixEpoch;
-            _OverwriteFileRefreshIgnoreLockChangesMilliseconds = ConfigLoader.Config?.overwriteFileRefreshIgnoreLockChangesMilliseconds ?? 6000;
+            _OverwriteFileRefreshIgnoreLockChangesMilliseconds = configLoader.Config?.overwriteFileRefreshIgnoreLockChangesMilliseconds ?? 6000;
 
             _SaveFileManager = new SaveFileManager();
             _SaveFileLocked = _SaveFileManager.SaveFileLocked;
@@ -73,11 +77,13 @@ namespace GUI.Data
 
                         if (steamSaveFile?.LastModifiedTime != xboxSaveFile?.LastModifiedTime)
                         {
+                            _Logger.LogInformation($"Save file lock state changed inside dead zone: Locked = {locked}");
                             SaveFileLocked = locked;
                         }
                     }
                     else
                     {
+                        _Logger.LogInformation($"Save file lock state changed: Locked = {locked}");
                         SaveFileLocked = locked;
                     }
                 }
@@ -90,6 +96,7 @@ namespace GUI.Data
         {
             _LastOverwriteDateTime = DateTime.Now;
 
+            _Logger.LogInformation($"Overwriting save file. {overwriter} will overwrite {overwritee}");
             _SaveFileManager.OverwriteSaveFile(overwriter, overwritee);
             
             // Alert subscribers of the newly overwritten files

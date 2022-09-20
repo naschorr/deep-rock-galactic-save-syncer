@@ -16,6 +16,10 @@
     <PackageReference Include="CssBuilder" Version="0.1.8" />
     <PackageReference Include="ElectronNET.API" Version="13.5.1" />
     <PackageReference Include="System.Reactive" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="NLog" Version="5.0.4" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="5.0.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +35,10 @@
   <ItemGroup>
     <Folder Include="wwwroot\css\bootstrap\" />
     <Folder Include="wwwroot\fonts\" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<None Update="nlog.config" CopyToOutputDirectory="Always" />
   </ItemGroup>
 
 </Project>
