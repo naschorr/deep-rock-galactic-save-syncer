@@ -1,7 +1,7 @@
 ﻿@using Core.Models
 @using GUI.Data
 
-<div class="container">
+<div class="pr-3 pl-3">
     <div class="stealth-button close-button m-2 p-1" @onclick="@(e => CloseModal())">✖</div>
     <DynamicComponent Type="@ModalComponent" Parameters="@ModalParameters" />
 </div>
