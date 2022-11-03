@@ -66,8 +66,29 @@ If you've made progress with both save files separately, DRGSS will alert you of
 
 To fix this, simply pick a save file to keep, and the button will become enabled again.
 
-### Caveats
-You must have an existing save in both the Steam and Xbox versions of DRG. This will not work for transferring saves before starting the game up for the first time on a new platform.
+## Getting Started
+
+Getting started with DRGSS is easy, regardless of it being your first time on a new platform, or if you've been manually syncing the save files for ages.
+
+### Syncing existing saves
+
+1. Open up DRGSS
+
+    - Notice how both the Steam and Xbox saves are appearing in the tool, and the oldest (based on Dwarf progress) is selected to sync up with the latest save.
+
+1. Sync your saves!
+
+### Syncing a new platform for the first time
+
+1. Make sure DRGSS is closed
+2. Download and install DRG on the new platform
+3. Start DRG on the new platform, skipping past the tutorial
+4. Once you've arrived in the space rig, exit the game completely
+5. Re-open DRGSS
+
+    - Both the Steam and Xbox saves should now be appearing in the tool, and the sync button should mention syncing the new platform up to the old one.
+
+6. Sync your saves!
 
 ### Kudos
 This project depends on these neat projects:
