@@ -1,13 +1,15 @@
 ﻿using Core.SaveFiles.Manipulator;
 using Core.SaveFiles.Models;
+using Microsoft.Extensions.Logging;
 using System.Reactive.Subjects;
 using System.Runtime.Versioning;
 
 namespace Core.SaveFiles.Manager
 {
     [SupportedOSPlatform("windows")]
-    public class SaveFileManager
+    public class LocalSaveFileManagerService
     {
+        private readonly ILogger<LocalSaveFileManagerService>? _Logger;
         private SteamSaveFileManipulator? _SteamSaveFileManipulator;
         private XboxSaveFileManipulator? _XboxSaveFileManipulator;
         private bool _SaveFileLocked;
@@ -42,8 +44,11 @@ namespace Core.SaveFiles.Manager
 
         // Constructors
 
-        public SaveFileManager()
+        public LocalSaveFileManagerService(
+            ILogger<LocalSaveFileManagerService>? logger = null
+        )
         {
+            _Logger = logger;
             _SaveFileLocked = false;
 
             try
@@ -64,6 +69,8 @@ namespace Core.SaveFiles.Manager
             }
             catch (Exception e)
             {
+                _Logger?.LogError(e, "Exception during SteamSaveFileWatcher initialization");
+
                 _SteamSaveFileManipulator = null;
                 _SteamSaveFileWatcher = null;
             }
@@ -86,8 +93,10 @@ namespace Core.SaveFiles.Manager
                     _SaveFileLocked |= IsFileLocked(xboxSaveFile.Path);
                 }
             }
-            catch
+            catch (Exception e)
             {
+                _Logger?.LogError(e, "Exception during XboxSaveFileWatcher initialization");
+
                 _XboxSaveFileManipulator = null;
                 _XboxSaveFileWatcher = null;
             }

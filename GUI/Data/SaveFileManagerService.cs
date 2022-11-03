@@ -10,8 +10,9 @@ namespace GUI.Data
     {
         [Inject]
         private ILogger<SaveFileManagerService> _Logger { get; set; }
+        [Inject]
+        private LocalSaveFileManagerService _SaveFileManagerService { get; set; }
 
-        private SaveFileManager _SaveFileManager { get; set; }
         private bool _SaveFileLocked;
         private int _OverwriteFileRefreshIgnoreLockChangesMilliseconds;
         private DateTime _LastOverwriteDateTime;
@@ -20,14 +21,14 @@ namespace GUI.Data
         {
             get
             {
-                return _SaveFileManager.SteamSaveFile;
+                return _SaveFileManagerService.SteamSaveFile;
             }
         }
         public XboxSaveFile? XboxSaveFile
         {
             get
             {
-                return _SaveFileManager.XboxSaveFile;
+                return _SaveFileManagerService.XboxSaveFile;
             }
         }
         public bool SaveFileLocked
@@ -45,16 +46,16 @@ namespace GUI.Data
 
         // Constructors
 
-        public SaveFileManagerService(ILogger<SaveFileManagerService> logger, ConfigLoaderService configLoader)
+        public SaveFileManagerService(ILogger<SaveFileManagerService> logger, LocalSaveFileManagerService saveFileManagerService, ConfigLoaderService configLoader)
         {
             _Logger = logger;
 
             _LastOverwriteDateTime = DateTime.UnixEpoch;
             _OverwriteFileRefreshIgnoreLockChangesMilliseconds = configLoader.Config?.overwriteFileRefreshIgnoreLockChangesMilliseconds ?? 6000;
 
-            _SaveFileManager = new SaveFileManager();
-            _SaveFileLocked = _SaveFileManager.SaveFileLocked;
-            _SaveFileManager.SaveFileLockedChanged.Subscribe(
+            _SaveFileManagerService = saveFileManagerService;
+            _SaveFileLocked = _SaveFileManagerService.SaveFileLocked;
+            _SaveFileManagerService.SaveFileLockedChanged.Subscribe(
                 locked => {
                     TimeSpan TimeSinceLastOverwrite = DateTime.Now - _LastOverwriteDateTime;
 
@@ -72,8 +73,8 @@ namespace GUI.Data
                          * This can be determined by comparing update times for the files, and if they're different
                          * then a real file change must've happened.
                          */
-                        SteamSaveFile steamSaveFile = _SaveFileManager.SteamSaveFile;
-                        XboxSaveFile xboxSaveFile = _SaveFileManager.XboxSaveFile;
+                        SteamSaveFile steamSaveFile = _SaveFileManagerService.SteamSaveFile;
+                        XboxSaveFile xboxSaveFile = _SaveFileManagerService.XboxSaveFile;
 
                         if (steamSaveFile?.LastModifiedTime != xboxSaveFile?.LastModifiedTime)
                         {
@@ -97,11 +98,11 @@ namespace GUI.Data
             _LastOverwriteDateTime = DateTime.Now;
 
             _Logger.LogInformation($"Overwriting save file. {overwriter} will overwrite {overwritee}");
-            _SaveFileManager.OverwriteSaveFile(overwriter, overwritee);
+            _SaveFileManagerService.OverwriteSaveFile(overwriter, overwritee);
             
             // Alert subscribers of the newly overwritten files
-            SteamSaveFile SteamSaveFile = _SaveFileManager.SteamSaveFile;
-            XboxSaveFile XboxSaveFile = _SaveFileManager.XboxSaveFile;
+            SteamSaveFile SteamSaveFile = _SaveFileManagerService.SteamSaveFile;
+            XboxSaveFile XboxSaveFile = _SaveFileManagerService.XboxSaveFile;
             SyncedSaveFilesChanged.OnNext(new List<SaveFile> { SteamSaveFile, XboxSaveFile });
         }
     }

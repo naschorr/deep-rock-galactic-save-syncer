@@ -151,7 +151,7 @@ namespace GUI.Data
                 }
                 catch (Exception e)
                 {
-                    _Logger.LogError($"Unable to overwrite save files!", e);
+                    _Logger.LogError(e, "Unable to overwrite save files!");
                     // todo: failure modal
                 }
             }
