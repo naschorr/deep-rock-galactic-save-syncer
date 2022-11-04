@@ -5,18 +5,22 @@
   "dwarves": {
     "engineer": {
       "promotions": 1,
+      "promotion": "bronze",
       "experience": 19693
     },
     "scout": {
       "promotions": 1,
+      "promotion": "bronze",
       "experience": 6787
     },
     "driller": {
       "promotions": 1,
+      "promotion": "bronze",
       "experience": 133138
     },
     "gunner": {
       "promotions": 1,
+      "promotion": "bronze",
       "experience": 300399
     }
   }
