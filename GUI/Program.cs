@@ -1,4 +1,5 @@
 using ElectronNET.API;
+using NLog.Extensions.Logging;
 
 namespace GUI
 {
@@ -11,6 +12,11 @@ namespace GUI
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();
+                    logging.AddNLog();
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseElectron(args);

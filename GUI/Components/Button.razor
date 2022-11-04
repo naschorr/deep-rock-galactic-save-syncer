@@ -23,6 +23,9 @@
 </div>
 
 @code {
+    [Inject]
+    private ILogger<Button> _Logger { get; set; } = default!;
+
     /// <summary>
     /// A render remplate for displaying complex elements inside the button. Will override the `text` parameter if
     /// also specified.
@@ -70,7 +73,12 @@
     {
         if (!disabled)
         {
+            _Logger.LogInformation($"Button clicked, callback invoked");
             await onClickCallback.InvokeAsync();
+        }
+        else
+        {
+            _Logger.LogDebug($"Disabled button clicked");
         }
     }
 }

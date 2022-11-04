@@ -14,10 +14,21 @@
 
 html {
     height: 100vh;
-    background: linear-gradient(66deg, $background 0%, darken($background, 5%) 100%);
+    width: 100vw;
+    background: linear-gradient(66deg, $background 0%, darken($background, 10%) 100%);
     color: $text;
     user-select: none;
     cursor: default;
+}
+
+#video_bg {
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    height: 100vh;
+    width: 100vw;
+    opacity: 0.5;
+    object-fit: cover;
 }
 
 h2, .h2 {

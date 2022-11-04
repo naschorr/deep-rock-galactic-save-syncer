@@ -1,13 +1,19 @@
 ﻿using Core.Models;
+using Microsoft.AspNetCore.Components;
+using Microsoft.VisualBasic;
 using Newtonsoft.Json.Linq;
 
 namespace GUI.Data
 {
     public class UpdateCheckerService
     {
-        private ConfigLoaderService ConfigLoader { get; set; } = default!;
+        [Inject]
+        private ILogger<UpdateCheckerService> _Logger { get; set; }
+        [Inject]
+        private ConfigLoaderService _ConfigLoader { get; set; }
+        [Inject]
+        private ElectronManifestService _ElectronManifest { get; set; }
 
-        private ElectronManifestService ElectronManifest;
         private readonly string? _Url;
         private readonly SemanticVersion _CurrentVersion;
 
@@ -15,13 +21,14 @@ namespace GUI.Data
 
         // Constructor
 
-        public UpdateCheckerService(ElectronManifestService electronManifestService, ConfigLoaderService configLoaderService)
+        public UpdateCheckerService(ILogger<UpdateCheckerService> logger, ElectronManifestService electronManifestService, ConfigLoaderService configLoaderService)
         {
-            ElectronManifest = electronManifestService;
-            ConfigLoader = configLoaderService;
+            _Logger = logger;
+            _ElectronManifest = electronManifestService;
+            _ConfigLoader = configLoaderService;
 
-            _Url = ConfigLoader.Config?.updateCheckUrl;
-            _CurrentVersion = ElectronManifest.Version;
+            _Url = _ConfigLoader.Config?.updateCheckUrl;
+            _CurrentVersion = _ElectronManifest.Version;
 
             if (_Url != null)
             {
@@ -55,6 +62,7 @@ namespace GUI.Data
                 return JArray.Parse(content);
             }
 
+            _Logger.LogWarning($"Unable to load releases from {url}");
             return null;
         }
 
@@ -77,7 +85,10 @@ namespace GUI.Data
                     var releaseVersion = item.tag_name.ToString();
                     var releaseUrl = item.html_url.ToString();
 
-                    return new Update(releaseVersion, releaseUrl);
+                    var update = new Update(releaseVersion, releaseUrl);
+                    _Logger.LogInformation($"Found latest release version: {update}, url: {update.UpdateLink}");
+
+                    return update;
                 }
             }
 
@@ -86,11 +97,13 @@ namespace GUI.Data
 
         public bool IsNewReleaseAvailable()
         {
-            if (LatestVersion != null)
+            if (LatestVersion != null && LatestVersion > _CurrentVersion)
             {
-                return LatestVersion > _CurrentVersion;
+                _Logger.LogInformation($"New relase is available: {LatestVersion} > {_CurrentVersion}");
+                return true;
             }
 
+            _Logger.LogInformation("No new releases available");
             return false;
         }
     }

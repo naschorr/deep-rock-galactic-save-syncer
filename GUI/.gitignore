@@ -2,6 +2,7 @@
 wwwroot/images/*
 wwwroot/icons/*
 wwwroot/fonts/*
+wwwroot/videos/*
 wwwroot/config.json
 
 # Unnecessary css files

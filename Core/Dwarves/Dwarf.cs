@@ -1,8 +1,11 @@
-﻿namespace Core.Dwarves
+﻿using Core.Enums;
+
+namespace Core.Dwarves
 {
     public class Dwarf
     {
         public int Promotions { get; }
+        public Promotion? Promotion { get; }
         public int Experience { get; }
         public int Level {
             get
@@ -14,10 +17,37 @@
         public Dwarf(int promotions, int experience)
         {
             Promotions = promotions;
+            Promotion = GetPromotionEnumFromPromotions(Promotions);
             Experience = experience;
         }
 
         // Methods
+
+        private Promotion? GetPromotionEnumFromPromotions(int promotions)
+        {
+            // Handle no promotions safely
+            if (promotions <= 0)
+            {
+                return null;
+            }
+
+            foreach (int promotionLevel in Enum.GetValues(typeof(Enums.Promotion)))
+            {
+                String promotionName = Enum.GetName(typeof(Enums.Promotion), promotionLevel);
+
+                /*
+                 * DRG promotions work in triplets, so checking if the promotion is at a specific level or the two
+                 * previous levels will confirm the promotion's tier (Bronze, Silver, etc)
+                 */
+                if (promotions <= promotionLevel && promotions > promotionLevel - 3)
+                {
+                    return (Enums.Promotion)Enum.Parse(typeof(Enums.Promotion), promotionName);
+                }
+            }
+
+            // Edge case handling for the (unlikely) future where more promotions could be added?
+            return Enums.Promotion.Legendary;
+        }
 
         private int CalculateLevel()
         {

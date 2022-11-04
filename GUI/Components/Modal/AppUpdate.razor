@@ -1,11 +1,11 @@
-﻿@using Core.Models
+@using Core.Models
 
 <div class="row">
     <div class="col-auto pr-0 pl-0">
         <img class="portrait" src="icons/drg_icons/mission_control.png" />
         <div class="portrait-border"></div>
     </div>
-    <div class="col pl-0 d-flex flex-column align-self-center">
+    <div class="col pr-0 pl-0 d-flex flex-column align-self-center">
         <div class="row">
             <div class="col mission-control-header">
                 <h1 class="mt-0 mb-0">Mission Control</h1>
@@ -18,8 +18,8 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col d-flex justify-content-center">
+<div class="row mt-3 justify-content-center">
+    <div class="col-auto">
         <Button text="Download Now"
             onClickCallback="OpenUpdateLinkInBrowser"
             disabled="false">
@@ -28,6 +28,9 @@
 </div>
 
 @code {
+    [Inject]
+    private ILogger<AppUpdate> _Logger { get; set; } = default!;
+
     [CascadingParameter]
     BlazoredModalInstance ModalInstance { get; set; } = default!;
 
@@ -36,6 +39,7 @@
 
     protected void OpenUpdateLinkInBrowser()
     {
+        _Logger.LogInformation($"Update download button clicked, navigating to: {Update.UpdateLink.ToString()}");
         ElectronNET.API.Electron.Shell.OpenExternalAsync(Update.UpdateLink.ToString());
     }
 }

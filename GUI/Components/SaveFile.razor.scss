@@ -30,6 +30,7 @@ $horizontal-offset: $spacer * .25 * 2 * -1;
     border-left: $border;
     top: $vertical-offset;
     left: $horizontal-offset;
+    pointer-events: none;
 }
 
 .highlight.top-right {
@@ -37,6 +38,7 @@ $horizontal-offset: $spacer * .25 * 2 * -1;
     border-right: $border;
     top: $vertical-offset;
     right: $horizontal-offset;
+    pointer-events: none;
 }
 
 .highlight.bottom-left {
@@ -44,6 +46,7 @@ $horizontal-offset: $spacer * .25 * 2 * -1;
     border-left: $border;
     bottom: $vertical-offset;
     left: $horizontal-offset;
+    pointer-events: none;
 }
 
 .highlight.bottom-right {
@@ -51,6 +54,7 @@ $horizontal-offset: $spacer * .25 * 2 * -1;
     border-right: $border;
     bottom: $vertical-offset;
     right: $horizontal-offset;
+    pointer-events: none;
 }
 
 .missing-save-file-container {

@@ -21,6 +21,8 @@
 
 @code {
     [Inject]
+    private ILogger<Header> _Logger { get; set; } = default!;
+    [Inject]
     public ConfigLoaderService ConfigLoader { get; set; } = default!;
 
     private string? _RepoUrl;
@@ -32,6 +34,7 @@
 
     protected void OpenRepoInBrowser()
     {
+        _Logger.LogInformation($"Opening repository at url: {_RepoUrl}");
         ElectronNET.API.Electron.Shell.OpenExternalAsync(_RepoUrl);
     }
 }

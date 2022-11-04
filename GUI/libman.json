@@ -15,6 +15,10 @@
       "destination": "wwwroot/images/"
     },
     {
+      "library": "../resources/videos/",
+      "destination": "wwwroot/videos/"
+    },
+    {
       "library": "../resources/fonts/",
       "destination": "wwwroot/fonts/"
     },
