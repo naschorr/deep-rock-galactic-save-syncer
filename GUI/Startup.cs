@@ -2,6 +2,7 @@
 using ElectronNET.API;
 using ElectronNET.API.Entities;
 using Blazored.Modal;
+using Core;
 
 namespace GUI
 {
@@ -21,6 +22,10 @@ namespace GUI
             services.AddServerSideBlazor();
             services.AddBlazoredModal();
 
+            // Core Services
+            Core.CoreServiceExtensions.AddClasses(services);
+
+            // GUI Services
             services.AddScoped<ModalManagerService, ModalManagerService>(); // Unable to construct when `AddSingleton` is used instead of `AddScoped`
 
             services.AddSingleton<ElectronManifestService, ElectronManifestService>();

@@ -1,13 +1,18 @@
 ﻿using Core.SaveFiles.Manager;
 using Core.SaveFiles.Manipulator;
 using Core.SaveFiles.Models;
+using Microsoft.AspNetCore.Components;
 using System.Reactive.Subjects;
 
 namespace GUI.Data
 {
     public class SaveFileManagerService
     {
-        private SaveFileManager _SaveFileManager;
+        [Inject]
+        private ILogger<SaveFileManagerService> _Logger { get; set; }
+        [Inject]
+        private LocalSaveFileManagerService _SaveFileManagerService { get; set; }
+
         private bool _SaveFileLocked;
         private int _OverwriteFileRefreshIgnoreLockChangesMilliseconds;
         private DateTime _LastOverwriteDateTime;
@@ -16,14 +21,14 @@ namespace GUI.Data
         {
             get
             {
-                return _SaveFileManager.SteamSaveFile;
+                return _SaveFileManagerService.SteamSaveFile;
             }
         }
         public XboxSaveFile? XboxSaveFile
         {
             get
             {
-                return _SaveFileManager.XboxSaveFile;
+                return _SaveFileManagerService.XboxSaveFile;
             }
         }
         public bool SaveFileLocked
@@ -41,16 +46,16 @@ namespace GUI.Data
 
         // Constructors
 
-        public SaveFileManagerService(ConfigLoaderService configLoader)
+        public SaveFileManagerService(ILogger<SaveFileManagerService> logger, LocalSaveFileManagerService saveFileManagerService, ConfigLoaderService configLoader)
         {
-            var ConfigLoader = configLoader;
+            _Logger = logger;
 
             _LastOverwriteDateTime = DateTime.UnixEpoch;
-            _OverwriteFileRefreshIgnoreLockChangesMilliseconds = ConfigLoader.Config?.overwriteFileRefreshIgnoreLockChangesMilliseconds ?? 6000;
+            _OverwriteFileRefreshIgnoreLockChangesMilliseconds = configLoader.Config?.overwriteFileRefreshIgnoreLockChangesMilliseconds ?? 6000;
 
-            _SaveFileManager = new SaveFileManager();
-            _SaveFileLocked = _SaveFileManager.SaveFileLocked;
-            _SaveFileManager.SaveFileLockedChanged.Subscribe(
+            _SaveFileManagerService = saveFileManagerService;
+            _SaveFileLocked = _SaveFileManagerService.SaveFileLocked;
+            _SaveFileManagerService.SaveFileLockedChanged.Subscribe(
                 locked => {
                     TimeSpan TimeSinceLastOverwrite = DateTime.Now - _LastOverwriteDateTime;
 
@@ -68,16 +73,18 @@ namespace GUI.Data
                          * This can be determined by comparing update times for the files, and if they're different
                          * then a real file change must've happened.
                          */
-                        SteamSaveFile steamSaveFile = _SaveFileManager.SteamSaveFile;
-                        XboxSaveFile xboxSaveFile = _SaveFileManager.XboxSaveFile;
+                        SteamSaveFile steamSaveFile = _SaveFileManagerService.SteamSaveFile;
+                        XboxSaveFile xboxSaveFile = _SaveFileManagerService.XboxSaveFile;
 
                         if (steamSaveFile?.LastModifiedTime != xboxSaveFile?.LastModifiedTime)
                         {
+                            _Logger.LogInformation($"Save file lock state changed inside dead zone: Locked = {locked}");
                             SaveFileLocked = locked;
                         }
                     }
                     else
                     {
+                        _Logger.LogInformation($"Save file lock state changed: Locked = {locked}");
                         SaveFileLocked = locked;
                     }
                 }
@@ -90,11 +97,12 @@ namespace GUI.Data
         {
             _LastOverwriteDateTime = DateTime.Now;
 
-            _SaveFileManager.OverwriteSaveFile(overwriter, overwritee);
+            _Logger.LogInformation($"Overwriting save file. {overwriter} will overwrite {overwritee}");
+            _SaveFileManagerService.OverwriteSaveFile(overwriter, overwritee);
             
             // Alert subscribers of the newly overwritten files
-            SteamSaveFile SteamSaveFile = _SaveFileManager.SteamSaveFile;
-            XboxSaveFile XboxSaveFile = _SaveFileManager.XboxSaveFile;
+            SteamSaveFile SteamSaveFile = _SaveFileManagerService.SteamSaveFile;
+            XboxSaveFile XboxSaveFile = _SaveFileManagerService.XboxSaveFile;
             SyncedSaveFilesChanged.OnNext(new List<SaveFile> { SteamSaveFile, XboxSaveFile });
         }
     }

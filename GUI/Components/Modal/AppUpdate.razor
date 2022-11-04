@@ -1,4 +1,4 @@
-﻿@using Core.Models
+@using Core.Models
 
 <div class="row">
     <div class="col-auto pr-0 pl-0">
@@ -28,6 +28,9 @@
 </div>
 
 @code {
+    [Inject]
+    private ILogger<AppUpdate> _Logger { get; set; } = default!;
+
     [CascadingParameter]
     BlazoredModalInstance ModalInstance { get; set; } = default!;
 
@@ -36,6 +39,7 @@
 
     protected void OpenUpdateLinkInBrowser()
     {
+        _Logger.LogInformation($"Update download button clicked, navigating to: {Update.UpdateLink.ToString()}");
         ElectronNET.API.Electron.Shell.OpenExternalAsync(Update.UpdateLink.ToString());
     }
 }

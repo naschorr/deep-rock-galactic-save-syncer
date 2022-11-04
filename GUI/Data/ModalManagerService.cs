@@ -8,12 +8,15 @@ namespace GUI.Data
     public class ModalManagerService
     {
         [Inject]
+        private ILogger<ModalManagerService> _Logger { get; set; }
+        [Inject]
         private IModalService _Modal { get; set; }
 
         // Constructor
 
-        public ModalManagerService(IModalService modal)
+        public ModalManagerService(ILogger<ModalManagerService> logger, IModalService modal)
         {
+            _Logger = logger;
             _Modal = modal;
         }
 
@@ -53,6 +56,7 @@ namespace GUI.Data
                 Class = "modal"
             };
 
+            _Logger.LogInformation($"Showing {typeof(Component).Name} modal.");
             return _Modal.Show<Modal>("Modal", modalParameters, modalOptions);
         }
     }

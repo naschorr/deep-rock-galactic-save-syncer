@@ -110,6 +110,7 @@
     {
         if (SteamSaveFile == null || XboxSaveFile == null)
         {
+            Logger.LogWarning($"Unable to select save file, one of the save file is null: SteamSaveFile: {SteamSaveFile}, XboxSaveFile {XboxSaveFile}");
             return;
         }
 
@@ -118,7 +119,7 @@
 
     protected void UpdateOverwriterOverwritee(Core.SaveFiles.Models.SaveFile overwriter, Core.SaveFiles.Models.SaveFile overwritee)
     {
-        Logger.LogDebug($"Updating overwrite status: Overwriter: {overwriter.GetType().Name}, Overwritee: {overwritee.GetType().Name}.");
+        Logger.LogDebug($"Updating overwrite status: Overwriter: {overwriter}, Overwritee: {overwritee}.");
 
         SyncerManager.Overwriter = overwriter;
         SyncerManager.Overwritee = overwritee;
