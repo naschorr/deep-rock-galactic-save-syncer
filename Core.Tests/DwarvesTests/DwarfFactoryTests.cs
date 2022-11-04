@@ -30,6 +30,10 @@ namespace Core.Tests.DwarvesTests
                 engineer.Promotions
             );
             Assert.Equal(
+                truthFile.Dwarves?[DwarfType.Engineer].Promotion.ToString(),
+                engineer.Promotion.ToString()
+            );
+            Assert.Equal(
                 truthFile.Dwarves?[DwarfType.Engineer].Experience,
                 engineer.Experience
             );
@@ -38,6 +42,10 @@ namespace Core.Tests.DwarvesTests
             Assert.Equal(
                 truthFile.Dwarves?[DwarfType.Scout].Promotions,
                 scout.Promotions
+            );
+            Assert.Equal(
+                truthFile.Dwarves?[DwarfType.Scout].Promotion.ToString(),
+                scout.Promotion.ToString()
             );
             Assert.Equal(
                 truthFile.Dwarves?[DwarfType.Scout].Experience,
@@ -50,6 +58,10 @@ namespace Core.Tests.DwarvesTests
                 gunner.Promotions
             );
             Assert.Equal(
+                truthFile.Dwarves?[DwarfType.Gunner].Promotion.ToString(),
+                gunner.Promotion.ToString()
+            );
+            Assert.Equal(
                 truthFile.Dwarves?[DwarfType.Gunner].Experience,
                 gunner.Experience
             );
@@ -58,6 +70,10 @@ namespace Core.Tests.DwarvesTests
             Assert.Equal(
                 truthFile.Dwarves?[DwarfType.Driller].Promotions,
                 driller.Promotions
+            );
+            Assert.Equal(
+                truthFile.Dwarves?[DwarfType.Driller].Promotion.ToString(),
+                driller.Promotion.ToString()
             );
             Assert.Equal(
                 truthFile.Dwarves?[DwarfType.Driller].Experience,
