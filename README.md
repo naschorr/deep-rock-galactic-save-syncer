@@ -67,11 +67,9 @@ If you've made progress with both save files separately, DRGSS will alert you of
 To fix this, simply pick a save file to keep, and the button will become enabled again.
 
 ## Getting Started
-
 Getting started with DRGSS is easy, regardless of it being your first time on a new platform, or if you've been manually syncing the save files for ages.
 
 ### Syncing existing saves
-
 1. Open up DRGSS
 
     - Notice how both the Steam and Xbox saves are appearing in the tool, and the oldest (based on Dwarf progress) is selected to sync up with the latest save.
@@ -79,7 +77,6 @@ Getting started with DRGSS is easy, regardless of it being your first time on a 
 1. Sync your saves!
 
 ### Syncing a new platform for the first time
-
 1. Make sure DRGSS is closed
 2. Download and install DRG on the new platform
 3. Start DRG on the new platform, skipping past the tutorial
@@ -106,3 +103,4 @@ Assets:
 - [Xbox icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/xbox)
 - [Document icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/document)
 - [Navigation icons created by Smashicons - Flaticon](https://www.flaticon.com/free-icons/navigation)
+- The steam/fog effect in the background is from [here](https://www.youtube.com/watch?v=fLCQr6tt9Qw) and edited by me

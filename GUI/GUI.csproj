@@ -35,6 +35,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\css\bootstrap\" />
     <Folder Include="wwwroot\fonts\" />
+    <Folder Include="wwwroot\videos\" />
   </ItemGroup>
 
   <ItemGroup>
