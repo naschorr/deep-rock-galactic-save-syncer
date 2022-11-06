@@ -7,7 +7,16 @@ namespace Core
     {
         public static IServiceCollection AddClasses(this IServiceCollection services)
         {
-            services.AddSingleton<LocalSaveFileManagerService>();
+            bool isDemoMode = Boolean.Parse(Environment.GetEnvironmentVariable("DEMO") ?? "false");
+
+            if (isDemoMode)
+            {
+                services.AddSingleton<ISaveFileManagerService, DemoSaveFileManagerService>();
+            }
+            else
+            {
+                services.AddSingleton<ISaveFileManagerService, LocalSaveFileManagerService>();
+            }
 
             return services;
         }

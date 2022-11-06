@@ -1,12 +1,4 @@
 {
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:11038",
-      "sslPort": 44315
-    }
-  },
   "profiles": {
     "GUI": {
       "commandName": "Project",
@@ -17,13 +9,6 @@
       "applicationUrl": "https://localhost:7046;http://localhost:5046",
       "dotnetRunMessages": true
     },
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
     "DRGSS Electron (Dev)": {
       "commandName": "Executable",
       "executablePath": "electronize",
@@ -32,6 +17,25 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+    "GUI Demo": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DEMO": "true"
+      },
+      "applicationUrl": "https://localhost:7046;http://localhost:5046",
+      "dotnetRunMessages": true,
+      "hotReloadEnabled": false
+    }
+  },
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:11038",
+      "sslPort": 44315
     }
   }
 }

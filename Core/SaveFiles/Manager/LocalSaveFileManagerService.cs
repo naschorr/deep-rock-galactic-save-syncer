@@ -7,7 +7,7 @@ using System.Runtime.Versioning;
 namespace Core.SaveFiles.Manager
 {
     [SupportedOSPlatform("windows")]
-    public class LocalSaveFileManagerService
+    public class LocalSaveFileManagerService : ISaveFileManagerService
     {
         private readonly ILogger<LocalSaveFileManagerService>? _Logger;
         private SteamSaveFileManipulator? _SteamSaveFileManipulator;

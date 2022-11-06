@@ -1,5 +1,4 @@
 ﻿using Core.SaveFiles.Manager;
-using Core.SaveFiles.Manipulator;
 using Core.SaveFiles.Models;
 using Microsoft.AspNetCore.Components;
 using System.Reactive.Subjects;
@@ -11,7 +10,7 @@ namespace GUI.Data
         [Inject]
         private ILogger<SaveFileManagerService> _Logger { get; set; }
         [Inject]
-        private LocalSaveFileManagerService _SaveFileManagerService { get; set; }
+        private ISaveFileManagerService _SaveFileManagerService { get; set; }
 
         private bool _SaveFileLocked;
         private int _OverwriteFileRefreshIgnoreLockChangesMilliseconds;
@@ -46,7 +45,7 @@ namespace GUI.Data
 
         // Constructors
 
-        public SaveFileManagerService(ILogger<SaveFileManagerService> logger, LocalSaveFileManagerService saveFileManagerService, ConfigLoaderService configLoader)
+        public SaveFileManagerService(ILogger<SaveFileManagerService> logger, ISaveFileManagerService saveFileManagerService, ConfigLoaderService configLoader)
         {
             _Logger = logger;
 
@@ -99,7 +98,7 @@ namespace GUI.Data
 
             _Logger.LogInformation($"Overwriting save file. {overwriter} will overwrite {overwritee}");
             _SaveFileManagerService.OverwriteSaveFile(overwriter, overwritee);
-            
+
             // Alert subscribers of the newly overwritten files
             SteamSaveFile SteamSaveFile = _SaveFileManagerService.SteamSaveFile;
             XboxSaveFile XboxSaveFile = _SaveFileManagerService.XboxSaveFile;
