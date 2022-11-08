@@ -1,12 +1,55 @@
 ﻿@import "../wwwroot/css/_variables.scss";
+@import "../wwwroot/css/_mixins.scss";
+
+$image-container-size: 64px;
+
+.image-container {
+    position: relative;
+    height: $image-container-size;
+    width: $image-container-size;
+    @include slant-down;
+}
+
+.image-container.reverse {
+    @include slant-up;
+}
+
+.hex-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    aspect-ratio: 1;
+    clip-path: polygon(93.30% 75.00%,50.00% 100.00%,6.70% 75.00%,6.70% 25.00%,50.00% 0.00%,93.30% 25.00%);
+}
+
+.hex-border {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    aspect-ratio: 1;
+    clip-path: polygon(93.30% 75.00%,50.00% 100.00%,6.70% 75.00%,6.70% 25.00%,50.00% 0.00%,93.30% 25.00%,93.30% 75.00%,calc(93.30% - 0.22rem) calc(25.00% - -0.12rem),calc(50.00% - -0.00rem) calc(0.00% - -0.25rem),calc(6.70% - -0.22rem) calc(25.00% - -0.12rem),calc(6.70% - -0.22rem) calc(75.00% - 0.13rem),calc(50.00% - 0.00rem) calc(100.00% - 0.25rem),calc(93.30% - 0.22rem) calc(75.00% - 0.12rem),calc(93.30% - 0.22rem) calc(25.00% - -0.12rem));
+    background-color: white;
+}
 
 .background-bar {
     position: absolute;
     top: 0;
     bottom: 0;
     margin: auto 0;
-    background-color: rgba(0, 0, 0, 0.33);
-    width: calc(100% - 40px + #{$spacer * 0.25});
-    margin-left: 40px;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.33), rgba(0, 0, 0, 0) 75%);
+    width: calc(100% - #{$image-container-size} + #{$spacer * 0.25});
+    margin-left: calc(#{$image-container-size} - 5px); // 5px just moves the left edge so that it's underneath the hex border of the image-container
     z-index: -1;
+}
+
+.background-bar.reverse {
+    background: linear-gradient(-90deg, rgba(0, 0, 0, 0.33), rgba(0, 0, 0, 0) 75%);
+    margin-left: 0;
+    margin-right: calc(#{$image-container-size} - 5px); // 5px just moves the right edge so that it's underneath the hex border of the image-container
+    text-align: end;
+}
+
+.background-bar-text {
+    width: 100%;
 }
