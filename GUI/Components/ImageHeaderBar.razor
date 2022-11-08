@@ -1,20 +1,24 @@
-﻿<div class="d-flex align-items-center @containerClasses position-relative">
-    <img class="@imageClasses" src="@imagePath" />
-    <div class="@textClasses">@text</div>
-    <div class="background-bar" style="height: @barHeight;"></div>
+﻿<div class="d-flex @(reverse ? "reverse flex-row-reverse" : "") align-items-center position-relative @containerClasses">
+    <div class="image-container @(reverse ? "reverse" : "")">
+        <img class="hex-image icon-xl" src="@imagePath" />
+        <div class="hex-border"></div>
+    </div>
+    <div class="background-bar d-flex align-items-center @(reverse ? "reverse" : "")" style="height: @barHeight;">
+        <div class="background-bar-text ml-3 mr-3 @textClasses">@text</div>
+    </div>
 </div>
 
 @code {
     [Parameter]
-    public string containerClasses { get; set; } = "mt-1 mb-3 ml-1 mr-1";
+    public string containerClasses { get; set; } = "";
     [Parameter]
     public string imagePath { get; set; } = default!;
-    [Parameter]
-    public string imageClasses { get; set; } = "icon-xl mr-3";
     [Parameter]
     public string text { get; set; } = "Header Text";
     [Parameter]
     public string textClasses { get; set; } = "";
     [Parameter]
     public string barHeight { get; set; } = "24px";
+    [Parameter]
+    public bool reverse { get; set; } = false;
 }

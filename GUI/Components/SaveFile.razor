@@ -2,16 +2,17 @@
 @using GUI.Data
 @using Core.Enums
 @using System.Reactive.Linq
+@using GUI.Data.Enums
 
 @if (saveFile != null)
 {
     <ImageHeaderBar imagePath="@GetImagePath()"
-        imageClasses="icon-xl mr-3"
-        containerClasses="mt-1 mb-3 ml-1 mr-1"
+        containerClasses="mb-3"
         text="@($"{SyncerManager.GetSaveFilePlatform(saveFile).ToString()} Save File")"
         textClasses="h2"
-        barHeight="32px" />
-    <div class="pl-1 pr-1 position-relative save-file-container @(ReferenceEquals(saveFile, Overwriter) ? "active" : "")"
+        barHeight="32px"
+        reverse="@(orientation == Orientation.Right)" />
+    <div class="@(orientation == Orientation.Left ? "ml-5" : "ml-3") @(orientation == Orientation.Right ? "mr-5" : "mr-3") pl-1 pr-1 position-relative save-file-container @(ReferenceEquals(saveFile, Overwriter) ? "active" : "")"
         @onmouseover="@(e => highlight = true)"
         @onmouseout="@(e => highlight = false)">
         <div class="top-left @(highlight ? "highlight" : "") @(ReferenceEquals(saveFile, Overwriter) ? "active" : "")"></div>
@@ -52,6 +53,8 @@ else
 
     [Parameter]
     public Core.SaveFiles.Models.SaveFile? saveFile { get; set; }
+    [Parameter]
+    public Orientation orientation { get; set; } = Orientation.Left;
 
     private bool highlight = false;
     private Core.SaveFiles.Models.SaveFile? Overwriter;
