@@ -25,7 +25,7 @@ Granular save file comparison lets you see what's changed at a glance:
 
 <p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/images/example_comparison.png" /></p>
 
-> Notice that the Driller on the left has one more promotion than the one on the right, which the `>` comparison operator in the middle confirms.
+> Notice that the Gunner on the left has been promoted once to Gold I, while the one on the right is still Silver III. Since the left Gunner has more promotions, it means that the left save file has likely been played more recently. The `>` operator in the middle confirms this.
 
 ### One-click operation by default
 The big button at the bottom lets you know what's going to happen:
