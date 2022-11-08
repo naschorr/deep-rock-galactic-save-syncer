@@ -1,42 +1,41 @@
 ﻿@import "../wwwroot/css/_variables.scss";
 
-.data-container {
-    margin-left: $spacer * 0.25 * 4;
-}
-
 .promotion-star {
     display: inline;
-    font-size: 24px
+    font-size: 28px
 }
 
-$promotion-stroke-width: 1px;
+$promotion-stroke-width: 1.8px;
+
+@mixin promotion-stroke($color) {
+    text-stroke: $promotion-stroke-width $color;
+    -webkit-text-stroke: $promotion-stroke-width $color;
+}
 
 .promotion-bronze {
-    text-stroke: $promotion-stroke-width #c2775e;
-    -webkit-text-stroke: $promotion-stroke-width #c2775e;
+    @include promotion-stroke(#c2775e);
 }
 
 .promotion-silver {
-    text-stroke: $promotion-stroke-width #8a8890;
-    -webkit-text-stroke: $promotion-stroke-width #8a8890;
+    @include promotion-stroke(#918b8b);
 }
 
 .promotion-gold {
-    text-stroke: $promotion-stroke-width #d69731;
-    -webkit-text-stroke: $promotion-stroke-width #d69731;
+    @include promotion-stroke(#d69731);
 }
 
 .promotion-platinum {
-    text-stroke: $promotion-stroke-width #b7a783;
-    -webkit-text-stroke: $promotion-stroke-width #b7a783;
+    @include promotion-stroke(#b7a783);
 }
 
 .promotion-diamond {
-    text-stroke: $promotion-stroke-width #34c3c5;
-    -webkit-text-stroke: $promotion-stroke-width #34c3c5;
+    @include promotion-stroke(#34c3c5);
 }
 
 .promotion-legendary {
-    text-stroke: $promotion-stroke-width #c53a20;
-    -webkit-text-stroke: $promotion-stroke-width #c53a20;
+    @include promotion-stroke(#c53a20);
+}
+
+.data-container {
+    margin-left: $spacer * 0.25 * 4;
 }

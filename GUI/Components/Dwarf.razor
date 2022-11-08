@@ -11,7 +11,7 @@
         <div class="col-auto d-flex align-items-center">
             @for (var promotion = 0; promotion < getDwarfPromotionsInTier(); promotion++)
             {
-                <div class="m-1 promotion-star promotion-@dwarf.Promotion.ToString().ToLower()"
+                <div class="promotion-star promotion-@dwarf.Promotion.ToString().ToLower() ml-1 mr-1"
                 title="@getDwarfPromotionsTooltip()">
                     ★
                 </div>
