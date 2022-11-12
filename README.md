@@ -81,7 +81,10 @@ Getting started with DRGSS is easy, regardless of it being your first time on a 
 2. Download and install DRG on the new platform
 3. Start DRG on the new platform, skipping past the tutorial
 4. Once you've arrived in the space rig, exit the game completely
-5. Re-open DRGSS
+
+    - Note that DRGSS uses the Windows registry and Steam's local location mapping to figure out where DRG is installed. (and thus where the save file are located) This can take a moment to sync up, but restarting Steam manually can speed the process up if you're seeing a "Missing Save File" warning. Make sure to fully kill Steam (While inside Steam: mouse over to the top left corner > Click on `Steam` > Click `Exit`) before reopening.
+
+1. Re-open DRGSS
 
     - Both the Steam and Xbox saves should now be appearing in the tool, and the sync button should mention syncing the new platform up to the old one.
 
