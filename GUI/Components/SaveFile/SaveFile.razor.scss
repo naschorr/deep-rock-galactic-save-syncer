@@ -1,6 +1,7 @@
-﻿@import "../wwwroot/css/_variables.scss";
+﻿@import "../../wwwroot/css/_variables.scss";
 
 .save-file-container {
+    flex-grow: 1;
     border-top: $spacer * 0.25 solid $primary;
     border-bottom: $spacer * 0.25 solid $primary;
     background: linear-gradient(66deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.33) 100%);
@@ -61,9 +62,11 @@ $horizontal-offset: $spacer * .25 * 2 * -1;
     height: 100%;
 }
 
+$missing-save-file-img-size: 128px;
+
 .missing-save-file-content-container {
-    height: 256px;
-    width: 256px;
+    height: $missing-save-file-img-size;
+    width: $missing-save-file-img-size;
 }
 
 img.missing-save-file {
@@ -77,16 +80,19 @@ img.missing-save-file {
 .missing-save-file-background {
     top: 50%;
     left: 50%;
-    box-shadow: 0 0 256px 128px black;
+    box-shadow: 0 0 $missing-save-file-img-size #{$missing-save-file-img-size / 2} black;
 }
 
 .missing-save-file-header,
 .missing-save-file-text {
-    text-align: center;
     z-index: 5;
 }
 
 .missing-save-file-text {
     max-width: 512px;
     opacity: $faded;
+}
+
+.missing-save-file-text>li {
+    margin-bottom: $spacer * .25;
 }
