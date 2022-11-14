@@ -12,7 +12,7 @@
     <PackageLicenseFile>H:\Google Drive\Code\Csharp\DeepRockGalacticSaveSyncer\LICENSE</PackageLicenseFile>
     <Description>Core library for the Deep Rock Galactic Save Syncer</Description>
     <AssemblyName>Deep_Rock_Galactic_Save_Syncer</AssemblyName>
-    <Version>2.4.0</Version>
+    <Version>2.5.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
