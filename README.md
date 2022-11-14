@@ -90,6 +90,9 @@ Getting started with DRGSS is easy, regardless of it being your first time on a 
 
 6. Sync your saves!
 
+## Logs
+The logs are available at: `%localappdata%\Programs\deep-rock-galactic-save-syncer\resources\bin\logs`. The latest log file will always be `drgss.log`, but older ones are available as well.
+
 ## Kudos
 This project depends on these neat projects:
 
