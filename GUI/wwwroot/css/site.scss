@@ -55,6 +55,13 @@ h3, .h3 {
     top: 1px;
 }
 
+.link {
+    color: $link;
+}
+.link:hover {
+    text-decoration: underline;
+}
+
 /* Bootstrap-like Stuff */
 
 .icon-xl {

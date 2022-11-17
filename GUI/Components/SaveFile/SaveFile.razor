@@ -30,10 +30,10 @@
     }
     else
     {
-        <div class="pl-1 pr-1 missing-save-file-container"
+        <div class="pl-1 pr-1 d-flex justify-content-center align-items-center missing-save-file-container"
             @onmouseover="@(e => highlight = true)"
             @onmouseout="@(e => highlight = false)">
-            <div class="mt-5 mb-5 d-flex flex-column justify-content-center align-items-center">
+            <div class="mt-5 mb-5 d-flex flex-column align-items-center">
                 <div class="missing-save-file-content-container position-relative">
                     <img class="missing-save-file position-absolute" src="icons/drg_icons/warning_elite_threat_icon.png" />
                     <div class="missing-save-file-background position-absolute"></div>
@@ -42,18 +42,18 @@
                 {
                     <h3 class="missing-save-file-header mb-2">Unable to find Steam save file</h3>
                     <ul class="missing-save-file-text mt-0 mb-0">
-                        <li>Make sure DRG is installed and has been ran at least once.</li>
-                        <li>Make sure you've skipped through the tutorial and have made it back to the space rig, then quit DRG.</li>
+                        <li>Make sure DRG is installed through Steam.</li>
+                        <li>Ensure that you've skipped through the tutorial and have made it back to the space rig, then quit DRG.</li>
                         <li>Restart this app.</li>
-                        <li>If you're still seeing this error, fully exit out of Steam and reopen it. Then restart this app.</li>
+                        <li>If you're still seeing this error, fully <span class="link" @onclick="@(e => OpenExitSteamImageInBrowser())">exit out of Steam</span> and reopen it. Then restart this app.</li>
                     </ul>
                 }
                 else if (saveFilePlatform == Platform.Xbox)
                 {
                     <h3 class="missing-save-file-header mb-2">Unable to find Xbox save file</h3>
                     <ul class="missing-save-file-text mt-0 mb-0">
-                        <li>Make sure DRG is installed and has been ran at least once.</li>
-                        <li>Make sure you've skipped through the tutorial and have made it back to the space rig, then quit DRG.</li>
+                        <li>Make sure DRG is installed through Xbox.</li>
+                        <li>Ensure that you've skipped through the tutorial and have made it back to the space rig, then quit DRG.</li>
                         <li>Finally, restart this app.</li>
                     </ul>
                 }
@@ -87,6 +87,13 @@
         SyncerManager.OverwriterChanged.DistinctUntilChanged()
             .Select(saveFile => Overwriter = saveFile)
             .Subscribe();
+    }
+
+    private void OpenExitSteamImageInBrowser()
+    {
+        String url = "https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/images/exit_steam_guide.png";
+
+        ElectronNET.API.Electron.Shell.OpenExternalAsync(url);
     }
 
     private bool isActive()

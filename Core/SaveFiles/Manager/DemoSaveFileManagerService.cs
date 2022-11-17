@@ -19,6 +19,8 @@ namespace Core.SaveFiles.Manager
     public class DemoSaveFileManagerService : ISaveFileManagerService
     {
         private bool _SaveFileLocked;
+        private bool _IsSteamSaveFileNull;
+        private bool _IsXboxSaveFileNull;
 
         public SteamSaveFile? SteamSaveFile
         {
@@ -51,12 +53,19 @@ namespace Core.SaveFiles.Manager
         public DemoSaveFileManagerService()
         {
             _SaveFileLocked = false;
+            _IsSteamSaveFileNull = Boolean.Parse(Environment.GetEnvironmentVariable("STEAM_SAVEFILE_NULL") ?? "false");
+            _IsXboxSaveFileNull = Boolean.Parse(Environment.GetEnvironmentVariable("XBOX_SAVEFILE_NULL") ?? "false");
         }
 
         // Methods
 
-        private SteamSaveFile GetSteamSaveFile()
+        private SteamSaveFile? GetSteamSaveFile()
         {
+            if (_IsSteamSaveFileNull)
+            {
+                return null;
+            }
+
             String fileName = $"{String.Join("", Enumerable.Range(0, 17).Select(n => new Random().Next(10)))}_Player.sav";
             DateTime today = new DateTime(
                 DateTime.Now.Year,
@@ -79,8 +88,13 @@ namespace Core.SaveFiles.Manager
             return new SteamSaveFile(file, dwarves);
         }
 
-        private XboxSaveFile GetXboxSaveFile()
+        private XboxSaveFile? GetXboxSaveFile()
         {
+            if (_IsXboxSaveFileNull)
+            {
+                return null;
+            }
+
             DateTime lastMonth = new DateTime(
                 DateTime.Now.Year,
                 DateTime.Now.Month,
