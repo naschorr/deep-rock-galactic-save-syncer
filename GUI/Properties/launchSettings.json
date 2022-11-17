@@ -18,12 +18,61 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
+    "DRGSS Electron (Dev) NullSaves": {
+      "commandName": "Executable",
+      "executablePath": "electronize",
+      "commandLineArgs": "start",
+      "workingDirectory": ".",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DEMO": "true",
+        "STEAM_SAVEFILE_NULL": "true",
+        "XBOX_SAVEFILE_NULL": "true"
+      }
+    },
     "GUI Demo": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "DEMO": "true"
+      },
+      "applicationUrl": "https://localhost:7046;http://localhost:5046",
+      "dotnetRunMessages": true,
+      "hotReloadEnabled": false
+    },
+    "GUI Demo NullSteam": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DEMO": "true",
+        "STEAM_SAVEFILE_NULL": "true"
+      },
+      "applicationUrl": "https://localhost:7046;http://localhost:5046",
+      "dotnetRunMessages": true,
+      "hotReloadEnabled": false
+    },
+    "GUI Demo NullXbox": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DEMO": "true",
+        "XBOX_SAVEFILE_NULL": "true"
+      },
+      "applicationUrl": "https://localhost:7046;http://localhost:5046",
+      "dotnetRunMessages": true,
+      "hotReloadEnabled": false
+    },
+    "GUI Demo NullSaves": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DEMO": "true",
+        "XBOX_SAVEFILE_NULL": "true",
+        "STEAM_SAVEFILE_NULL": "true"
       },
       "applicationUrl": "https://localhost:7046;http://localhost:5046",
       "dotnetRunMessages": true,
