@@ -66,9 +66,6 @@ If you've made progress with both save files separately, DRGSS will alert you of
 
 To fix this, simply pick a save file to keep, and the button will become enabled again.
 
-## Logs
-The logs are available at: `%localappdata%\Programs\deep-rock-galactic-save-syncer\resources\bin\logs`. The latest log file will always be `drgss.log`, but older ones are available as well.
-
 ## Kudos
 This project depends on these neat projects:
 
