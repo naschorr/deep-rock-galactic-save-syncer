@@ -41,10 +41,12 @@
                 @if (saveFilePlatform == Platform.Steam)
                 {
                     <h3 class="missing-save-file-header mb-2">Unable to find Steam save file</h3>
+                    <h4 class="missing-save-file-text mt-0 mb-1">Troubleshooting Steps:</h4>
                     <ul class="missing-save-file-text mt-0 mb-0">
-                        <li>Make sure DRG is installed through Steam.</li>
-                        <li>Ensure that you've skipped through the tutorial and have made it back to the space rig, then quit DRG.</li>
-                        <li>Restart this app.</li>
+                        <li>Make sure DRG is installed through Steam</li>
+                        <li>Open up DRG and skip through the tutorial</li>
+                        <li>Once you've loaded into the space rig, close DRG</li>
+                        <li>Restart this app and start syncing your saves!</li>
                         <li>If you're still seeing this error, fully&nbsp;
                             @if (_ExitSteamExampleUrl != null)
                             {
@@ -61,10 +63,12 @@
                 else if (saveFilePlatform == Platform.Xbox)
                 {
                     <h3 class="missing-save-file-header mb-2">Unable to find Xbox save file</h3>
+                    <h4 class="missing-save-file-text mt-0 mb-1">Troubleshooting Steps:</h4>
                     <ul class="missing-save-file-text mt-0 mb-0">
                         <li>Make sure DRG is installed through Xbox.</li>
-                        <li>Ensure that you've skipped through the tutorial and have made it back to the space rig, then quit DRG.</li>
-                        <li>Finally, restart this app.</li>
+                        <li>Open up DRG and skip through the tutorial</li>
+                        <li>Once you've loaded into the space rig, close DRG</li>
+                        <li>Restart this app and start syncing your saves!</li>
                     </ul>
                 }
                 else
