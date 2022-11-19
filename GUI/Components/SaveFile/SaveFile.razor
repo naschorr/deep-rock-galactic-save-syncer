@@ -1,16 +1,16 @@
-@using Core.SaveFiles.Models
+﻿@using Core.SaveFiles.Models
 @using GUI.Data
 @using Core.Enums
 @using System.Reactive.Linq
 @using GUI.Data.Enums
 
 <div class="@(orientation == Orientation.Left ? "ml-5" : "ml-3") @(orientation == Orientation.Right ? "mr-5" : "mr-3") pl-1 pr-1 position-relative save-file-container @(isActive() ? "active" : "")"
-    @onmouseover="@(e => highlight = true)"
-    @onmouseout="@(e => highlight = false)">
-    <div class="top-left @(highlight ? "highlight" : "") @(isActive() ? "active" : "")"></div>
-    <div class="top-right @(highlight ? "highlight" : "") @(isActive() ? "active" : "")"></div>
-    <div class="bottom-left @(highlight ? "highlight" : "") @(isActive() ? "active" : "")"></div>
-    <div class="bottom-right @(highlight ? "highlight" : "") @(isActive() ? "active" : "")"></div>
+    @onmouseover="@(e => _Highlight = true)"
+    @onmouseout="@(e => _Highlight = false)">
+    <div class="top-left @(_Highlight ? "highlight" : "") @(isActive() ? "active" : "")"></div>
+    <div class="top-right @(_Highlight ? "highlight" : "") @(isActive() ? "active" : "")"></div>
+    <div class="bottom-left @(_Highlight ? "highlight" : "") @(isActive() ? "active" : "")"></div>
+    <div class="bottom-right @(_Highlight ? "highlight" : "") @(isActive() ? "active" : "")"></div>
 
     @if (saveFile != null)
     {
@@ -31,8 +31,8 @@
     else
     {
         <div class="pl-1 pr-1 d-flex justify-content-center align-items-center missing-save-file-container"
-            @onmouseover="@(e => highlight = true)"
-            @onmouseout="@(e => highlight = false)">
+            @onmouseover="@(e => _Highlight = true)"
+            @onmouseout="@(e => _Highlight = false)">
             <div class="mt-5 mb-5 d-flex flex-column align-items-center">
                 <div class="missing-save-file-content-container position-relative">
                     <img class="missing-save-file position-absolute" src="icons/drg_icons/warning_elite_threat_icon.png" />
@@ -93,16 +93,16 @@
     public Orientation orientation { get; set; } = Orientation.Left;
 
     private string? _ExitSteamExampleUrl;
-    private bool highlight = false;
-    private Core.SaveFiles.Models.SaveFile? Overwriter;
+    private bool _Highlight = false;
+    private Core.SaveFiles.Models.SaveFile? _Overwriter;
 
     protected override void OnInitialized()
     {
         _ExitSteamExampleUrl = ConfigLoader.Config?.exitSteamExampleUrl;
 
-        Overwriter = SyncerManager.Overwriter;
+        _Overwriter = SyncerManager.Overwriter;
         SyncerManager.OverwriterChanged.DistinctUntilChanged()
-            .Select(saveFile => Overwriter = saveFile)
+            .Select(saveFile => _Overwriter = saveFile)
             .Subscribe();
     }
 
@@ -116,7 +116,7 @@
     {
         if (saveFile != null)
         {
-            return ReferenceEquals(saveFile, Overwriter);
+            return ReferenceEquals(saveFile, _Overwriter);
         }
 
         return false;
