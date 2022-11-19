@@ -1,5 +1,6 @@
 {
   "repoUrl": "https://github.com/naschorr/deep-rock-galactic-save-syncer",
+  "wikiUrl": "https://github.com/naschorr/deep-rock-galactic-save-syncer/wiki",
   "updateCheckUrl": "https://api.github.com/repos/naschorr/deep-rock-galactic-save-syncer/releases",
   "overwriteFileRefreshIgnoreLockChangesMilliseconds": 7500
 }
