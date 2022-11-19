@@ -15,27 +15,12 @@
     color: $text;
 }
 
-.refresh-container {
-    position: absolute;
-    top: 0;
-    left: $spacer * .25 * 4;
-}
-
-.refresh-container:hover {
-    opacity: 1;
-}
-
-.github-link-container {
+.link-container {
     position: absolute;
     top: 0;
     right: 0;
 }
 
-.github-link-container:hover {
+.link-container > div:hover {
     opacity: 1;
-}
-
-.refresh-container.no-refresh-available {
-    pointer-events: none;
-    opacity: 0 !important;
 }

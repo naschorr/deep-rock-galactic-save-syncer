@@ -81,5 +81,6 @@ Assets:
 - [Steam icons created by Hight Quality Icons - Flaticon](https://www.flaticon.com/free-icons/steam)
 - [Xbox icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/xbox)
 - [Document icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/document)
+- [Question icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/question)
 - [Navigation icons created by Smashicons - Flaticon](https://www.flaticon.com/free-icons/navigation)
 - The steam/fog effect in the background is from [here](https://www.youtube.com/watch?v=fLCQr6tt9Qw) and edited by me
