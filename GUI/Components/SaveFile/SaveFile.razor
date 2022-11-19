@@ -1,4 +1,4 @@
-﻿@using Core.SaveFiles.Models
+@using Core.SaveFiles.Models
 @using GUI.Data
 @using Core.Enums
 @using System.Reactive.Linq
@@ -45,7 +45,17 @@
                         <li>Make sure DRG is installed through Steam.</li>
                         <li>Ensure that you've skipped through the tutorial and have made it back to the space rig, then quit DRG.</li>
                         <li>Restart this app.</li>
-                        <li>If you're still seeing this error, fully <span class="link" @onclick="@(e => OpenExitSteamImageInBrowser())">exit out of Steam</span> and reopen it. Then restart this app.</li>
+                        <li>If you're still seeing this error, fully&nbsp;
+                            @if (_ExitSteamExampleUrl != null)
+                            {
+                                <span class="link" @onclick="@(e => OpenExitSteamImageInBrowser())">exit out of Steam</span>
+                            }
+                            else
+                            {
+                                <span>exit out of Steam</span>
+                            }
+                            &nbsp;and reopen it. Then restart this app.
+                        </li>
                     </ul>
                 }
                 else if (saveFilePlatform == Platform.Xbox)
@@ -58,7 +68,7 @@
                     </ul>
                 }
                 else
-                {   
+                {
                     // Generic fallback, that's honestly not necessary right now. Maybe the DRG devs will add more platforms in the future?
                     <h3 class="missing-save-file-header mb-2">Unable to find save file</h3>
                 }
@@ -69,7 +79,11 @@
 
 @code {
     [Inject]
+    private ILogger<SaveFile> _Logger { get; set; } = default!;
+    [Inject]
     public SyncerManagerService SyncerManager { get; set; } = default!;
+    [Inject]
+    public ConfigLoaderService ConfigLoader { get; set; } = default!;
 
     [Parameter]
     public Platform saveFilePlatform { get; set; }
@@ -78,11 +92,14 @@
     [Parameter]
     public Orientation orientation { get; set; } = Orientation.Left;
 
+    private string? _ExitSteamExampleUrl;
     private bool highlight = false;
     private Core.SaveFiles.Models.SaveFile? Overwriter;
 
     protected override void OnInitialized()
     {
+        _ExitSteamExampleUrl = ConfigLoader.Config?.exitSteamExampleUrl;
+
         Overwriter = SyncerManager.Overwriter;
         SyncerManager.OverwriterChanged.DistinctUntilChanged()
             .Select(saveFile => Overwriter = saveFile)
@@ -91,9 +108,8 @@
 
     private void OpenExitSteamImageInBrowser()
     {
-        String url = "https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/images/exit_steam_guide.png";
-
-        ElectronNET.API.Electron.Shell.OpenExternalAsync(url);
+        _Logger.LogInformation($"Opening exit steam example image. Url: {_ExitSteamExampleUrl}");
+        ElectronNET.API.Electron.Shell.OpenExternalAsync(_ExitSteamExampleUrl);
     }
 
     private bool isActive()
