@@ -11,12 +11,20 @@
             <h2 class="sub-text">Deep Rock Galactic Save Syncer</h2>
         </div>
     </div>
-    @if (_RepoUrl != null)
-    {
-        <div class="stealth-button github-link-container p-1" title="View on GitHub" @onclick="@(e => OpenRepoInBrowser())">
-            <img class="icon-m" src="/icons/github_logomark.png" />
-        </div>
-    }
+    <div class="link-container">
+        @if (_RepoUrl != null)
+        {
+            <div class="d-inline-block stealth-button p-1" title="View on GitHub" @onclick="@(e => OpenUrlInBrowser(_RepoUrl))">
+                <img class="icon-m" src="/icons/github_logomark.png" />
+            </div>
+        }
+        @if (_WikiUrl != null)
+        {
+            <div class="d-inline-block stealth-button p-1" title="View the Wiki" @onclick="@(e => OpenUrlInBrowser(_WikiUrl))">
+                <img class="icon-m" src="/icons/help_icon.png" />
+            </div>
+        }
+    </div>
 </div>
 
 @code {
@@ -26,15 +34,17 @@
     public ConfigLoaderService ConfigLoader { get; set; } = default!;
 
     private string? _RepoUrl;
+    private string? _WikiUrl;
 
     protected override void OnInitialized()
     {
         _RepoUrl = ConfigLoader.Config?.repoUrl;
+        _WikiUrl = ConfigLoader.Config?.wikiUrl;
     }
 
-    protected void OpenRepoInBrowser()
+    protected void OpenUrlInBrowser(string url)
     {
-        _Logger.LogInformation($"Opening repository at url: {_RepoUrl}");
-        ElectronNET.API.Electron.Shell.OpenExternalAsync(_RepoUrl);
+        _Logger.LogInformation($"Opening url: {url}");
+        ElectronNET.API.Electron.Shell.OpenExternalAsync(url);
     }
 }

@@ -1,0 +1,128 @@
+﻿@using Core.SaveFiles.Models
+@using GUI.Data
+@using Core.Enums
+@using System.Reactive.Linq
+@using GUI.Data.Enums
+
+<div class="@(orientation == Orientation.Left ? "ml-5" : "ml-3") @(orientation == Orientation.Right ? "mr-5" : "mr-3") pl-1 pr-1 position-relative save-file-container @(isActive() ? "active" : "")"
+    @onmouseover="@(e => _Highlight = true)"
+    @onmouseout="@(e => _Highlight = false)">
+    <div class="top-left @(_Highlight ? "highlight" : "") @(isActive() ? "active" : "")"></div>
+    <div class="top-right @(_Highlight ? "highlight" : "") @(isActive() ? "active" : "")"></div>
+    <div class="bottom-left @(_Highlight ? "highlight" : "") @(isActive() ? "active" : "")"></div>
+    <div class="bottom-right @(_Highlight ? "highlight" : "") @(isActive() ? "active" : "")"></div>
+
+    @if (saveFile != null)
+    {
+        <div class="row pb-2">
+            <div class="col">
+                <Dwarf id="@($"{saveFilePlatform.ToString().ToLower()}-dwarf-engineer")" dwarf="@saveFile.Engineer" type="DwarfType.Engineer"/>
+                <Dwarf id="@($"{saveFilePlatform.ToString().ToLower()}-dwarf-scout")" dwarf="@saveFile.Scout" type="DwarfType.Scout"/>
+                <Dwarf id="@($"{saveFilePlatform.ToString().ToLower()}-dwarf-driller")" dwarf="@saveFile.Driller" type="DwarfType.Driller" />
+                <Dwarf id="@($"{saveFilePlatform.ToString().ToLower()}-dwarf-gunner")" dwarf="@saveFile.Gunner" type="DwarfType.Gunner" />
+            </div>
+        </div>
+        <div class="row pb-2">
+            <div class="col">
+                <SaveFileMetadata id="@($"{saveFilePlatform.ToString().ToLower()}-meta")" saveFile="@saveFile" />
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="pl-1 pr-1 d-flex justify-content-center align-items-center missing-save-file-container"
+            @onmouseover="@(e => _Highlight = true)"
+            @onmouseout="@(e => _Highlight = false)">
+            <div class="mt-5 mb-5 d-flex flex-column align-items-center">
+                <div class="missing-save-file-content-container position-relative">
+                    <img class="missing-save-file position-absolute" src="icons/drg_icons/warning_elite_threat_icon.png" />
+                    <div class="missing-save-file-background position-absolute"></div>
+                </div>
+                @if (saveFilePlatform == Platform.Steam)
+                {
+                    <h3 class="missing-save-file-header mb-2">Unable to find Steam save file</h3>
+                    <h4 class="missing-save-file-text mt-0 mb-1">Troubleshooting Steps:</h4>
+                    <ul class="missing-save-file-text mt-0 mb-0">
+                        <li>Make sure DRG is installed through Steam</li>
+                        <li>Open up DRG and skip through the tutorial</li>
+                        <li>Once you've loaded into the space rig, close DRG</li>
+                        <li>Restart this app and start syncing your saves!</li>
+                        <li>If you're still seeing this error, fully&nbsp;
+                            @if (_ExitSteamExampleUrl != null)
+                            {
+                                <span class="link" @onclick="@(e => OpenExitSteamImageInBrowser())">exit out of Steam</span>
+                            }
+                            else
+                            {
+                                <span>exit out of Steam</span>
+                            }
+                            &nbsp;and reopen it. Then restart this app.
+                        </li>
+                    </ul>
+                }
+                else if (saveFilePlatform == Platform.Xbox)
+                {
+                    <h3 class="missing-save-file-header mb-2">Unable to find Xbox save file</h3>
+                    <h4 class="missing-save-file-text mt-0 mb-1">Troubleshooting Steps:</h4>
+                    <ul class="missing-save-file-text mt-0 mb-0">
+                        <li>Make sure DRG is installed through Xbox.</li>
+                        <li>Open up DRG and skip through the tutorial</li>
+                        <li>Once you've loaded into the space rig, close DRG</li>
+                        <li>Restart this app and start syncing your saves!</li>
+                    </ul>
+                }
+                else
+                {
+                    // Generic fallback, that's honestly not necessary right now. Maybe the DRG devs will add more platforms in the future?
+                    <h3 class="missing-save-file-header mb-2">Unable to find save file</h3>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Inject]
+    private ILogger<SaveFile> _Logger { get; set; } = default!;
+    [Inject]
+    public SyncerManagerService SyncerManager { get; set; } = default!;
+    [Inject]
+    public ConfigLoaderService ConfigLoader { get; set; } = default!;
+
+    [Parameter]
+    public Platform saveFilePlatform { get; set; }
+    [Parameter]
+    public Core.SaveFiles.Models.SaveFile? saveFile { get; set; }
+    [Parameter]
+    public Orientation orientation { get; set; } = Orientation.Left;
+
+    private string? _ExitSteamExampleUrl;
+    private bool _Highlight = false;
+    private Core.SaveFiles.Models.SaveFile? _Overwriter;
+
+    protected override void OnInitialized()
+    {
+        _ExitSteamExampleUrl = ConfigLoader.Config?.exitSteamExampleUrl;
+
+        _Overwriter = SyncerManager.Overwriter;
+        SyncerManager.OverwriterChanged.DistinctUntilChanged()
+            .Select(saveFile => _Overwriter = saveFile)
+            .Subscribe();
+    }
+
+    private void OpenExitSteamImageInBrowser()
+    {
+        _Logger.LogInformation($"Opening exit steam example image. Url: {_ExitSteamExampleUrl}");
+        ElectronNET.API.Electron.Shell.OpenExternalAsync(_ExitSteamExampleUrl);
+    }
+
+    private bool isActive()
+    {
+        if (saveFile != null)
+        {
+            return ReferenceEquals(saveFile, _Overwriter);
+        }
+
+        return false;
+    }
+}

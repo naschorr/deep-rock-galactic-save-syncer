@@ -1,0 +1,7 @@
+﻿@mixin slant-up {
+    transform: skew(0deg, -1deg);
+}
+
+@mixin slant-down {
+    transform: skew(0deg, 1deg);
+}

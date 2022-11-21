@@ -1,6 +1,8 @@
 ﻿@using Core.Exceptions
 @using GUI.Components.Modal
+@using GUI.Components.SaveFile
 @using GUI.Data
+@using GUI.Data.Enums
 @using Core.SaveFiles.Manager
 @using Core.SaveFiles.Models
 @using Microsoft.AspNetCore.Components.Web
@@ -8,10 +10,15 @@
 
 <div class="container m-3">
     <Header />
-    <div class="row">
+    <div class="row mt-3 mb-3">
         <div class="col" @onclick="@(e => OnSaveFileSelected(SteamSaveFile, XboxSaveFile))">
-            <div class="save-file-container slant-up p-3">
-                <SaveFile saveFile="@SteamSaveFile" />
+            <div class="d-flex flex-column save-file-container slant-up">
+                <ImageHeaderBar imagePath="icons/steam_icon.png"
+                    containerClasses="mb-3"
+                    text="Steam Save File"
+                    textClasses="h2"
+                    barHeight="32px" />
+                <SaveFile saveFilePlatform="@Core.Enums.Platform.Steam" saveFile="@SteamSaveFile" orientation=@Orientation.Left />
             </div>
         </div>
         @if(SteamSaveFile != null && XboxSaveFile != null)
@@ -25,8 +32,14 @@
             </div>
         }
         <div class="col" @onclick="@(e => OnSaveFileSelected(XboxSaveFile, SteamSaveFile))">
-            <div class="save-file-container slant-down p-3">
-                <SaveFile saveFile="@XboxSaveFile" />
+            <div class="d-flex flex-column save-file-container slant-down">
+                <ImageHeaderBar imagePath="icons/xbox_icon.png"
+                    containerClasses="mb-3"
+                    text="Xbox Save File"
+                    textClasses="h2"
+                    barHeight="32px"
+                    reverse=true />
+                <SaveFile saveFilePlatform="@Core.Enums.Platform.Xbox" saveFile="@XboxSaveFile" orientation=@Orientation.Right />
             </div>
         </div>
     </div>

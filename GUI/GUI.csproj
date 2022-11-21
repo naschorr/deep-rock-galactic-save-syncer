@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+	<TargetFramework>net7.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>icon.ico</ApplicationIcon>
-    <Version>2.4.0</Version>
+    <Version>2.5.0</Version>
     <Company>$(Authors)</Company>
     <Authors>naschorr</Authors>
     <Description>GUI for the Deep Rock Galactic Save Syncer</Description>

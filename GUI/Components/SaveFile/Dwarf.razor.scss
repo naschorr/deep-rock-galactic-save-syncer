@@ -1,0 +1,41 @@
+﻿@import "../../wwwroot/css/_variables.scss";
+
+.promotion-star {
+    display: inline;
+    font-size: 28px
+}
+
+$promotion-stroke-width: 1.8px;
+
+@mixin promotion-stroke($color) {
+    text-stroke: $promotion-stroke-width $color;
+    -webkit-text-stroke: $promotion-stroke-width $color;
+}
+
+.promotion-bronze {
+    @include promotion-stroke(#c2775e);
+}
+
+.promotion-silver {
+    @include promotion-stroke(#918b8b);
+}
+
+.promotion-gold {
+    @include promotion-stroke(#d69731);
+}
+
+.promotion-platinum {
+    @include promotion-stroke(#b7a783);
+}
+
+.promotion-diamond {
+    @include promotion-stroke(#34c3c5);
+}
+
+.promotion-legendary {
+    @include promotion-stroke(#c53a20);
+}
+
+.data-container {
+    margin-left: $spacer * 0.25 * 4;
+}

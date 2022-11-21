@@ -1,11 +1,12 @@
 ﻿@import "../wwwroot/css/_variables.scss";
+@import "../wwwroot/css/_mixins.scss";
 
 .slant-up {
-    transform: skew(0deg, -1deg);
+    @include slant-up;
 }
 
 .slant-down {
-    transform: skew(0deg, 1deg);
+    @include slant-down;
 }
 
 .save-file-container {
@@ -22,6 +23,6 @@
     font-size: 0.75rem;
 
     position: absolute;
-    bottom: 0px;
-    right: $spacer * .25 * 4;
+    bottom: 0;
+    right: 0;
 }
