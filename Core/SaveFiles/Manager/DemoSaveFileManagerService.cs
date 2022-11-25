@@ -21,6 +21,7 @@ namespace Core.SaveFiles.Manager
         private bool _SaveFileLocked;
         private bool _IsSteamSaveFileNull;
         private bool _IsXboxSaveFileNull;
+        private bool _IsDivergent;
 
         public SteamSaveFile? SteamSaveFile
         {
@@ -55,6 +56,7 @@ namespace Core.SaveFiles.Manager
             _SaveFileLocked = false;
             _IsSteamSaveFileNull = Boolean.Parse(Environment.GetEnvironmentVariable("STEAM_SAVEFILE_NULL") ?? "false");
             _IsXboxSaveFileNull = Boolean.Parse(Environment.GetEnvironmentVariable("XBOX_SAVEFILE_NULL") ?? "false");
+            _IsDivergent = Boolean.Parse(Environment.GetEnvironmentVariable("DIVERGENT") ?? "false");
         }
 
         // Methods
@@ -79,11 +81,13 @@ namespace Core.SaveFiles.Manager
 
             ImmutableFile file = new ImmutableFile("this/isnt/a/real/path", fileName, today);
 
-            var dwarves = new Dictionary<DwarfType, Dwarf>();
-            dwarves.Add(DwarfType.Engineer, new Dwarf(5, 8742));
-            dwarves.Add(DwarfType.Scout, new Dwarf(1, 194522));
-            dwarves.Add(DwarfType.Driller, new Dwarf(3, 64128));
-            dwarves.Add(DwarfType.Gunner, new Dwarf(7, 15837));
+            var dwarves = new Dictionary<DwarfType, Dwarf>
+            {
+                { DwarfType.Engineer, new Dwarf(5, 8742) },
+                { DwarfType.Scout, new Dwarf(1, 194522) },
+                { DwarfType.Driller, new Dwarf(3, 64128) },
+                { DwarfType.Gunner, new Dwarf(7, 15837) }
+            };
 
             return new SteamSaveFile(file, dwarves);
         }
@@ -107,11 +111,28 @@ namespace Core.SaveFiles.Manager
 
             ImmutableFile file = new ImmutableFile("neither/is/this/one", "636C65766572206769726C21203A29", lastMonth);
 
-            var dwarves = new Dictionary<DwarfType, Dwarf>();
-            dwarves.Add(DwarfType.Engineer, new Dwarf(5, 8742));
-            dwarves.Add(DwarfType.Scout, new Dwarf(1, 175122));
-            dwarves.Add(DwarfType.Driller, new Dwarf(2, 315000));
-            dwarves.Add(DwarfType.Gunner, new Dwarf(6, 190451));
+            Dictionary<DwarfType, Dwarf> dwarves;
+
+            if (_IsDivergent)
+            {
+                dwarves = new Dictionary<DwarfType, Dwarf>
+                {
+                    { DwarfType.Engineer, new Dwarf(5, 8742) },
+                    { DwarfType.Scout, new Dwarf(3, 1320) },
+                    { DwarfType.Driller, new Dwarf(2, 315000) },
+                    { DwarfType.Gunner, new Dwarf(7, 15837) }
+                };
+            }
+            else
+            {
+                dwarves = new Dictionary<DwarfType, Dwarf>
+                {
+                    { DwarfType.Engineer, new Dwarf(5, 8742) },
+                    { DwarfType.Scout, new Dwarf(1, 175122) },
+                    { DwarfType.Driller, new Dwarf(2, 315000) },
+                    { DwarfType.Gunner, new Dwarf(6, 190451) }
+                };
+            }
 
             return new XboxSaveFile(file, dwarves);
         }

@@ -77,6 +77,18 @@
       "applicationUrl": "https://localhost:7046;http://localhost:5046",
       "dotnetRunMessages": true,
       "hotReloadEnabled": false
+    },
+    "GUI Divergent": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DEMO": "true",
+        "DIVERGENT": "true"
+      },
+      "applicationUrl": "https://localhost:7046;http://localhost:5046",
+      "dotnetRunMessages": true,
+      "hotReloadEnabled": false
     }
   },
   "iisSettings": {
