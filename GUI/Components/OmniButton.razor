@@ -14,10 +14,10 @@
     <div style="min-width: 500px;">
         <Button onClickCallback="OmniButtonClick"
             disabled="@IsOmniButtonDisabled()"
-            tooltip="@(IsAnySaveFileLocked ? "A save file is being used, give it a moment to finish." : null)">
+            tooltip="@OmniButtonTooltip">
             <content>
                 @OmniButtonText
-                <!-- Give some progress indication when the save file is locked -->
+                <!-- Give some progress indication when the save file is locked, so the user knows that we're waiting for it to unlock -->
                 @if (IsAnySaveFileLocked)
                 {
                     <EllipsisProgress />
@@ -44,7 +44,8 @@
     protected Core.SaveFiles.Models.SaveFile? Overwritee;
     protected bool IsAnySaveFileLocked;
     protected bool IsRefreshAvailable;
-    protected string OmniButtonText;
+    protected string OmniButtonText = "";
+    protected string? OmniButtonTooltip;
 
     // Lifecycle
 
@@ -55,6 +56,7 @@
         {
             Overwriter = saveFile;
             UpdateOmniButtonText();
+            UpdateOmniButtonTooltip();
             InvokeAsync(StateHasChanged);
         });
 
@@ -63,6 +65,7 @@
         {
             Overwritee = saveFile;
             UpdateOmniButtonText();
+            UpdateOmniButtonTooltip();
             InvokeAsync(StateHasChanged);
         });
 
@@ -72,16 +75,19 @@
             IsAnySaveFileLocked = locked;
             IsRefreshAvailable = !locked;
             UpdateOmniButtonText();
+            UpdateOmniButtonTooltip();
             InvokeAsync(StateHasChanged);
         });
 
         SaveFileManager.SyncedSaveFilesChanged.Subscribe(saveFiles => {
             IsRefreshAvailable = false;
             UpdateOmniButtonText();
+            UpdateOmniButtonTooltip();
             InvokeAsync(StateHasChanged);
         });
 
         UpdateOmniButtonText();
+        UpdateOmniButtonTooltip();
     }
 
     protected override void OnParametersSet()
@@ -140,6 +146,44 @@
 
         OmniButtonText = $"Overwrite {SyncerManager.GetSaveFilePlatform(Overwritee)} save with {SyncerManager.GetSaveFilePlatform(Overwriter)} save";
         return;
+    }
+
+    protected void UpdateOmniButtonTooltip()
+    {
+        if (IsAnySaveFileLocked)
+        {
+            OmniButtonTooltip = "A save file is being used, give it a moment to finish.";
+            return;
+        }
+        else if (IsRefreshAvailable)
+        {
+            OmniButtonTooltip = null;
+            return;
+        }
+        else if (IsOverwriterOrOverwriteeNull())
+        {
+            if (steamSaveFile == null || xboxSaveFile == null)
+            {
+                OmniButtonTooltip = null;
+                return;
+            }
+
+            try
+            {
+                if (steamSaveFile as Core.SaveFiles.Models.SaveFile == xboxSaveFile as Core.SaveFiles.Models.SaveFile)
+                {
+                    OmniButtonTooltip = null;
+                    return;
+                }
+            }
+            catch (DivergentSaveFileException)
+            {
+                OmniButtonTooltip = "Select the save file you want to keep.";
+                return;
+            }
+        }
+
+        OmniButtonTooltip = null;
     }
 
     protected Boolean IsOmniButtonDisabled()
