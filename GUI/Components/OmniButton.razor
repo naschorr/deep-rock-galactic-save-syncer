@@ -11,7 +11,7 @@
         The Button will expand to fill it's container, so this width needs to be large enough to hold the button with
         the widest possible contents. Otherwise the Button's size will change with the contents which just looks weird.
     -->
-    <div style="min-width: 450px;">
+    <div style="min-width: 500px;">
         <Button onClickCallback="OmniButtonClick"
             disabled="@IsOmniButtonDisabled()"
             tooltip="@(IsAnySaveFileLocked ? "A save file is being used, give it a moment to finish." : null)">
@@ -138,7 +138,7 @@
             }
         }
 
-        OmniButtonText = $"Sync {SyncerManager.GetSaveFilePlatform(Overwritee)} save with {SyncerManager.GetSaveFilePlatform(Overwriter)} save";
+        OmniButtonText = $"Overwrite {SyncerManager.GetSaveFilePlatform(Overwritee)} save with {SyncerManager.GetSaveFilePlatform(Overwriter)} save";
         return;
     }
 
