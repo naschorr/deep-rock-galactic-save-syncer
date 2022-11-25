@@ -1,0 +1,149 @@
+﻿@using Core.Exceptions
+@using GUI.Components.Modal
+@using GUI.Data
+@using Core.SaveFiles.Manager
+@using Core.SaveFiles.Models
+@using Microsoft.AspNetCore.Components.Web
+@using System.Reactive.Linq
+
+<div class="d-flex justify-content-center mt-3">
+    <!--
+        The Button will expand to fill it's container, so this width needs to be large enough to hold the button with
+        the widest possible contents. Otherwise the Button's size will change with the contents which just looks weird.
+    -->
+    <div style="min-width: 500px;">
+        <Button onClickCallback="OmniButtonClick"
+            disabled="@_State.IsDisabled"
+            tooltip="@_State.Tooltip">
+            <content>
+                @_State.Text
+                @if (_State.IsWaiting)
+                {
+                    <EllipsisProgress />
+                }
+            </content>
+        </Button>
+    </div>
+</div>
+
+@code {
+    [Inject]
+    private ILogger<OmniButton> _Logger { get; set; } = default!;
+    [Inject]
+    public SyncerManagerService SyncerManager { get; set; } = default!;
+    [Inject]
+    public SaveFileManagerService SaveFileManager { get; set; } = default!;
+
+    [Parameter]
+    public SteamSaveFile? steamSaveFile { get; set; }
+    [Parameter]
+    public XboxSaveFile? xboxSaveFile { get; set; }
+
+    private Core.SaveFiles.Models.SaveFile? _Overwriter;
+    private Core.SaveFiles.Models.SaveFile? _Overwritee;
+    private bool _IsAnySaveFileLocked;
+    private bool _IsRefreshAvailable;
+    private OmniButtonState _State;
+
+    // Lifecycle
+
+    protected override void OnInitialized()
+    {
+        _Overwriter = SyncerManager.Overwriter;
+        SyncerManager.OverwriterChanged.Subscribe(saveFile =>
+        {
+            _Overwriter = saveFile;
+            _State = BuildState();
+            InvokeAsync(StateHasChanged);
+        });
+
+        _Overwritee = SyncerManager.Overwritee;
+        SyncerManager.OverwriteeChanged.Subscribe(saveFile =>
+        {
+            _Overwritee = saveFile;
+            _State = BuildState();
+            InvokeAsync(StateHasChanged);
+        });
+
+        _IsAnySaveFileLocked = SaveFileManager.SaveFileLocked;
+        _IsRefreshAvailable = false;    // default to false when starting to avoid superfluous refreshing
+        SaveFileManager.SaveFileLockedChanged.Subscribe(locked => {
+            _IsAnySaveFileLocked = locked;
+            _IsRefreshAvailable = !locked;
+            _State = BuildState();
+            InvokeAsync(StateHasChanged);
+        });
+
+        SaveFileManager.SyncedSaveFilesChanged.Subscribe(saveFiles => {
+            _IsRefreshAvailable = false;
+            _State = BuildState();
+            InvokeAsync(StateHasChanged);
+        });
+
+        _State = BuildState();
+    }
+
+    protected override void OnParametersSet()
+    {
+        _State = BuildState();
+        InvokeAsync(StateHasChanged);
+    }
+
+    // Methods
+
+    private bool IsOverwriterOrOverwriteeNull()
+    {
+        return _Overwriter == null || _Overwritee == null;
+    }
+
+    private OmniButtonState BuildState()
+    {
+        if (_IsAnySaveFileLocked)
+        {
+            return new OmniButtonState("Save file busy", "A save file is being used, give it a moment to finish.", null, true);
+        }
+        else if (_IsRefreshAvailable)
+        {
+            return new OmniButtonState("Refresh save files", SyncerManager.Refresh);
+        }
+        else if (IsOverwriterOrOverwriteeNull())
+        {
+            if (steamSaveFile == null || xboxSaveFile == null)
+            {
+                return new OmniButtonState("Missing save file", null);
+            }
+
+            try
+            {
+                if (steamSaveFile as Core.SaveFiles.Models.SaveFile == xboxSaveFile as Core.SaveFiles.Models.SaveFile)
+                {
+                    return new OmniButtonState("Save files are already synced", null);
+                }
+                else
+                {
+                    // this is a transitory state
+                    return new OmniButtonState("Select a save file to sync from", null);
+                }
+            }
+            catch (DivergentSaveFileException)
+            {
+                return new OmniButtonState("Save files are divergent", "Select the save file you want to keep.", null);
+            }
+        }
+
+        return new OmniButtonState(
+            $"Overwrite {SyncerManager.GetSaveFilePlatform(_Overwritee)} save with {SyncerManager.GetSaveFilePlatform(_Overwriter)} save",
+            SyncerManager.OverwriteSaveFile
+        );
+    }
+
+    private void OmniButtonClick()
+    {
+        if (_State.Action != null)
+        {
+            _State.Action.Invoke();
+        }
+
+        _IsRefreshAvailable = false;
+    }
+}
