@@ -4,7 +4,7 @@
 @using System.Reactive.Linq
 @using GUI.Data.Enums
 
-<div class="@(orientation == Orientation.Left ? "ml-5" : "ml-3") @(orientation == Orientation.Right ? "mr-5" : "mr-3") pl-1 pr-1 position-relative save-file-container @(isActive() ? "active" : "")"
+<div class="@(orientation == Orientation.Left ? "ml-5" : "ml-3") @(orientation == Orientation.Right ? "mr-5" : "mr-3") p-2 position-relative save-file-container @(isActive() ? "active" : "")"
     @onmouseover="@(e => _Highlight = true)"
     @onmouseout="@(e => _Highlight = false)">
     <div class="top-left @(_Highlight ? "highlight" : "") @(isActive() ? "active" : "")"></div>
@@ -22,7 +22,7 @@
                 <Dwarf id="@($"{saveFilePlatform.ToString().ToLower()}-dwarf-gunner")" dwarf="@saveFile.Gunner" type="DwarfType.Gunner" />
             </div>
         </div>
-        <div class="row pb-2">
+        <div class="row">
             <div class="col">
                 <SaveFileMetadata id="@($"{saveFilePlatform.ToString().ToLower()}-meta")" saveFile="@saveFile" />
             </div>
@@ -30,7 +30,7 @@
     }
     else
     {
-        <div class="pl-1 pr-1 d-flex justify-content-center align-items-center missing-save-file-container"
+        <div class="d-flex justify-content-center align-items-center missing-save-file-container"
             @onmouseover="@(e => _Highlight = true)"
             @onmouseout="@(e => _Highlight = false)">
             <div class="mt-5 mb-5 d-flex flex-column align-items-center">
