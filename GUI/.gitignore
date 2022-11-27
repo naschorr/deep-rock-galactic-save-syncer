@@ -9,7 +9,7 @@ wwwroot/config.json
 Components/**/*.css
 wwwroot/css/site.css
 wwwroot/css/modal.css
-wwwroot/css/_variables.css
+wwwroot/css/_*.css
 
 # Data copied by libman
 icon.png

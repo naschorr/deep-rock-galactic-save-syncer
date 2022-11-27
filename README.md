@@ -28,15 +28,11 @@ Granular save file comparison lets you see what's changed at a glance:
 > Notice that the Gunner on the left has been promoted once to Gold I, while the one on the right is still Silver III. Since the left Gunner has more promotions, it means that the left save file has likely been played more recently. The `>` operator in the middle confirms this.
 
 ### One-click operation by default
-The big button at the bottom lets you know what's going to happen:
+The big button at the bottom lets you know what's going to happen when you click on it:
 
 <p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/images/example_button_steam_xbox.png" /></p>
 
-> Clicking this will overwrite your Steam save file with your Xbox save file
-
 <p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/images/example_button_xbox_steam.png" /></p>
-
-> Clicking this will overwrite your Xbox save file with your Steam save file
 
 ### Override the defaults and choose the save you want to keep
 Don't agree with DRGSS' choice? Click the save you'd like to keep to override it!
@@ -45,7 +41,7 @@ Don't agree with DRGSS' choice? Click the save you'd like to keep to override it
 Access the save files yourself with a single click! Each save file has a <img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/icons_high_contrast/arrow_icon.png" width="24" /> button that'll open it for you.
 
 ### Save files are backed up during the sync operation
-Chose the wrong file accidentally? Just delete the invalid one, and rename the `*.backup` file back to the original name.
+Chose the wrong file accidentally? Just delete the invalid one, and rename the `*.backup` file back to the original name. Alternatively, check out the [wiki](https://github.com/naschorr/deep-rock-galactic-save-syncer/wiki/Troubleshooting#restoring-drgss-backups) page that goes over restoring backups.
 
 ### Refresh the save files
 Has something changed? Hit the refresh button to update your save files before syncing.
@@ -61,8 +57,6 @@ DRGSS won't try to interfere with a save file while it's being written to by the
 If you've made progress with both save files separately, DRGSS will alert you of this via the button at the bottom:
 
 <p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/images/example_button_divergent.png" /></p>
-
-> The button is disabled, because DRGSS isn't sure of which save file should be overwritten
 
 To fix this, simply pick a save file to keep, and the button will become enabled again.
 
