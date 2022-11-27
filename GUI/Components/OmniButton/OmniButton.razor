@@ -100,16 +100,19 @@
     {
         if (_IsAnySaveFileLocked)
         {
+            _Logger.LogDebug($"Building new locked save file button state");
             return new OmniButtonState("Save file busy", "A save file is being used, give it a moment to finish.", null, true);
         }
         else if (_IsRefreshAvailable)
         {
+            _Logger.LogDebug($"Building new refresh available save file button state");
             return new OmniButtonState("Refresh save files", SyncerManager.Refresh);
         }
         else if (IsOverwriterOrOverwriteeNull())
         {
             if (steamSaveFile == null || xboxSaveFile == null)
             {
+                _Logger.LogDebug($"Building new missing save file button state");
                 return new OmniButtonState("Missing save file", null);
             }
 
@@ -117,20 +120,24 @@
             {
                 if (steamSaveFile as Core.SaveFiles.Models.SaveFile == xboxSaveFile as Core.SaveFiles.Models.SaveFile)
                 {
+                    _Logger.LogDebug($"Building new already synced save file button state");
                     return new OmniButtonState("Save files are already synced", null);
                 }
                 else
                 {
                     // this is a transitory state
+                    _Logger.LogDebug($"Building new select save file button state");
                     return new OmniButtonState("Select a save file to sync from", null);
                 }
             }
             catch (DivergentSaveFileException)
             {
+                _Logger.LogDebug($"Building new divergent save file button state");
                 return new OmniButtonState("Save files are divergent", "Select the save file you want to keep.", null);
             }
         }
 
+        _Logger.LogDebug($"Building new overwrite save files button state");
         return new OmniButtonState(
             $"Overwrite {SyncerManager.GetSaveFilePlatform(_Overwritee)} save with {SyncerManager.GetSaveFilePlatform(_Overwriter)} save",
             SyncerManager.OverwriteSaveFile
