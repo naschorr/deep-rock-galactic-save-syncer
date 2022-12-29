@@ -1,3 +1,5 @@
+name: Branch URL Update Action
+
 on: [push]
 
 jobs:
