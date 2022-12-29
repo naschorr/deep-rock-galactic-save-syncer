@@ -33,6 +33,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Commit changes back into repository
+        if: ${{ success() && steps.update.outputs.updated-files > 0 }}
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "Updated repository branch names"
