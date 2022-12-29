@@ -22,12 +22,12 @@ jobs:
       - name: Extract target/current branch name
         shell: bash
         run: |
-          if [ -z "$GITHUB_BASE_REF" ]; then \
-            echo "##[set-output name=branch;]$(echo $GITHUB_BASE_REF)" \
-          elif [ -z "$GITHUB_REF_NAME" ]; then \
-            echo "##[set-output name=branch;]$(echo $GITHUB_REF_NAME)" \
-          else \
-            return 1;
+          if [ ! -z "$GITHUB_BASE_REF" ]; then
+            echo "##[set-output name=branch;]$(echo $GITHUB_BASE_REF)"
+          elif [ ! -z "$GITHUB_REF_NAME" ]; then
+            echo "##[set-output name=branch;]$(echo $GITHUB_REF_NAME)"
+          else
+            return 1
           fi
         id: extract_branch
 
