@@ -1,6 +1,15 @@
 name: Branch URL Update Action
 
-on: [push]
+on:
+  push:
+    branches-ignore:
+      - 'main'
+      - 'master'
+  pull_request:
+    branches:
+      - 'main'
+      - 'master'
+      # And any other protected branches here too
 
 jobs:
   branch_url_update_action:
@@ -10,9 +19,16 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v3.2.0
 
-      - name: Extract current branch name
+      - name: Extract target/current branch name
         shell: bash
-        run: echo "##[set-output name=branch;]$(echo $GITHUB_REF_NAME)"
+        run: |
+          if [ ! -z "$GITHUB_BASE_REF" ]; then
+            echo "##[set-output name=branch;]$(echo $GITHUB_BASE_REF)"
+          elif [ ! -z "$GITHUB_REF_NAME" ]; then
+            echo "##[set-output name=branch;]$(echo $GITHUB_REF_NAME)"
+          else
+            return 1
+          fi
         id: extract_branch
 
       - name: Update branch URLs to use the current branch
@@ -24,6 +40,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Commit changes back into repository
+        if: "${{ success() && steps.update.outputs.updated-files != '' }}"
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "Updated repository branch names"
