@@ -1,6 +1,15 @@
 name: Branch URL Update Action
 
-on: [push]
+on:
+  push:
+    branches-ignore:
+      - 'main'
+      - 'master'
+  pull_request:
+    branches:
+      - 'main'
+      - 'master'
+      # And any other protected branches here too
 
 jobs:
   branch_url_update_action:
