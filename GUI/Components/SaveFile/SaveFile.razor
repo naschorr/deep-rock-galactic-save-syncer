@@ -102,7 +102,7 @@
 
     protected override void OnInitialized()
     {
-        _ExitSteamExampleUrl = ConfigLoader.Config?.exitSteamExampleUrl;
+        _ExitSteamExampleUrl = ConfigLoader.Config.ExitSteamExampleUrl;
 
         _Overwriter = SyncerManager.Overwriter;
         SyncerManager.OverwriterChanged.DistinctUntilChanged()

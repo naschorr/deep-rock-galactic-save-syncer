@@ -38,8 +38,8 @@
 
     protected override void OnInitialized()
     {
-        _RepoUrl = ConfigLoader.Config?.repoUrl;
-        _WikiUrl = ConfigLoader.Config?.wikiUrl;
+        _RepoUrl = ConfigLoader.Config.RepoUrl;
+        _WikiUrl = ConfigLoader.Config.WikiUrl;
     }
 
     protected void OpenUrlInBrowser(string url)
