@@ -50,7 +50,7 @@ namespace GUI.Data
             _Logger = logger;
 
             _LastOverwriteDateTime = DateTime.UnixEpoch;
-            _OverwriteFileRefreshIgnoreLockChangesMilliseconds = configLoader.Config?.overwriteFileRefreshIgnoreLockChangesMilliseconds ?? 6000;
+            _OverwriteFileRefreshIgnoreLockChangesMilliseconds = configLoader.Config.OverwriteFileRefreshIgnoreLockChangesMilliseconds ?? 6000;
 
             _SaveFileManagerService = saveFileManagerService;
             _SaveFileLocked = _SaveFileManagerService.SaveFileLocked;
