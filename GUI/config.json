@@ -3,5 +3,5 @@
   "wikiUrl": "https://github.com/naschorr/deep-rock-galactic-save-syncer/wiki",
   "updateCheckUrl": "https://api.github.com/repos/naschorr/deep-rock-galactic-save-syncer/releases",
   "overwriteFileRefreshIgnoreLockChangesMilliseconds": 7500,
-  "exitSteamExampleUrl": "https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/main/resources/images/exit_steam_guide.png"
+  "exitSteamExampleUrl": "https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/130-margin-fixes/resources/images/exit_steam_guide.png"
 }
