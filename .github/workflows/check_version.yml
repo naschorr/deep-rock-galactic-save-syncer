@@ -1,0 +1,42 @@
+name: Check For Updated Version
+# Guard action -- it only succeeds when the app's version has been increased when compared to the latest release
+
+on:
+  push:
+    branches-ignore:
+      - 'main'
+      - 'master'
+  pull_request:
+    branches:
+      - 'main'
+      - 'master'
+      # And any other protected branches here too
+
+env:
+  REPO_DIR: drgss
+
+jobs:
+  checK_version:
+    runs-on: ubuntu-latest
+    name: Check For Updated Version
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+        with:
+          path: ${{ env.REPO_DIR }}
+
+      - name: Get Latest Release Tag
+        id: get_latest_release_tag
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: release } = await github.repos.getLatestRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            return release.tag_name;
+
+      - name: Check Versions
+        shell: bash
+        run: |
+          python ${{ env.REPO_DIR }}/.github/scripts/check_version.py ${{ env.REPO_DIR }} ${{ steps.get_latest_release_tag.outputs.result }}
