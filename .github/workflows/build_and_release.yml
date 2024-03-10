@@ -4,11 +4,14 @@ on: push
   # push:
   #   branches: [ "main", "master" ]
 
+env:
+  REPO_DIR: drgss
+
 jobs:
   call_check_version:
     uses: ./.github/workflows/check_version.yml
 
-  build_and_test:
+  build_and_release:
     runs-on: windows-latest
     needs: call_check_version
     if: always() && (needs.call_check_version.result == 'success')
@@ -16,6 +19,8 @@ jobs:
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v4
+      with:
+        path: ${{ env.REPO_DIR }}
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
@@ -27,10 +32,18 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
+    ## Might as well build and test since we're here
     - name: Build
       run: dotnet build --no-restore
 
     - name: Test
       run: dotnet test --no-build --verbosity normal
 
-  ## Will be set up for releasing soon -- still testing right now
+    ## This lets us build the electron app
+    - name: Install ElectronNET.CLI
+      run: dotnet tool install ElectronNET.CLI -g
+
+    - name: Build Release Artifact
+      shell: bash
+        run: |
+          cd ${{ env.REPO_DIR }}/GUI && electronize build /target win
