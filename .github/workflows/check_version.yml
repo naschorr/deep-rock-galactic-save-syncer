@@ -31,7 +31,7 @@ jobs:
         with:
           debug: true
           script: |
-            const { data: release } = await github.repos.getLatestRelease({
+            const { data: release } = await github.rest.repos.getLatestRelease({
               owner: context.repo.owner,
               repo: context.repo.repo
             });
