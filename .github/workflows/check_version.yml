@@ -1,22 +1,13 @@
 name: Check For Updated Version
 # Guard action -- it only succeeds when the app's version has been increased when compared to the latest release
 
-on:
-  push:
-    branches-ignore:
-      - 'main'
-      - 'master'
-  pull_request:
-    branches:
-      - 'main'
-      - 'master'
-      # And any other protected branches here too
+on: workflow_call
 
 env:
   REPO_DIR: drgss
 
 jobs:
-  checK_version:
+  check_version:
     runs-on: ubuntu-latest
     name: Check For Updated Version
     steps:
