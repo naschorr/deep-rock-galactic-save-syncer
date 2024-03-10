@@ -4,9 +4,6 @@ on: push
   # push:
   #   branches: [ "main", "master" ]
 
-env:
-  REPO_DIR: drgss
-
 jobs:
   call_check_version:
     uses: ./.github/workflows/check_version.yml
@@ -19,8 +16,6 @@ jobs:
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v4
-      with:
-        path: ${{ env.REPO_DIR }}
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
@@ -46,4 +41,4 @@ jobs:
     - name: Build Release Artifact
       shell: bash
       run: |
-        cd ${{ env.REPO_DIR }}/GUI && electronize build /target win
+        cd GUI && electronize build /target win
