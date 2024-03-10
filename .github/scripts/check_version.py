@@ -105,6 +105,11 @@ class VersionChecker:
             print(f"Version {electron_manifest_version} is not greater than latest released version {latest_released_semantic_version}")
             return False
 
+        ## Provide some useful output in the log if things are successful
+        print(f"Configured versions are all the same {electron_manifest_version}, and greater than the latest released version {latest_released_semantic_version}")
+        for path, version in path_version_map.items():
+            print(f"{path} has version {version}")
+
         return True
 
 
