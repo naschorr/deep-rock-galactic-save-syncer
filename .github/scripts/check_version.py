@@ -11,7 +11,7 @@ class SemanticVersion:
     patch: int
 
 
-    def __eq__(self, other: "SemanticVersion") -> bool:
+    def __eq__(self, other: "SemanticVersion") -> bool: # type: ignore (dunno why it's complaining about the SemanticVersion param type)
         return self.major == other.major and self.minor == other.minor and self.patch == other.patch
 
 
