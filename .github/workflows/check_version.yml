@@ -29,7 +29,6 @@ jobs:
         id: get_latest_release_tag
         uses: actions/github-script@v7
         with:
-          debug: true
           script: |
             const { data: release } = await github.rest.repos.getLatestRelease({
               owner: context.repo.owner,
