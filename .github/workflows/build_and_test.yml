@@ -1,10 +1,10 @@
 name: Build and Test
 
-on:
-  push:
-    branches: [ "main", "dev" ]
-  pull_request:
-    branches: [ "main", "dev" ]
+on: push
+  # push:
+  #   branches: [ "main", "dev" ]
+  # pull_request:
+  #   branches: [ "main", "dev" ]
 
 jobs:
   call_check_version:
