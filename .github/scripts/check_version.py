@@ -11,6 +11,10 @@ class SemanticVersion:
     patch: int
 
 
+    def __str__(self) -> str:
+        return f"{self.major}.{self.minor}.{self.patch}"
+
+
     def __eq__(self, other: "SemanticVersion") -> bool: # type: ignore (dunno why it's complaining about the SemanticVersion param type)
         return self.major == other.major and self.minor == other.minor and self.patch == other.patch
 
