@@ -6,7 +6,7 @@ on:
 
 jobs:
   call_check_version:
-    uses: ./.github/workflows/check_version.yml@15-automated-build
+    uses: ./.github/workflows/check_version.yml
 
   build_and_test:
     runs-on: windows-latest
