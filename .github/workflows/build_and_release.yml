@@ -1,8 +1,8 @@
 name: Build and Release
 
-on:
-  push:
-    branches: [ "main", "master" ]
+on: push
+  # push:
+  #   branches: [ "main", "master" ]
 
 jobs:
   call_check_version:
@@ -10,6 +10,8 @@ jobs:
 
   build_and_test:
     runs-on: windows-latest
+    needs: call_check_version
+    if: always() && (needs.call_check_version.result == 'success')
 
     steps:
     - name: Checkout the repository
@@ -31,3 +33,4 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
 
+  ## Will be set up for releasing soon -- still testing right now

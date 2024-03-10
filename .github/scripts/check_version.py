@@ -78,6 +78,8 @@ class VersionChecker:
 
     
     def check_versions(self, latest_released_version: str) -> bool:
+        return False
+
         path_version_map = {}
 
         ## Get the Electon Manifest version

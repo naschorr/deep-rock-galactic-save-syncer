@@ -1,15 +1,12 @@
 name: Build and Test
 
-on: push
-  # push:
-  #   branches: [ "main", "dev" ]
-  # pull_request:
-  #   branches: [ "main", "dev" ]
+on:
+  push:
+    branches: [ "main", "dev" ]
+  pull_request:
+    branches: [ "main", "dev" ]
 
 jobs:
-  call_check_version:
-    uses: ./.github/workflows/check_version.yml
-
   build_and_test:
     runs-on: windows-latest
 
