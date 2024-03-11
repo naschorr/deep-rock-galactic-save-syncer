@@ -2,6 +2,7 @@ import sys
 import re
 from pathlib import Path
 from dataclasses import dataclass
+from typing import Optional
 
 
 @dataclass
@@ -77,53 +78,52 @@ class VersionChecker:
         return self._get_version_from_file_with_regex(file_path, self.ELECTRON_MANIFEST_VERSION_REGEX)
 
     
-    def check_versions(self, latest_released_version: str) -> bool:
+    def check_versions(self, latest_released_version: str) -> Optional[SemanticVersion]:
         path_version_map = {}
 
         ## Get the Electon Manifest version
         electron_manifest_path = self.root_path / self.ELECTRON_MANIFEST_PATH
-        electron_manifest_version = self._get_electron_manifest_version(electron_manifest_path)
-        if (electron_manifest_version is None):
-            print(f"Failed to get version from {electron_manifest_path}")
-            return False
+        try:
+            electron_manifest_version = self._get_electron_manifest_version(electron_manifest_path)
+        except ValueError:
+            print(f"Failed to get version from {electron_manifest_path}", file=sys.stderr)
+            return None
         path_version_map[electron_manifest_path] = electron_manifest_version
 
         ## Get the csproj version
         for file_path in self.CSPROJ_FILE_PATHS:
             full_path = self.root_path / file_path
-            csproj_version = self._get_csproj_version(full_path)
-            if (csproj_version is None):
-                print(f"Failed to get version from {full_path}")
-                return False
+            try:
+                csproj_version = self._get_csproj_version(full_path)
+            except ValueError:
+                print(f"Failed to get version from {full_path}", file=sys.stderr)
+                return None
             path_version_map[full_path] = csproj_version
 
         ## Check if all versions are the same
         for path, version in path_version_map.items():
             if version != electron_manifest_version:
-                print(f"Version mismatch: {path} has version {version}, expected {electron_manifest_version}")
-                return False
+                print(f"Version mismatch: {path} has version {version}, expected {electron_manifest_version}", file=sys.stderr)
+                return None
 
         ## Make sure the version is greater than the latest released version
         latest_released_semantic_version = self._parse_semantic_version(latest_released_version)
         if (electron_manifest_version <= latest_released_semantic_version):
-            print(f"Version {electron_manifest_version} is not greater than latest released version {latest_released_semantic_version}")
-            return False
+            print(f"Version {electron_manifest_version} is not greater than latest released version {latest_released_semantic_version}", file=sys.stderr)
+            return None
 
-        ## Provide some useful output in the log if things are successful
-        print(f"Configured versions are all the same {electron_manifest_version}, and greater than the latest released version {latest_released_semantic_version}")
-        for path, version in path_version_map.items():
-            print(f"{path} has version {version}")
-
-        return True
+        return electron_manifest_version
 
 
 ## Super lazy CLI
 arguments = sys.argv[1:]
 if (len(arguments) != 2):
-    print("Usage: check_version.py <root_path> <latest_released_version>")
+    print("Usage: check_version.py <root_path> <latest_released_version>", file=sys.stderr)
     sys.exit(1)
 
-if (VersionChecker(Path(arguments[0])).check_versions(arguments[1])):
+current_version = VersionChecker(Path(arguments[0])).check_versions(arguments[1])
+if (current_version):
+    print(current_version)
     sys.exit(0)
 
 sys.exit(1)

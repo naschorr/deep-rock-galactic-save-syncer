@@ -10,6 +10,8 @@ jobs:
   check_version:
     runs-on: ubuntu-latest
     name: Check For Updated Version
+    outputs:
+      version: ${{ steps.check_versions.outputs.version }}
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
@@ -28,6 +30,8 @@ jobs:
             return release.tag_name;
 
       - name: Check Versions
+        id: check_versions
         shell: bash
         run: |
-          python ${{ env.REPO_DIR }}/.github/scripts/check_version.py ${{ env.REPO_DIR }} ${{ steps.get_latest_release_tag.outputs.result }}
+          version=$(python ${{ env.REPO_DIR }}/.github/scripts/check_version.py ${{ env.REPO_DIR }} ${{ steps.get_latest_release_tag.outputs.result }})
+          echo "version=$version" >> "$GITHUB_OUTPUT"

@@ -43,3 +43,33 @@ jobs:
       run: |
         cd GUI
         electronize build /target win
+        echo "releaseArtifactPath='D:\a\deep-rock-galactic-save-syncer\deep-rock-galactic-save-syncer\GUI\bin\Desktop\DRG Save Syncer Setup ${{ jobs.check_version.outputs.version }}.exe"' >> "$GITHUB_OUTPUT"
+
+    - name: Create Draft Release
+      id: create_release
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const { data: release } = await github.rest.repos.createRelease({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            tag_name: 'v${{ jobs.check_version.outputs.version }}',
+            name: 'Deep Rock Galactic Save Syncer v${{ jobs.check_version.outputs.version }}',
+            draft: true,
+            generate_release_notes: true
+          });
+          echo "releaseId=${release.id}" >> "$GITHUB_OUTPUT"
+
+    - name: Upload Release Artifact
+      id: upload_release_artifact
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const { data: releaseAsset } = await github.rest.repos.uploadReleaseAsset({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            release_id: ${{ steps.create_release.outputs.releaseId }},
+            name: 'DeepRockGalacticSaveSyncer-v${{ jobs.check_version.outputs.version }}.exe',
+            data: fs.readFileSync(${{ steps.create_release.outputs.releaseArtifactPath }})
+          });
