@@ -43,7 +43,7 @@ jobs:
       run: |
         cd GUI
         electronize build /target win
-        echo "releaseArtifactPath='D:\a\deep-rock-galactic-save-syncer\deep-rock-galactic-save-syncer\GUI\bin\Desktop\DRG Save Syncer Setup ${{ needs.call_check_version.outputs.version }}.exe"' >> "$GITHUB_OUTPUT"
+        echo "releaseArtifactPath='D:\a\deep-rock-galactic-save-syncer\deep-rock-galactic-save-syncer\GUI\bin\Desktop\DRG Save Syncer Setup ${{ needs.call_check_version.outputs.version }}.exe'" >> "$GITHUB_OUTPUT"
 
     - name: Create Draft Release
       id: create_release
