@@ -1,8 +1,8 @@
 name: Build and Release
 
-on: push
-  # push:
-  #   branches: [ "main", "master" ]
+on:
+  push:
+    branches: [ "main" ]
 
 jobs:
   call_check_version:
@@ -97,7 +97,7 @@ jobs:
       with:
         script: |
           const fs = require('fs');
-          const { data: releaseAsset } = await github.rest.repos.uploadReleaseAsset({
+          await github.rest.repos.uploadReleaseAsset({
             owner: context.repo.owner,
             repo: context.repo.repo,
             release_id: ${{ steps.create_release.outputs.result }},
