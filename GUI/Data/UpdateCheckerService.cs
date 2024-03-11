@@ -27,7 +27,7 @@ namespace GUI.Data
             _ElectronManifest = electronManifestService;
             _ConfigLoader = configLoaderService;
 
-            _Url = _ConfigLoader.Config?.updateCheckUrl;
+            _Url = _ConfigLoader.Config.UpdateCheckUrl;
             _CurrentVersion = _ElectronManifest.Version;
 
             if (_Url != null)

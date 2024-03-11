@@ -1,0 +1,45 @@
+name: Check For Updated Version
+# Guard action -- it only succeeds when the app's version has been increased when compared to the latest release
+
+on:
+  workflow_call:
+    outputs:
+      version:
+        description: "The version of the app to be released"
+        value: ${{ jobs.check_version.outputs.version }}
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  REPO_DIR: app
+
+jobs:
+  check_version:
+    runs-on: ubuntu-latest
+    name: Check For Updated Version
+    outputs:
+      version: ${{ steps.check_versions.outputs.version }}
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+        with:
+          path: ${{ env.REPO_DIR }}
+
+      - name: Get Latest Release Tag
+        id: get_latest_release_tag
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: release } = await github.rest.repos.getLatestRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            return release.tag_name;
+
+      - name: Check Versions
+        id: check_versions
+        shell: bash
+        run: |
+          version=$(python ${{ env.REPO_DIR }}/.github/scripts/check_version.py ${{ env.REPO_DIR }} ${{ steps.get_latest_release_tag.outputs.result }})
+          echo "Found version: '${version}'"
+          echo "version=$version" >> "$GITHUB_OUTPUT"

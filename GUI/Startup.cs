@@ -71,8 +71,8 @@ namespace GUI
                 new BrowserWindowOptions
                 {
                     Show = false,
-                    Width = 1028,
-                    Height = 840,
+                    Width = 1000,
+                    Height = 846,
                     Title = "Deep Rock Galactic Save Syncer",
                     AutoHideMenuBar = true,
                     Resizable = env.IsDevelopment()

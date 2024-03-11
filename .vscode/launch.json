@@ -1,0 +1,19 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "GH Actions: check_version",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/.github/scripts/check_version.py",
+            "console": "integratedTerminal",
+            "args": [
+                "${workspaceFolder}",
+                "v2.6.0"
+            ]
+        }
+    ]
+}
