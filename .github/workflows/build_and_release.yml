@@ -57,8 +57,10 @@ jobs:
             message: 'Tagging for v${{ needs.call_check_version.outputs.version }} release',
             object: context.sha,
             type: 'commit',
-            tagger.name: 'GitHub Actions',
-            tagger.email: 'action@github.com',
+            tagger: {
+              name: 'GitHub Actions',
+              email: 'action@github.com'
+            }
           });
           return tag.sha;
 
