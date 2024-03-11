@@ -102,10 +102,5 @@ jobs:
             repo: context.repo.repo,
             release_id: ${{ steps.create_release.outputs.result }},
             name: 'DeepRockGalacticSaveSyncer-v${{ needs.call_check_version.outputs.version }}.exe',
-            data: fs.readFileSync('D:/a/deep-rock-galactic-save-syncer/deep-rock-galactic-save-syncer/GUI/bin/Desktop/DRG Save Syncer Setup ${{ needs.call_check_version.outputs.version }}.exe')
+            data: fs.readFileSync('GUI/bin/Desktop/DRG Save Syncer Setup ${{ needs.call_check_version.outputs.version }}.exe')
           });
-    
-    - name: Dump PWD
-      shell: bash
-      run: |
-        echo "Current directory: '${pwd}'"
