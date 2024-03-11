@@ -101,6 +101,6 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             release_id: ${{ steps.create_release.outputs.result }},
-            name: 'DeepRockGalacticSaveSyncer-v${{ needs.call_check_version.outputs.version }}.exe',
+            name: 'DRG_Save_Syncer_Setup_v${{ needs.call_check_version.outputs.version }}.exe',
             data: fs.readFileSync('GUI/bin/Desktop/DRG Save Syncer Setup ${{ needs.call_check_version.outputs.version }}.exe')
           });
