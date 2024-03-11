@@ -58,7 +58,7 @@ jobs:
             draft: true,
             generate_release_notes: true
           });
-          echo "releaseId=${release.id}" >> "$GITHUB_OUTPUT"
+          return release.id;
 
     - name: Upload Release Artifact
       id: upload_release_artifact
@@ -69,7 +69,7 @@ jobs:
           const { data: releaseAsset } = await github.rest.repos.uploadReleaseAsset({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            release_id: ${{ steps.create_release.outputs.releaseId }},
+            release_id: ${{ steps.create_release.outputs.result }},
             name: 'DeepRockGalacticSaveSyncer-v${{ needs.call_check_version.outputs.version }}.exe',
             data: fs.readFileSync(${{ steps.create_release.outputs.releaseArtifactPath }})
           });
