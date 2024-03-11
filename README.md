@@ -22,7 +22,6 @@ There's no need to configure anything, just install and go!
 The save file that's progressed the most is automatically chosen to overwrite the other. In the screenshot above, the Steam save file's Driller has one more promotion than the Xbox save file, and so the Steam save file will be kept.
 
 Granular save file comparison lets you see what's changed at a glance:
-
 <p align="center"><img src="https://raw.githubusercontent.com/naschorr/deep-rock-galactic-save-syncer/15-automated-build/resources/images/example_comparison.png" /></p>
 
 > Notice that the Gunner on the left has been promoted once to Gold I, while the one on the right is still Silver III. Since the left Gunner has more promotions, it means that the left save file has likely been played more recently. The `>` operator in the middle confirms this.
