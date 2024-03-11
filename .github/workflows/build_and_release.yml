@@ -45,6 +45,35 @@ jobs:
         cd GUI
         electronize build /target win
 
+    - name: Create Tag
+      id: create_tag
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const { data: tag } = await github.rest.git.createTag({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            tag: 'v${{ needs.call_check_version.outputs.version }}',
+            message: 'Tagging for v${{ needs.call_check_version.outputs.version }} release',
+            object: context.sha,
+            type: 'commit',
+            tagger.name: 'GitHub Actions',
+            tagger.email: 'action@github.com',
+          });
+          return tag.sha;
+
+    - name: Create Reference
+      id: create_reference
+      uses: actions/github-script@v7
+      with:
+        script: |
+          await github.rest.git.createRef({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            ref: 'refs/tags/v${{ needs.call_check_version.outputs.version }}',
+            sha: ${{ steps.create_tag.outputs.result }}
+          });
+
     - name: Create Draft Release
       id: create_release
       uses: actions/github-script@v7
@@ -73,3 +102,8 @@ jobs:
             name: 'DeepRockGalacticSaveSyncer-v${{ needs.call_check_version.outputs.version }}.exe',
             data: fs.readFileSync('D:/a/deep-rock-galactic-save-syncer/deep-rock-galactic-save-syncer/GUI/bin/Desktop/DRG Save Syncer Setup ${{ needs.call_check_version.outputs.version }}.exe')
           });
+    
+    - name: Dump PWD
+      shell: bash
+      run: |
+        echo "Current directory: '${pwd}'"
