@@ -1,0 +1,106 @@
+name: Build and Release
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  call_check_version:
+    uses: ./.github/workflows/check_version.yml
+
+  build_and_release:
+    runs-on: windows-latest
+    needs: call_check_version
+    if: always() && (needs.call_check_version.result == 'success')
+
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: |
+          5.0.x
+          6.0.x
+          7.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    ## Might as well build and test since we're here
+    - name: Build
+      run: dotnet build --no-restore
+
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+
+    ## This lets us build the electron app
+    - name: Install ElectronNET.CLI
+      run: dotnet tool install ElectronNET.CLI -g
+
+    - name: Build Release Artifact
+      id: build_release_artifact
+      run: |
+        cd GUI
+        electronize build /target win
+
+    - name: Create Tag
+      id: create_tag
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const { data: tag } = await github.rest.git.createTag({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            tag: 'v${{ needs.call_check_version.outputs.version }}',
+            message: 'Tagging for v${{ needs.call_check_version.outputs.version }} release',
+            object: context.sha,
+            type: 'commit',
+            tagger: {
+              name: 'GitHub Actions',
+              email: 'action@github.com'
+            }
+          });
+          return tag.sha;
+
+    - name: Create Reference
+      id: create_reference
+      uses: actions/github-script@v7
+      with:
+        script: |
+          await github.rest.git.createRef({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            ref: 'refs/tags/v${{ needs.call_check_version.outputs.version }}',
+            sha: ${{ steps.create_tag.outputs.result }}
+          });
+
+    - name: Create Draft Release
+      id: create_release
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const { data: release } = await github.rest.repos.createRelease({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            tag_name: 'v${{ needs.call_check_version.outputs.version }}',
+            name: 'Deep Rock Galactic Save Syncer v${{ needs.call_check_version.outputs.version }}',
+            draft: true,
+            generate_release_notes: true
+          });
+          return release.id;
+
+    - name: Upload Release Artifact
+      id: upload_release_artifact
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          await github.rest.repos.uploadReleaseAsset({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            release_id: ${{ steps.create_release.outputs.result }},
+            name: 'DRG_Save_Syncer_Setup_v${{ needs.call_check_version.outputs.version }}.exe',
+            data: fs.readFileSync('GUI/bin/Desktop/DRG Save Syncer Setup ${{ needs.call_check_version.outputs.version }}.exe')
+          });
