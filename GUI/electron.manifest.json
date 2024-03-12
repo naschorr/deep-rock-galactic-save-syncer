@@ -1,7 +1,7 @@
 {
   "executable": "GUI",
   "splashscreen": {
-    "imageFile": "/wwwroot/images/logo.png"
+    "imageFile": "/wwwroot/images/logo_splash.png"
   },
   "name": "DeepRockGalacticSaveSyncer",
   "author": "Nick Schorr",
