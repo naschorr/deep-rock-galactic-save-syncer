@@ -1,9 +1,10 @@
 {
   "executable": "GUI",
   "splashscreen": {
-    "imageFile": "/wwwroot/images/logo.png"
+    "imageFile": "/wwwroot/images/logo_splash.png"
   },
   "name": "DeepRockGalacticSaveSyncer",
+  "description": "Easily keep your Steam and Xbox save files for Deep Rock Galactic synced up!",
   "author": "Nick Schorr",
   "singleInstance": true,
   "environment": "Production",
